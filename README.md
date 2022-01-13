@@ -19,7 +19,7 @@ $ pip install -r requirements.txt
 ```
 # Terminal 1:
 $ source venv/bin/activate
-$ python3 app/backend/manage.py
+$ python3 app/backend/manage.py runserver
 
 # Terminal 2:
 $ cd app/frontend
@@ -32,5 +32,6 @@ $ npm run serve
 $ pushd app/frontend
 $ npm run build
 $ popd
-$ python3 app/backend/manage.py
+$ source venv/bin/activate
+$ python3 app/backend/manage.py runserver
 ```
