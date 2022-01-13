@@ -1,0 +1,11 @@
+random:
+https://dev.to/saymy__name__/hooking-up-django-and-vue-js-19j3
+https://levelup.gitconnected.com/vue-django-getting-started-88d3f4c2ba62
+https://betterprogramming.pub/vue-django-using-vue-files-and-the-vue-cli-d6dd8c9145eb
+https://auth0.com/blog/building-modern-applications-with-django-and-vuejs/
+
+development:
+https://www.youtube.com/watch?v=toO2Clnbjhw
+
+production:
+https://www.youtube.com/watch?v=3eTtVY7duJk

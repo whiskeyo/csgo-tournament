@@ -1,12 +1,17 @@
 # CSGO Tournament
 
-CSGO Tournament is a web application written in Django and Vue.js.
+Web application which makes organising CSGO torurnaments and leagues easier. 
 
-# Building
+It is written in Django and Vue.js.
+
+## Building virtualenv
 
 ```
 $ sudo pip install virtualenv
 $ virtualenv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
+$ npm -g install @vue/cli
 ```
+
+## Building
