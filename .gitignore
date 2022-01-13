@@ -1,6 +1,12 @@
+# generated/downloaded
 .DS_Store
 node_modules
 /dist
+app/backend/static/dist
+
+# db files
+*.sqlite
+*.sqlite3
 
 # backup files
 *~
