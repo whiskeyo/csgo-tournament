@@ -11,7 +11,7 @@ digraph G {
     "base.html" -> "Navbar"
     "base.html" -> "Footer"
 
-    "Navbar" -> "User Profile"
+    "Navbar" -> "User Profile" [label="align to right, use nickname of the user and their avatar"]
     "Navbar" -> "Tournaments"
     "Navbar" -> "Teams"
     "Navbar" -> "About (?)"
