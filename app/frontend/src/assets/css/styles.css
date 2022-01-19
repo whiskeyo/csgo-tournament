@@ -1,17 +1,15 @@
+:root {
+  --main-text-color: #eeeeee;
+  --main-bg-color: #303030;
+}
+
 html {
   position: relative;
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
-  color: #eee;
-}
-
-body {
-  /* background: rgba(255, 100, 100, 1.0); */
 }
 
 h2 {
   color: Tomato;
 }
-
-/* override default bootstrap properties */
