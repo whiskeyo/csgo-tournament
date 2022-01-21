@@ -3,6 +3,7 @@
 node_modules
 /dist
 app/backend/static/dist
+media
 
 # db files
 *.sqlite

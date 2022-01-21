@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
+
+    'tournament',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -133,6 +135,9 @@ STATIC_ROOT = ''
 STATICFILES_DIRS = [
     BASE_DIR.joinpath('static')
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR.joinpath('media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

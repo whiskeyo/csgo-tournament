@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
+import Tournament from '../views/Tournament.vue'
 
 const routes = [
   {
@@ -15,17 +16,24 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About
+  },
+  {
+    path: '/torunament',
+    name: 'Tournament',
+    component: Tournament
   }
 ]
 
 const router = createRouter({
   // history: createWebHistory(process.env.BASE_URL),
-  history: createWebHistory(""),
-  routes
-})
-
-router.beforeEach((to) => {
-  document.title = to.name || "CSGO Tournament";
+  mode: 'history',
+  history: createWebHistory(),
+  routes,
+  beforeEach(to){
+    document.title = to.name || "CSGO Tournament";
+  },
 });
+
+
 
 export default router

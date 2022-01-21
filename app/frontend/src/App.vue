@@ -20,6 +20,11 @@
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" to="/torunament"
+                >Tournament</router-link
+              >
+            </li>
+            <li class="nav-item">
               <router-link class="nav-link" to="/about">About</router-link>
             </li>
           </ul>
@@ -41,8 +46,9 @@
     </nav>
 
     <section class="section">
-      <p>sdadasdas</p>
-      <router-view />
+      <div class="container">
+        <router-view />
+      </div>
     </section>
 
     <footer class="bg-dark">
@@ -58,9 +64,9 @@ export default {
   name: "App",
   data() {
     return {
-      appname: "owncsgo"
-    }
-  }
+      appname: "CStrikers",
+    };
+  },
 };
 </script>
 
@@ -71,7 +77,7 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  // text-align: center;
   margin-bottom: 50px;
   padding-bottom: 10px;
 }
