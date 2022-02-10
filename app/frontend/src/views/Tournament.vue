@@ -45,7 +45,7 @@ export default {
   methods: {
     fetchMaps: async function () {
       await axios
-        .get("http://127.0.0.1:8000/api/v1/all-maps")
+        .get("http://127.0.0.1:8000/api/v1/maps/")
         // .then((response) => console.log(response.data))
         .then((response) => {
           for (let item in response.data) {

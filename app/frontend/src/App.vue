@@ -2,7 +2,7 @@
   <div id="wrapper">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">{{ appname }}</a>
+        <a class="navbar-brand" href="#">{{ this.$store.state.$appName }}</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -20,7 +20,7 @@
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/torunament"
+              <router-link class="nav-link" to="/tournament"
                 >Tournament</router-link
               >
             </li>
@@ -38,7 +38,11 @@
             <button class="btn btn-outline-success me-2">Search</button>
           </form>
           <form class="d-flex">
-            <button class="btn btn-success me-2">Log In</button>
+            <router-link class="" to="/signup">
+              <button class="btn btn-success me-2">
+                Login
+              </button>
+            </router-link>
             <button class="btn btn-success me-2">Create Account</button>
           </form>
         </div>
@@ -52,7 +56,7 @@
     </section>
 
     <footer class="bg-dark">
-      <span>{{ appname }} - 2022 © All rights reserved</span>
+      <span>{{ this.$store.state.$appName }} - 2022 © All rights reserved</span>
     </footer>
   </div>
 </template>
@@ -64,7 +68,7 @@ export default {
   name: "App",
   data() {
     return {
-      appname: "CStrikers",
+
     };
   },
 };
