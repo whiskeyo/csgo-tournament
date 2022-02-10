@@ -37,17 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'rest_framework',
     'rest_framework.authtoken',
+    # 'djoser',
     'corsheaders',
-    'djoser',
 
     'tournament',
+    'users',
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080", # frontend server
+    "http://localhost:8080",  # frontend server
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,18 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserDetailsSerializer'
+}
 
 ROOT_URLCONF = 'csgotournament.urls'
 
@@ -113,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

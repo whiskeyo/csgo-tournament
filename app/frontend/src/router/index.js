@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// import store from '../store'
+import store from '../store'
 
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Tournament from '../views/Tournament.vue'
+import SignUp from '../views/SignUp.vue'
 
 const routes = [
   {
@@ -18,9 +19,14 @@ const routes = [
     component: About
   },
   {
-    path: '/torunament',
+    path: '/tournament',
     name: 'Tournament',
     component: Tournament
+  },
+  {
+    path: '/signup',
+    name: 'Sign Up',
+    component: SignUp
   }
 ]
 
@@ -29,10 +35,12 @@ const router = createRouter({
   mode: 'history',
   history: createWebHistory(),
   routes,
-  beforeEach(to){
-    document.title = to.name || "CSGO Tournament";
-  },
 });
+
+router.beforeEach((to, from, next) => {
+  document.title = "[" + store.state.$appName + "] " + to.name;
+  next()
+})
 
 
 

@@ -4,6 +4,7 @@ from django.core.files import File
 from io import BytesIO
 from PIL import Image
 
+
 class Map(models.Model):
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to="uploads/", blank=True, null=True)
@@ -17,7 +18,7 @@ class Map(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_image(self):
         if self.image:
             return 'http://127.0.0.1:8000' + self.image.url
@@ -31,7 +32,7 @@ class Map(models.Model):
                 self.thumbnail = self.make_thumbnail(self.image)
                 self.save()
                 return 'http://127.0.0.1:8000' + self.thumbnail.url
-            else: 
+            else:
                 return ''
 
     def make_thumbnail(self, image, size=(300, 200)):
