@@ -97,56 +97,21 @@ class UserInformationSerializer(serializers.ModelSerializer):
         return user_info
 
     def update(self, instance, validated_data):
-        print("UserInformationSerializer update called")
-        print("instance: {}\nvalidated_data: {}".format(instance, validated_data))
+        user_data = validated_data.pop('user')
+        user = instance.user
 
-        def get_field_or_none(name: str, validated_data):
-            return validated_data.get(name) if validated_data.get(name) else None
+        instance.description = validated_data.get('description', instance.description)
+        instance.birth_date = validated_data.get('birth_date', instance.birth_date)
+        instance.steam_url = validated_data.get('steam_url', instance.steam_url)
+        instance.save()
 
-        first_name = get_field_or_none('first_name', validated_data)
-        last_name = get_field_or_none('last_name', validated_data)
+        user.email = user_data.get('email', user.email)
+        user.username = user_data.get('username', user.username)
+        user.first_name = user_data.get('first_name', user.first_name)
+        user.last_name = user_data.get('last_name', user.last_name)
+        user.save()
 
-        if first_name:
-            self.user.first_name = first_name
-        if last_name:
-            self.user.last_name = last_name
-
-        if self.user.is_valid(raise_exception=True):
-            user = self.user.update()
-            validated_data['user'] = user
-
-        # if validated_data.get('user'):
-        #     user_data = validated_data.get('user')
-        #     user_serializer = UserSerializer(data=user_data)
-
-        #     if user_serializer.is_valid():
-        #         user = user_serializer.update(instance=instance.user,
-        #                                       validated_data=user_serializer.validated_data)
-        #         validated_data['user'] = user
-        # user_serializer = self.fields['user']
-        # user_instance = instance.user
-        # user_data = validated_data.pop('user')
-
-        # user_serializer.update(user_instance, user_data)
-        # user = User.objects.update(instance=user_instance, data=user_data)
-        # user_info, updated = UserInformation.objects.update(**validated_data)
-        # # user = User.objects.update(user_instance, **user_data)
-        # return user_info
-        return super().update(instance, validated_data)
-
-
-    # def save(self, validated_data):
-    #     user_data = validated_data.pop('user')
-    #     user = UserSerializer(self.user, validated_data=user_data)
-    #     user_info = UserInformation.objects.filter(user=user)
-
-    #     user_info.steam_url = validated_data['steam_url']
-    #     user_info.description = validated_data['description']
-    #     user_info.birth_date = validated_data['birth_date']
-    #     print("user_info: ", user_info)
-    #     user_info.save()
-
-    #     return user_info
+        return instance
 
 
 class TeamSerializer(serializers.HyperlinkedModelSerializer):
