@@ -15,3 +15,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CSTRIKERS_DEV_FF691 }}'
           projectId: cstrikers-dev-ff691
+          entryPoint: "app/frontend"
