@@ -58,16 +58,12 @@
             <button class="btn btn-outline-success me-2">Search</button>
           </form>
           <form class="d-flex">
-            <!-- <router-link class="" to="/"> -->
+            <router-link class="" to="/">
               <button @click="signInWithGoogle" class="btn btn-success me-2">
                 Login
               </button>
-            <!-- </router-link> -->
+            </router-link>
             <button class="btn btn-success me-2">Create Account</button>
-          </form>
-            <p>User logged: {{auth}}</p>
-          <form>
-
           </form>
         </div>
       </div>
@@ -75,6 +71,10 @@
 
     <section class="section">
       <div class="container">
+        <p>User logged: {{ auth.currentUser?.displayName }}, UID: {{ auth.currentUser?.uid }}</p>
+        <button @click="signOut" class="btn btn-success me-2">
+          Log out
+        </button>
         <router-view />
       </div>
     </section>
@@ -88,7 +88,7 @@
 <script>
 import "bootstrap";
 import { app } from "./firebase";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 export default {
   name: "App",
@@ -99,14 +99,27 @@ export default {
   },
   methods: {
     signInWithGoogle: function() {
-      const auth = getAuth(app);
+      this.auth = getAuth(app);
       const provider = new GoogleAuthProvider();
 
-      signInWithPopup(auth, provider).catch((error) => {
+      signInWithPopup(this.auth, provider).catch((error) => {
         console.log(error.code);
         console.log(error.message);
       });
+    },
+    signOut: function() {
+      this.auth = getAuth(app);
+      signOut(this.auth).then(() => {
+        console.log("Looged out successfully");
+        // Successfully signed out
+      }).catch((error) => {
+        // Error
+        console.log(error);
+      });
     }
+  },
+  mounted: function() {
+    this.auth = getAuth(app);
   }
 };
 </script>
