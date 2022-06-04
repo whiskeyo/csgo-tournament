@@ -58,12 +58,16 @@
             <button class="btn btn-outline-success me-2">Search</button>
           </form>
           <form class="d-flex">
-            <router-link class="" to="/signup">
-              <button class="btn btn-success me-2">
+            <!-- <router-link class="" to="/"> -->
+              <button @click="signInWithGoogle" class="btn btn-success me-2">
                 Login
               </button>
-            </router-link>
+            <!-- </router-link> -->
             <button class="btn btn-success me-2">Create Account</button>
+          </form>
+            <p>User logged: {{auth}}</p>
+          <form>
+
           </form>
         </div>
       </div>
@@ -83,14 +87,27 @@
 
 <script>
 import "bootstrap";
+import { app } from "./firebase";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default {
   name: "App",
   data() {
     return {
-
+      auth: getAuth(),
     };
   },
+  methods: {
+    signInWithGoogle: function() {
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      signInWithPopup(auth, provider).catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
+    }
+  }
 };
 </script>
 
