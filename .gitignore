@@ -2,8 +2,8 @@
 .DS_Store
 node_modules
 /dist
-app/backend/static/dist
 media
+app/build
 
 # db files
 *.sqlite
