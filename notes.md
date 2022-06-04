@@ -17,6 +17,8 @@ Implementacja tej aplikacji miałaby się przyczynić do ułatwienia organizacji
 
 Ponadto implementacja będzie korzystać z dwóch frameworków front-endowych, tj. Vue oraz Cycle.js, które prezentują całkowicie odmienne podejście do programowania aplikacji webowych.
 
-## Szybkie propozycje do usprawnienia implementacji
-
-1.
+## Struktura tego projektu
+1. views -> strony do ktorych przechodze normalnie (np. url localhost:8080/about)
+2. components -> reużywalne kompontenty uzywane przez widoki
+3. services (nie istnieje jeszcze) -> reuzywalne funkcje uzywane przez widoki/komponenty
+4. router/store musi zostac bo fajne (vue-router i vuex)

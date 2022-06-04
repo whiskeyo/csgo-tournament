@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { app } from "../firebase";
+import { app } from "../configs/firebase";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default {

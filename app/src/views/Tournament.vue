@@ -33,7 +33,7 @@
 
 <script>
 // import axios from "axios";
-import { db } from '../db';
+import { db } from '../configs/db';
 import { collection, getDocs } from "firebase/firestore";
 
 export default {
