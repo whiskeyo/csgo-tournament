@@ -1,6 +1,6 @@
 # CSGO Tournament
 
-Web application which makes organising CSGO torurnaments and leagues easier. 
+Web application which makes organising CSGO torurnaments and leagues easier.
 
 It is written in Django and Vue.js.
 
@@ -26,7 +26,7 @@ $ cd app/frontend
 $ npm run serve
 ```
 
-## Building for production (available on `localhost:8000`):
+## Building for production (available on `localhost:8080`):
 
 ```
 $ pushd app/frontend
