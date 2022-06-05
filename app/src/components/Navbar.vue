@@ -86,7 +86,6 @@ export default {
   data() {
     return {
       auth: getAuth(app),
-      username: "test"
     };
   },
   methods: {
@@ -96,6 +95,7 @@ export default {
 
       signInWithPopup(this.auth, provider).then(() => {
         this.$store.commit('setLoggedIn', {username: this.auth.currentUser.displayName});
+        console.log(this.auth);
       }).catch((error) => {
         console.log(error.code);
         console.log(error.message);
