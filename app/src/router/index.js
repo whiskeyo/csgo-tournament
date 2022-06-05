@@ -5,6 +5,7 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Tournament from '../views/Tournament.vue'
+import Team from '../views/Team.vue'
 
 const routes = [{
         path: '/',
@@ -20,6 +21,11 @@ const routes = [{
         path: '/tournament',
         name: 'Tournament',
         component: Tournament
+    },
+    {
+        path: '/team',
+        name: 'Team',
+        component: Team
     }
 ]
 

@@ -5,16 +5,18 @@ export default createStore({
     state: {
         $appName: "CStrikers",
         $isLoggedIn: false,
-        $username: "void wczesniejszy"
+        $isGoogleSignInEnabled: false,
+        $user: null
     },
     mutations: {
-        setLoggedIn(state, { username }) {
+        setLoggedIn(state, { user }) {
+            console.log("store user arg:", user);
             state.$isLoggedIn = true;
-            state.$username = username;
+            state.$user = user;
         },
         setLoggedOff(state) {
             state.$isLoggedIn = false;
-            state.$username = "pustka";
+            state.$user = null;
         }
     },
     actions: {},
