@@ -6,6 +6,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Tournament from '../views/Tournament.vue'
 import Team from '../views/Team.vue'
+import CycleJsTest from '../views/CycleJsTest.vue'
 
 const routes = [{
         path: '/',
@@ -26,6 +27,11 @@ const routes = [{
         path: '/team',
         name: 'Team',
         component: Team
+    },
+    {
+        path: '/cyclejstest',
+        name: 'Cycle.js Test',
+        component: CycleJsTest
     }
 ]
 

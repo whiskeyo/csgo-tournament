@@ -24,6 +24,26 @@
           <li class="nav-item dropdown">
             <router-link
               class="nav-link dropdown-toggle"
+              to="/teams"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Team
+            </router-link>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Create Team (Vue)</a></li>
+              <li><a class="dropdown-item" href="#">Create Team (Cycle.js)</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <router-link
+              class="nav-link dropdown-toggle"
               to="/tournament"
               id="navbarDropdown"
               role="button"
@@ -49,6 +69,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/about">About</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
+          </li>
         </ul>
         <form class="d-flex">
           Logged in: {{ this.$store.state.$isLoggedIn }}
@@ -63,11 +86,6 @@
           <button class="btn btn-outline-success me-2">Search</button>
         </form>
         <form v-if="!shouldDisplayLogin" class="d-flex">
-          <!-- <router-link class="" to="/">
-            <button @click="signInWithGoogle" class="btn btn-success me-2">
-              Sign In
-            </button>
-          </router-link> -->
           <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <button
