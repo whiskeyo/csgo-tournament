@@ -24,7 +24,7 @@
           <li class="nav-item dropdown">
             <router-link
               class="nav-link dropdown-toggle"
-              to="/teams"
+              to="/team"
               id="navbarDropdown"
               role="button"
               data-bs-toggle="dropdown"
@@ -33,11 +33,11 @@
               Team
             </router-link>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Create Team (Vue)</a></li>
-              <li><a class="dropdown-item" href="#">Create Team (Cycle.js)</a></li>
+              <li><a class="dropdown-item disabled-link" href="#">Create a Team (Vue)</a></li>
+              <li><a class="dropdown-item disabled-link" href="#">Create a Team (Cycle.js)</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item disabled-link" href="#">Something else here</a>
               </li>
             </ul>
           </li>
@@ -308,5 +308,10 @@ export default {
 
 .margin-right-5px {
     margin-right: 5px;
+}
+
+/* used for dropdown with not implemented components redirection */
+.disabled-link {
+  pointer-events: none;
 }
 </style>
