@@ -7,7 +7,7 @@
 // import runner from './CycleTest'
 import { run } from '@cycle/run';
 import { makeDOMDriver } from '@cycle/dom';
-import cycleJsTest from './CycleTest';
+import cycleJsTest from '../services/cycleTest.js';
 
 export default {
   name: "CycleJsTest",

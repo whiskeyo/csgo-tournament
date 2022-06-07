@@ -16,10 +16,13 @@
             <select
               multiple
               v-model="createTeamForm.selectedUsers"
+              size="15"
               class="form-select"
               aria-label="Default select example">
               <option disabled>Select multiple players</option>
-              <option v-for="user in allUsers" v-bind:key="user.uid" :value="user.uid">{{ user.nickname }}</option>
+              <option v-for="user in allUsers" v-bind:key="user.uid" :value="user.uid">
+                {{ user.nickname + " (" + user.email + ")" }}
+              </option>
             </select>
           </div>
           <input type="submit" value="Create!">
@@ -73,11 +76,13 @@ export default {
         this.allUsers.push({
           nickname: data.nickname,
           fullname: data.fullname,
+          email: data.email,
           uid: data.uid
         });
       })
     },
     collectTeams: async function() {
+      this.allTeams = [];
       const querySnapshot = await getDocs(collection(db, "teams"));
       querySnapshot.forEach((doc) => {
         let data = doc.data();
@@ -89,6 +94,7 @@ export default {
       })
     },
     collectUserTeams: async function() {
+      this.userTeams = [];
       const teams = query(collection(db, "teams"), where("captain", "==", store.state.$user?.uid));
       const teamsSnapshot = await getDocs(teams);
       teamsSnapshot.forEach((doc) => {

@@ -4,13 +4,12 @@ import createPersistedState from "vuex-persistedstate";
 export default createStore({
     state: {
         $appName: "CStrikers",
+        $appLogoURL: "https://i.imgur.com/k5Ns72R.png",
         $isLoggedIn: false,
-        $isGoogleSignInEnabled: false,
         $user: null
     },
     mutations: {
         setLoggedIn(state, { user }) {
-            console.log("store user arg:", user);
             state.$isLoggedIn = true;
             state.$user = user;
         },
