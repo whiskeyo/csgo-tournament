@@ -103,9 +103,7 @@
         </form>
         <form v-if="!shouldDisplayLogin" class="d-flex">
           <router-link class="" to="/">
-            <button @click="signInWithGoogle" class="btn btn-success me-2">
-              Sign In With Google
-            </button>
+            <button @click="signInWithGoogle" class="btn btn-success me-2">Sign In With Google</button>
           </router-link>
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -133,12 +131,7 @@
                 <li>
                   <div class="dropdown-item">
                     <label for="signInPassword" class="form-label">Password</label>
-                    <input
-                      v-model="signIn.password"
-                      type="password"
-                      class="form-control"
-                      id="signInPassword"
-                    />
+                    <input v-model="signIn.password" type="password" class="form-control" id="signInPassword" />
                   </div>
                 </li>
                 <li>
@@ -159,57 +152,32 @@
         </form>
         <ul class="navbar-nav margin-left-5px" v-if="!shouldDisplayLogin">
           <li class="nav-item dropdown">
-            <button
-              class="btn dropdown-toggle btn-success"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-            >
+            <button class="btn dropdown-toggle btn-success" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               Sign Up
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
                 <div class="dropdown-item">
                   <label for="signUpEmail" class="form-label">Email address</label>
-                  <input
-                    v-model="signUp.email"
-                    type="email"
-                    class="form-control"
-                    id="signUpEmail"
-                  />
+                  <input v-model="signUp.email" type="email" class="form-control" id="signUpEmail" />
                 </div>
               </li>
               <li>
                 <div class="dropdown-item">
                   <label for="signUpFullname" class="form-label">Full name</label>
-                  <input
-                    v-model="signUp.fullname"
-                    type="text"
-                    class="form-control"
-                    id="signUpFullname"
-                  />
+                  <input v-model="signUp.fullname" type="text" class="form-control" id="signUpFullname" />
                 </div>
               </li>
               <li>
                 <div class="dropdown-item">
                   <label for="signUpNickname" class="form-label">Nickname</label>
-                  <input
-                    v-model="signUp.nickname"
-                    type="text"
-                    class="form-control"
-                    id="signUpNickname"
-                  />
+                  <input v-model="signUp.nickname" type="text" class="form-control" id="signUpNickname" />
                 </div>
               </li>
               <li>
                 <div class="dropdown-item">
                   <label for="signUpPassword" class="form-label">Password</label>
-                  <input
-                    v-model="signUp.password"
-                    type="password"
-                    class="form-control"
-                    id="signUpPassword"
-                  />
+                  <input v-model="signUp.password" type="password" class="form-control" id="signUpPassword" />
                 </div>
               </li>
               <li>
@@ -258,8 +226,7 @@ export default {
         this.clearSignUpForm();
     },
     signInWithEmail: function () {
-      if (accountApi.signInWithEmail(this.signIn.email, this.signIn.password, this.$store))
-        this.clearSignInForm();
+      if (accountApi.signInWithEmail(this.signIn.email, this.signIn.password, this.$store)) this.clearSignInForm();
     },
     signInWithGoogle: function () {
       accountApi.signInWithGoogle(this.$store);

@@ -5,14 +5,7 @@ function cycleJsTest(sources) {
     .events("input")
     .map((ev) => ev.target.value)
     .startWith("")
-    .map((name) =>
-      div([
-        label("Name:"),
-        input(".myinput", { attrs: { type: "text" } }),
-        hr(),
-        h1(`Hello ${name}`),
-      ])
-    );
+    .map((name) => div([label("Name:"), input(".myinput", { attrs: { type: "text" } }), hr(), h1(`Hello ${name}`)]));
   return {
     DOM: vdom$,
   };

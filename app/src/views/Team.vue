@@ -9,11 +9,7 @@
         <form @submit="createTeam">
           <div class="form-group">
             <label>Name of the team</label>
-            <input
-              class="form-control"
-              placeholder="Your team name"
-              v-model="createTeamForm.teamName"
-            />
+            <input class="form-control" placeholder="Your team name" v-model="createTeamForm.teamName" />
           </div>
           <div class="form-group">
             <label>Add players to your team</label>
