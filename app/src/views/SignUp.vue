@@ -10,15 +10,13 @@ import { app } from "../configs/firebase";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default {
-  name: 'Sign Up',
+  name: "Sign Up",
   data() {
-    return {
-
-    }
+    return {};
   },
 
   methods: {
-    signInWithGoogle: function() {
+    signInWithGoogle: function () {
       const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
 
@@ -26,11 +24,9 @@ export default {
         console.log(error.code);
         console.log(error.message);
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

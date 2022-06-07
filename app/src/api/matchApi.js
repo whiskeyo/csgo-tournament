@@ -28,14 +28,19 @@ const MatchType = {
  * @param {number} roundsWonByT    Rounds won by both teams when on T side
  * @returns {Object}               Score Object
  */
-matchApi.createScoreObject = function(firstTeamScore, secondTeamScore, roundsWonByCt, roundsWonByT) {
+matchApi.createScoreObject = function (
+  firstTeamScore,
+  secondTeamScore,
+  roundsWonByCt,
+  roundsWonByT
+) {
   return {
     first_team_score: firstTeamScore,
     second_team_score: secondTeamScore,
     rounds_won_by_ct: roundsWonByCt,
     rounds_won_by_t: roundsWonByT,
   };
-}
+};
 
 /**
  * @param {string} firstTeam     ID of the first team
@@ -83,7 +88,6 @@ matchApi.updateMatch = async function (matchId, fieldsToChange) {
     console.log("Error while changing a match: ", err);
   }
 };
-
 
 matchApi.collectAllMatches = async function (allMatches) {
   allMatches.length = 0;

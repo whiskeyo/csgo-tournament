@@ -34,9 +34,7 @@ export default {
     };
   },
 
-  methods: {
-
-  },
+  methods: {},
 
   created: function () {
     mapsApi.collectMaps(this.allMaps);

@@ -33,7 +33,7 @@
 
 <script>
 // import axios from "axios";
-import { db } from '../configs/db';
+import { db } from "../configs/db";
 import { collection, getDocs } from "firebase/firestore";
 
 export default {
@@ -46,12 +46,12 @@ export default {
   },
 
   methods: {
-    collectUsers: async function() {
+    collectUsers: async function () {
       const querySnapshot = await getDocs(collection(db, "users"));
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-      })
-    }
+      });
+    },
     // fetchMaps: async function () {
     //   await axios
     //     .get("http://127.0.0.1:8000/api/v1/maps/")

@@ -16,7 +16,7 @@ scoreApi.collectScoresFromMatch = async function (matchId) {
       name: data.name,
       matches_played: data.matches_played,
       rounds_won_by_t: data.rounds_won_by_t,
-      rounds_won_by_ct: data.rounds_won_by_ct
+      rounds_won_by_ct: data.rounds_won_by_ct,
     });
   });
 };

@@ -2,9 +2,7 @@
   <div>
     <h1>Team</h1>
     <button @click="collectTeams">Manually collect all Teams from db</button>
-    <button @click="collectUserTeams">
-      Manually collect user Teams from db
-    </button>
+    <button @click="collectUserTeams">Manually collect user Teams from db</button>
     <div class="row">
       <div class="col-6">
         <h2>Create a Team</h2>
@@ -27,11 +25,7 @@
               aria-label="Default select example"
             >
               <option disabled>Select multiple players</option>
-              <option
-                v-for="user in allUsers"
-                v-bind:key="user.uid"
-                :value="user.uid"
-              >
+              <option v-for="user in allUsers" v-bind:key="user.uid" :value="user.uid">
                 {{ user.nickname + " (" + user.email + ")" }}
               </option>
             </select>

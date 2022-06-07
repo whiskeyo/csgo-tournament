@@ -1,19 +1,19 @@
 <template>
   <div id="wrapper">
-    <Navbar/>
+    <Navbar />
     <section class="section">
       <div class="container">
         <router-view />
       </div>
     </section>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
 <script>
 import "bootstrap";
-import Navbar from "./components/Navbar.vue"
-import Footer from "./components/Footer.vue"
+import Navbar from "./components/Navbar.vue";
+import Footer from "./components/Footer.vue";
 // import { app } from "./configs/firebase";
 // import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
@@ -21,7 +21,7 @@ export default {
   name: "App",
   components: {
     Navbar,
-    Footer
+    Footer,
   },
 };
 </script>
@@ -41,5 +41,4 @@ export default {
   margin-bottom: 50px;
   padding-bottom: 10px;
 }
-
 </style>

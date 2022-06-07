@@ -3,7 +3,10 @@
   --main-bg-color: #303030;
 }
 
-html, body, #app, section.section {
+html,
+body,
+#app,
+section.section {
   height: 100%;
 }
 
