@@ -30,6 +30,10 @@ export default {
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "./assets/css/styles.css";
 
+.container {
+  width: 1000px;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

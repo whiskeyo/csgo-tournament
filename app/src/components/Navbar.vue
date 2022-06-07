@@ -1,176 +1,260 @@
 <template>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <img :src="this.$store.state.$appLogoURL" height="40">
-      <!-- {{ this.$store.state.$appName }} -->
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/">Home</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/team">Team</router-link>
-        </li>
-        <li class="nav-item dropdown">
-          <router-link class="nav-link dropdown-toggle" to="/team" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Team
-          </router-link>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item disabled-link" href="#">Create a Team (Vue)</a></li>
-            <li><a class="dropdown-item disabled-link" href="#">Create a Team (Cycle.js)</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item disabled-link" href="#">Something else here</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <router-link class="nav-link dropdown-toggle" to="/tournament" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Tournaments
-          </router-link>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/tournament">Tournament</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/about">About</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
-        </li>
-      </ul>
-      <form class="d-flex">
-        Logged in: {{ this.$store.state.$isLoggedIn }}
-      </form>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-        <button class="btn btn-outline-success me-2">Search</button>
-      </form>
-      <form v-if="!shouldDisplayLogin" class="d-flex">
-        <router-link class="" to="/">
-          <button @click="signInWithGoogle" class="btn btn-success me-2">
-            Sign In With Google
-          </button>
-        </router-link>
-        <ul class="navbar-nav">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img :src="this.$store.state.$appLogoURL" height="40" />
+        <!-- {{ this.$store.state.$appName }} -->
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/team">Team</router-link>
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <router-link
+              class="nav-link dropdown-toggle"
+              to="/team"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Team
+            </router-link>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item disabled-link" href="#"
+                  >Create a Team (Vue)</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item disabled-link" href="#"
+                  >Create a Team (Cycle.js)</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item disabled-link" href="#"
+                  >Something else here</a
+                >
+              </li>
+            </ul>
+          </li> -->
           <li class="nav-item dropdown">
-            <button class="dropdown-toggle btn btn-success" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-              Sign In
+            <div
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Tournaments
+            </div>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <router-link class="dropdown-item" to="/tournament">Tournaments</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/tournament/maps">Maps</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/tournament/matches">Matches</router-link>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/tournament">Tournament</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/about">About</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
+          </li>
+        </ul>
+        <!-- <form class="d-flex">
+        Logged in: {{ this.$store.state.$isLoggedIn }}
+      </form> -->
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <button class="btn btn-outline-success me-2">Search</button>
+        </form>
+        <form v-if="!shouldDisplayLogin" class="d-flex">
+          <router-link class="" to="/">
+            <button @click="signInWithGoogle" class="btn btn-success me-2">
+              Sign In With Google
+            </button>
+          </router-link>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <button
+                class="dropdown-toggle btn btn-success"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                Sign In
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li>
+                  <div class="dropdown-item">
+                    <label for="signInEmail" class="form-label">Email address</label>
+                    <input
+                      v-model="signIn.email"
+                      type="email"
+                      class="form-control"
+                      id="signInEmail"
+                      aria-describedby="emailHelp"
+                    />
+                  </div>
+                </li>
+                <li>
+                  <div class="dropdown-item">
+                    <label for="signInPassword" class="form-label">Password</label>
+                    <input
+                      v-model="signIn.password"
+                      type="password"
+                      class="form-control"
+                      id="signInPassword"
+                    />
+                  </div>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="signInWithEmail" href="#">Confirm</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </form>
+        <form v-else>
+          <!-- <img v-bind:src="this.$store.state.$user?.photoURL" height="30" width="30"> -->
+          {{ this.$store.state.$user?.nickname }}
+          {{ "(" + this.$store.state.$user?.email + ")" }}
+          <button @click="signOut" class="btn btn-success me-2">Sign Out</button>
+        </form>
+        <ul class="navbar-nav margin-left-5px" v-if="!shouldDisplayLogin">
+          <li class="nav-item dropdown">
+            <button
+              class="btn dropdown-toggle btn-success"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+            >
+              Sign Up
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
                 <div class="dropdown-item">
-                  <label for="signInEmail" class="form-label">Email address</label>
-                  <input v-model="signIn.email" type="email" class="form-control" id="signInEmail" aria-describedby="emailHelp">
+                  <label for="signUpEmail" class="form-label">Email address</label>
+                  <input
+                    v-model="signUp.email"
+                    type="email"
+                    class="form-control"
+                    id="signUpEmail"
+                  />
                 </div>
               </li>
               <li>
                 <div class="dropdown-item">
-                  <label for="signInPassword" class="form-label">Password</label>
-                  <input v-model="signIn.password" type="password" class="form-control" id="signInPassword">
+                  <label for="signUpFullname" class="form-label">Full name</label>
+                  <input
+                    v-model="signUp.fullname"
+                    type="text"
+                    class="form-control"
+                    id="signUpFullname"
+                  />
+                </div>
+              </li>
+              <li>
+                <div class="dropdown-item">
+                  <label for="signUpNickname" class="form-label">Nickname</label>
+                  <input
+                    v-model="signUp.nickname"
+                    type="text"
+                    class="form-control"
+                    id="signUpNickname"
+                  />
+                </div>
+              </li>
+              <li>
+                <div class="dropdown-item">
+                  <label for="signUpPassword" class="form-label">Password</label>
+                  <input
+                    v-model="signUp.password"
+                    type="password"
+                    class="form-control"
+                    id="signUpPassword"
+                  />
                 </div>
               </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
               <li>
-                <a class="dropdown-item" @click="signInWithEmail" href="#">Confirm</a>
+                <a class="dropdown-item" @click="signUpWithEmailAndPassword" href="#">Confirm</a>
               </li>
             </ul>
           </li>
         </ul>
-      </form>
-      <form v-else>
-        <!-- <img v-bind:src="this.$store.state.$user?.photoURL" height="30" width="30"> -->
-        {{ this.$store.state.$user?.nickname }} {{ "(" + this.$store.state.$user?.email + ")" }}
-        <button @click="signOut" class="btn btn-success me-2">
-          Sign Out
-        </button>
-      </form>
-      <ul class="navbar-nav margin-left-5px" v-if="!shouldDisplayLogin">
-        <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle btn-success" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-            Sign Up
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li>
-              <div class="dropdown-item">
-                <label for="signUpEmail" class="form-label">Email address</label>
-                <input v-model="signUp.email" type="email" class="form-control" id="signUpEmail">
-              </div>
-            </li>
-            <li>
-              <div class="dropdown-item">
-                <label for="signUpFullname" class="form-label">Full name</label>
-                <input v-model="signUp.fullname" type="text" class="form-control" id="signUpFullname">
-              </div>
-            </li>
-            <li>
-              <div class="dropdown-item">
-                <label for="signUpNickname" class="form-label">Nickname</label>
-                <input v-model="signUp.nickname" type="text" class="form-control" id="signUpNickname">
-              </div>
-            </li>
-            <li>
-              <div class="dropdown-item">
-                <label for="signUpPassword" class="form-label">Password</label>
-                <input v-model="signUp.password" type="password" class="form-control" id="signUpPassword">
-              </div>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item" @click="signUpWithEmailAndPassword" href="#">Confirm</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <script>
-import accountApi from '../services/accountApi';
+import accountApi from "../api/accountApi";
 
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   data() {
     return {
       signIn: {
         email: "",
-        password: ""
+        password: "",
       },
       signUp: {
         email: "",
         password: "",
         fullname: "",
-        nickname: ""
+        nickname: "",
       },
     };
   },
   methods: {
     signUpWithEmailAndPassword: function () {
-      if (accountApi.signUpWithEmailAndPassword(this.signUp.email, this.signUp.password,
-          this.signUp.nickname, this.signUp.fullname))
+      if (
+        accountApi.signUpWithEmailAndPassword(
+          this.signUp.email,
+          this.signUp.password,
+          this.signUp.nickname,
+          this.signUp.fullname
+        )
+      )
         this.clearSignUpForm();
     },
     signInWithEmail: function () {
@@ -192,14 +276,14 @@ export default {
     clearSignInForm: function () {
       this.signIn.email = "";
       this.signIn.password = "";
-    }
+    },
   },
   computed: {
     shouldDisplayLogin() {
       return this.$store.state.$isLoggedIn;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

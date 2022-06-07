@@ -1,9 +1,4 @@
-# Notatki csgo-tournament
-
-## Trello - śledzenie zadań
-
-[Tablica zadań](https://trello.com/b/TVOeqq9D/thesis-project)
-
+# Notatki csgo-tournament (aplikacja CStrikers)
 ## Opis tematu pracy inżynierskiej
 
 Z roku na rok rośnie liczba organizowanych profesjonalnych turniejów w wielu grach, jednak narzędzia wspomagające organizację turniejów są zwykle niedostępne dla widzów.
@@ -30,8 +25,12 @@ Implementation of this application would contribute to facilitating the organiza
 
 Moreover, the implementation will use two front-end frameworks, i.e. Vue and Cycle.js, which present a completely different approach to web application programming.
 
-## Struktura tego projektu
+## Struktura projektu [TODO]
 1. views -> strony do ktorych przechodze normalnie (np. url localhost:8080/about)
 2. components -> reużywalne kompontenty uzywane przez widoki
 3. services (nie istnieje jeszcze) -> reuzywalne funkcje uzywane przez widoki/komponenty
 4. router/store musi zostac bo fajne (vue-router i vuex)
+
+## Trello - śledzenie zadań
+
+[Tablica zadań](https://trello.com/b/TVOeqq9D/thesis-project)
