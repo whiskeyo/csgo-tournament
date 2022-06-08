@@ -1,77 +1,77 @@
 <template>
   <div>
     <h1>Tournament</h1>
-    <button @click="collectUsers">sdsdds</button>
-    <!-- <div class="row">
-      <div class="col-6">
-        <h2>Available maps</h2>
-        <ul>
-          <li v-for="map in maps" v-bind:key="map.id">
-            {{ map.name }}
-          </li>
-        </ul>
-      </div>
-      <div class="col-3">
-        <h2>Available maps</h2>
-        <ul>
-          <li v-for="map in maps" v-bind:key="map.id">
-            {{ map.name }}
-          </li>
-        </ul>
-      </div>
-      <div class="col-3">
-        <h2>Available maps</h2>
-        <ul>
-          <li v-for="map in maps" v-bind:key="map.id">
-            {{ map.name }}
-          </li>
-        </ul>
-      </div>
-    </div> -->
+    <table class="table table-dark table-striped text-center align-middle">
+      <thead>
+        <tr>
+          <th style="width: 30%" class="text-start">Tournament</th>
+          <th style="width: 10%">Type</th>
+          <th style="width: 10%">Status</th>
+          <th style="width: 30%" class="text-start">Teams</th>
+          <th style="width: 20%">Winner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="tournament in allTournaments" :key="tournament.id">
+          <td class="text-start">{{ tournament.name }}</td>
+          <td>{{ tournament.type }}</td>
+          <td>{{ tournament.status }}</td>
+          <td class="text-start">
+            <template v-for="(n, index) in tournament.teams" :key="index" class="mb-0 mt-0">
+              {{ tournament.teams[index] + ", " }}
+            </template>
+          </td>
+          <td>{{ this.getWinnerIfNotEmpty(tournament.winner) }}</td>
+          <!-- <td>
+            <template>
+
+            </template>
+            <table class="table table-white-text mb-0">
+              <tbody>
+                <tr>
+                  <td v-for="(n, index) in match.match_type" :key="index">
+                    {{ match.maps[index] }}
+                  </td>
+                </tr>
+                <tr>
+                  <td v-for="(n, index) in match.match_type" :key="index">
+                    {{ this.getScoreIfExists(match, index) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td>{{ match.winner }}</td> -->
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
-// import axios from "axios";
-import { db } from "../configs/db";
-import { collection, getDocs } from "firebase/firestore";
+import tournamentApi from "../api/tournamentApi";
 
 export default {
   name: "Tournament",
 
   data: function () {
     return {
-      maps: [],
+      allTournaments: [],
     };
   },
 
   methods: {
-    collectUsers: async function () {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-      });
-    },
-    // fetchMaps: async function () {
-    //   await axios
-    //     .get("http://127.0.0.1:8000/api/v1/maps/")
-    //     // .then((response) => console.log(response.data))
-    //     .then((response) => {
-    //       for (let item in response.data) {
-    //         this.maps.push({
-    //           id: response.data[item].id,
-    //           name: response.data[item].name,
-    //           thumbnail: response.data[item].get_thumbnail,
-    //           matches_played: response.data[item].matches_played,
-    //           rounds_won_by_t: response.data[item].rounds_won_by_t,
-    //           rounds_won_by_ct: response.data[item].rounds_won_by_ct,
-    //         });
-    //       }
-    //     });
-    // },
+    getWinnerIfNotEmpty: function (entry) {
+      return entry ? entry : "No winner yet :)";
+    }
+  },
+
+  computed: {
   },
 
   created: function () {
+    tournamentApi.collectAllTournaments(this.allTournaments);
+    // tournamentApi.createTournament();
     // this.fetchMaps();
   },
 };

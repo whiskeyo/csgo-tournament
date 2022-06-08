@@ -1,6 +1,7 @@
 # generated/downloaded
 app/node_modules
 app/build
+app/docs
 /dist
 media
 

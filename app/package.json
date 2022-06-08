@@ -1,13 +1,13 @@
 {
-  "name": "frontend",
+  "name": "csgo-tournament",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "buildDev": "vue-cli-service serve",
-    "buildProd": "vue-cli-service build",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write .",
+    "docs": "npx jsdoc -r src --destination docs"
   },
   "dependencies": {
     "@cycle/dom": "^23.1.0",
@@ -32,6 +32,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
+    "jsdoc": "^3.6.10",
     "prettier": "2.6.2",
     "sass": "^1.49.0",
     "sass-loader": "^10.1.1"

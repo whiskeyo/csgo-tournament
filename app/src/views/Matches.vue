@@ -41,6 +41,7 @@
 
 <script>
 import matchApi from "../api/matchApi";
+// import tournamentApi from "../api/tournamentApi";
 
 export default {
   name: "Matches",
@@ -76,6 +77,7 @@ export default {
   created: function () {
     // matchApi.createMatch();
     // this.xd();
+    // tournamentApi.createTournament();
     matchApi.collectAllMatches(this.allMatches);
   },
 };

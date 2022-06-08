@@ -10,34 +10,6 @@ const MatchType = {
 };
 
 /**
- * @param {Object} matchType Object with specified match types (B01, BO3, BO5)
- * @returns {number}         Corresponding matchType number in DB
- */
-// function convertMatchTypeToNumber(matchType) {
-//   return MatchType[matchType];
-// }
-
-// function convertNumberToMatchType(matchTypeNumber) {
-//   return Object.keys(MatchType).find((key) => object[key] === matchTypeNumber);
-// }
-
-/**
- * @param {number} firstTeamScore  Score of the first team
- * @param {number} secondTeamScore Score of the second team
- * @param {number} roundsWonByCt   Rounds won by both teams when on CT side
- * @param {number} roundsWonByT    Rounds won by both teams when on T side
- * @returns {Object}               Score Object
- */
-matchApi.createScoreObject = function (firstTeamScore, secondTeamScore, roundsWonByCt, roundsWonByT) {
-  return {
-    first_team_score: firstTeamScore,
-    second_team_score: secondTeamScore,
-    rounds_won_by_ct: roundsWonByCt,
-    rounds_won_by_t: roundsWonByT,
-  };
-};
-
-/**
  * @param {string} firstTeam     ID of the first team
  * @param {string} secondTeam    ID of the second team
  * @param {MatchType} matchType  Type of the match (BO1, BO3, BO5)
@@ -74,7 +46,6 @@ matchApi.createMatch = async function (/*matchData, event*/) {
 };
 
 matchApi.updateMatch = async function (matchId, fieldsToChange) {
-  // event.preventDefault();
   try {
     const matchRef = doc(db, "matches", matchId);
     await updateDoc(matchRef, fieldsToChange);

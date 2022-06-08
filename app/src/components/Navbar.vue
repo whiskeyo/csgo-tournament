@@ -94,9 +94,7 @@
             <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
           </li>
         </ul>
-        <!-- <form class="d-flex">
-        Logged in: {{ this.$store.state.$isLoggedIn }}
-      </form> -->
+        <form class="d-flex">Logged in: {{ this.$store.state.$isLoggedIn }}</form>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
           <button class="btn btn-outline-success me-2">Search</button>
