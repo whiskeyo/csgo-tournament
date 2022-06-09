@@ -12,7 +12,7 @@ matchApi.MatchType = {
 /**
  * @param {string} firstTeam     ID of the first team
  * @param {string} secondTeam    ID of the second team
- * @param {MatchType} matchType  Type of the match (BO1, BO3, BO5)
+ * @param {matchApi.MatchType} matchType  Type of the match (BO1, BO3, BO5)
  * @param {Array}  maps          Maps selected by both teams
  * @returns {Object}             Match Object
  */
@@ -30,7 +30,7 @@ matchApi.createMatchObject = function (firstTeam, secondTeam, matchType, maps) {
 matchApi.createMatch = async function (/*matchData, event*/) {
   // event.preventDefault();
   try {
-    const newMatch = createMatchObject("test3", "test4", MatchType.BO5, [
+    const newMatch = matchApi.createMatchObject("test3", "test4", matchApi.MatchType.BO5, [
       "Mirage",
       "Dust 2",
       "Inferno",

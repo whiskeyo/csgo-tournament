@@ -94,19 +94,15 @@
             <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
           </li>
         </ul>
-        <form class="d-flex">Logged in: {{ this.$store.state.$isLoggedIn }}</form>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success me-2">Search</button>
-        </form>
+        <!-- <form class="d-flex">Logged in: {{ this.$store.state.$isLoggedIn }}</form> -->
         <form v-if="!shouldDisplayLogin" class="d-flex">
           <router-link class="" to="/">
-            <button @click="signInWithGoogle" class="btn btn-success me-2">Sign In With Google</button>
+            <button @click="signInWithGoogle" class="btn btn-light margin-left-5px">Sign In With Google</button>
           </router-link>
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <button
-                class="dropdown-toggle btn btn-success"
+                class="dropdown-toggle btn btn-light margin-left-5px"
                 id="navbarDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
@@ -146,11 +142,11 @@
           <!-- <img v-bind:src="this.$store.state.$user?.photoURL" height="30" width="30"> -->
           {{ this.$store.state.$user?.nickname }}
           {{ "(" + this.$store.state.$user?.email + ")" }}
-          <button @click="signOut" class="btn btn-success me-2">Sign Out</button>
+          <button @click="signOut" class="btn btn-light margin-left-5px">Sign Out</button>
         </form>
         <ul class="navbar-nav margin-left-5px" v-if="!shouldDisplayLogin">
           <li class="nav-item dropdown">
-            <button class="btn dropdown-toggle btn-success" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            <button class="btn dropdown-toggle btn-light" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               Sign Up
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

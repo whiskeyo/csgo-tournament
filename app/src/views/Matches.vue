@@ -17,7 +17,7 @@
           <td>{{ match.second_team }}</td>
           <td>{{ "Best Of " + match.match_type }}</td>
           <td>
-            <table class="table table-white-text mb-0">
+            <table class="table table-borderless table-white-text mb-0">
               <tbody>
                 <tr>
                   <td v-for="(n, index) in match.match_type" :key="index">
