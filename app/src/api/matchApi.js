@@ -3,7 +3,7 @@ import { doc, addDoc, getDocs, updateDoc, collection } from "firebase/firestore"
 
 const matchApi = {};
 
-const MatchType = {
+matchApi.MatchType = {
   BO1: 1,
   BO3: 3,
   BO5: 5,
@@ -16,7 +16,7 @@ const MatchType = {
  * @param {Array}  maps          Maps selected by both teams
  * @returns {Object}             Match Object
  */
-function createMatchObject(firstTeam, secondTeam, matchType, maps) {
+matchApi.createMatchObject = function (firstTeam, secondTeam, matchType, maps) {
   return {
     first_team: firstTeam,
     second_team: secondTeam,
@@ -25,7 +25,7 @@ function createMatchObject(firstTeam, secondTeam, matchType, maps) {
     scores: [],
     winner: "",
   };
-}
+};
 
 matchApi.createMatch = async function (/*matchData, event*/) {
   // event.preventDefault();
