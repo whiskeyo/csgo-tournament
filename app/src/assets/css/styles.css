@@ -1,50 +1,10 @@
-/* :root {
-  --main-text-color: #eeeeee;
-  --main-bg-color: #303030;
-}
-
-html,
-body,
-#app,
-section.section {
-  height: 100%;
-}
-
-html {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-#container {
-  min-height: 100%;
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
-}
-
-nav {
-  margin-bottom: 15px;
-}
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-}
-*/
-
 :root {
   --main-text-color: #eeeeee;
   --main-bg-color: #303030;
 }
 
 html {
-  height: 100%;
+  /* height: 100%; */
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -72,4 +32,5 @@ nav {
   height: 50px;
   line-height: 50px;
   text-align: center;
+  margin-bottom: -20px;
 }
