@@ -6,6 +6,7 @@ import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Tournament from "../views/Tournament.vue";
 import Team from "../views/Team.vue";
+import TeamDetails from "../views/TeamDetails.vue";
 import Maps from "../views/Maps.vue";
 import Matches from "../views/Matches.vue";
 import CycleJsTest from "../views/CycleJsTest.vue";
@@ -40,6 +41,11 @@ const routes = [
     path: "/team",
     name: "Team",
     component: Team,
+  },
+  {
+    path: "/team/:id",
+    name: "Team Details",
+    component: TeamDetails,
   },
   {
     path: "/cyclejstest",

@@ -21,7 +21,7 @@
               <tbody>
                 <tr>
                   <td v-for="(n, index) in match.match_type" :key="index">
-                    {{ match.maps[index] }}
+                    {{ (match.maps[index] != "") ? match.maps[index] : "Not selected" }}
                   </td>
                 </tr>
                 <tr>

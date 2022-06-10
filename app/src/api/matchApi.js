@@ -1,18 +1,15 @@
+/** @namespace matchApi */
+
 import { db } from "../configs/db";
 import { doc, addDoc, getDocs, updateDoc, collection } from "firebase/firestore";
+import objectGenerators from "../services/objectGenerators";
 
 const matchApi = {};
-
-matchApi.MatchType = {
-  BO1: 1,
-  BO3: 3,
-  BO5: 5,
-};
 
 /**
  * @param {string} firstTeam     ID of the first team
  * @param {string} secondTeam    ID of the second team
- * @param {matchApi.MatchType} matchType  Type of the match (BO1, BO3, BO5)
+ * @param {types.MatchType} matchType  Type of the match (BO1, BO3, BO5)
  * @param {Array}  maps          Maps selected by both teams
  * @returns {Object}             Match Object
  */
@@ -27,21 +24,16 @@ matchApi.createMatchObject = function (firstTeam, secondTeam, matchType, maps) {
   };
 };
 
-matchApi.createMatch = async function (/*matchData, event*/) {
+matchApi.createMatch = async function (firstTeam, secondTeam, matchType) {
   // event.preventDefault();
   try {
-    const newMatch = matchApi.createMatchObject("test3", "test4", matchApi.MatchType.BO5, [
-      "Mirage",
-      "Dust 2",
-      "Inferno",
-      "Ancient",
-      "Nuke",
-    ]);
-    console.log("newMatch: ", newMatch);
+    const newMatch = objectGenerators.createMatchObject(firstTeam, secondTeam, matchType);
     const docRef = await addDoc(collection(db, "matches"), newMatch);
     console.log("Match added with ID ", docRef.id);
+    return docRef.id;
   } catch (err) {
     console.log("Error while adding a match: ", err);
+    return "";
   }
 };
 

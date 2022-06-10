@@ -1,5 +1,12 @@
 import matchApi from "../api/matchApi";
 
+const matchData = {
+  firstTeam: "Team A",
+  secondTeam: "Team B",
+  matchType: matchApi.MatchType.BO3,
+  maps: ["Map 1", "Map 2", "Map 3"],
+};
+
 describe("matchApi utils tests", () => {
   test("Enumerator matchType holds correct values", () => {
     expect(matchApi.MatchType.BO1).toBe(1);
@@ -8,16 +15,13 @@ describe("matchApi utils tests", () => {
   });
 
   test("Creating match object should work properly and set all given fields", () => {
-    const firstTeam = "Team A";
-    const secondTeam = "Team B";
-    const matchType = matchApi.MatchType.BO3;
-    const maps = ["Map 1", "Map 2", "Map 3"];
-
-    expect(matchApi.createMatchObject(firstTeam, secondTeam, matchType, maps)).toEqual({
-      first_team: firstTeam,
-      second_team: secondTeam,
-      match_type: matchType,
-      maps: maps,
+    expect(
+      matchApi.createMatchObject(matchData.firstTeam, matchData.secondTeam, matchData.matchType, matchData.maps)
+    ).toEqual({
+      first_team: matchData.firstTeam,
+      second_team: matchData.secondTeam,
+      match_type: matchData.matchType,
+      maps: matchData.maps,
       scores: [],
       winner: "",
     });

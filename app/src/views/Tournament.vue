@@ -71,7 +71,7 @@ export default {
 
   created: function () {
     tournamentApi.collectAllTournaments(this.allTournaments);
-    // tournamentApi.createTournament();
+    tournamentApi.createTournament();
     // this.fetchMaps();
   },
 };

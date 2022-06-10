@@ -1,64 +1,46 @@
+/** @namespace tournamentApi */
+
 import { db } from "../configs/db";
-import { /*doc,*/ addDoc, getDocs, /*updateDoc,*/ collection } from "firebase/firestore";
+import { /*doc, addDoc,*/ getDocs, /*updateDoc,*/ collection, where, query } from "firebase/firestore";
+import types from "../services/types";
+import objectGenerators from "../services/objectGenerators";
+import matchApi from "../api/matchApi";
 
 const tournamentApi = {};
-
-/**
- * Enum for tracking status of the tournament.
- * @readonly
- * @enum {string}
- */
-const TournamentStatus = {
-  SCHEDULED: "Scheduled",
-  ONGOING: "Ongoing",
-  FINISHED: "Finished",
-};
-
-/**
- * Enum for specifying the type of the tournament.
- * @readonly
- * @enum {string}
- */
-const TournamentType = {
-  SINGLE_ELIMINATION: "Single Elimination",
-  ALL_VS_ALL: "League (All versus All)",
-  COMBINED: "Combined",
-};
-
-/**
- * @param {string} name         Name of the tournament
- * @param {string} creatorId    UID of the tournament's creator
- * @param {Array} teams         Array of teams attending the tournament
- * @param {TournamentType} type Type of the tournament
- * @param {boolean} isPrivate   Visibility of the tournament
- * @returns {Object}            Tournament Object
- */
-function createTournamentObject(name, creatorId, teams, type, isPrivate = false) {
-  return {
-    name: name,
-    creator: creatorId,
-    teams: teams,
-    status: TournamentStatus.SCHEDULED,
-    type: type,
-    is_private: isPrivate,
-    matches: [],
-    winner: "",
-  };
-}
 
 tournamentApi.createTournament = async function (/*matchData, event*/) {
   // event.preventDefault();
   try {
-    const newTournament = createTournamentObject(
-      "second tournament (private one!!!) :)",
-      "uid2",
-      ["111", "222", "333", "444", "555", "666", "777", "888"],
-      TournamentType.SINGLE_ELIMINATION,
+    let teams = ["A", "B", "C", "D", "E", "F", "G", "H"];
+    let matchType = types.MatchType.BO1;
+
+    const newTournament = objectGenerators.createTournamentObjectWithoutMatches(
+      "third tournament",
+      "uidsdasdasda2",
+      teams,
+      types.TournamentType.SINGLE_ELIMINATION,
+      matchType,
       true
     );
+
+    let matches = objectGenerators.createSingleEliminationMatches(teams, matchType);
+    console.log("matches: ", matches);
+    let createMatchPromises = [];
+    matches.forEach((match) => {
+      createMatchPromises.push(matchApi.createMatch(match.first_team, match.second_team, match.match_type));
+    });
+    let matchesIds = [];
+    Promise.all(createMatchPromises).then(() => {
+      createMatchPromises.forEach((createdMatch) => {
+        matchesIds.push(createdMatch);
+      });
+      console.log("matchesIds: ", matchesIds);
+      objectGenerators.setMatchesIdsToTournamentObject(newTournament, matchesIds);
+    });
+
     console.log("newTournament: ", newTournament);
-    const docRef = await addDoc(collection(db, "tournaments"), newTournament);
-    console.log("Tournament added with ID ", docRef.id);
+    // const docRef = await addDoc(collection(db, "tournaments"), newTournament);
+    // console.log("Tournament added with ID ", docRef.id);
   } catch (err) {
     console.log("Error while adding a tournament: ", err);
   }
@@ -66,7 +48,6 @@ tournamentApi.createTournament = async function (/*matchData, event*/) {
 
 // function generateMatchesForSingleElimination() {}
 // function generateMatchesForLeague() {}
-
 
 // tournamentApi.addMatchesToTournament = async function (/*matchData, event*/) {
 
@@ -82,6 +63,21 @@ tournamentApi.createTournament = async function (/*matchData, event*/) {
 //     console.log("Error while changing a match: ", err);
 //   }
 // };
+
+// TODO: get this to work...........................................
+tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamentsPlayed) {
+  console.log("collectTournamentsPlayedByTeam", teamId, "and typeof teamId is", typeof teamId);
+  // const tournaments = query(collection(db, "tournaments"), where("name", "==", "fisrt tournament :)"));
+  const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
+  const tournamentsSnapshot = await getDocs(tournaments);
+  console.log("is tournamentsSnapshot empty: ", tournamentsSnapshot.empty);
+  tournamentsSnapshot.forEach((doc) => {
+    tournamentsPlayed.push({
+      id: doc.id,
+      name: doc.data().name,
+    });
+  });
+};
 
 tournamentApi.collectAllTournaments = async function (allTournaments) {
   allTournaments.length = 0;

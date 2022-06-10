@@ -1,5 +1,5 @@
 import { db } from "../configs/db";
-import { addDoc, getDocs, query, where, collection } from "firebase/firestore";
+import { doc, addDoc, getDocs, query, where, collection, getDoc } from "firebase/firestore";
 
 const teamApi = {};
 
@@ -16,17 +16,55 @@ teamApi.collectUsers = async function (allUsers) {
   });
 };
 
+teamApi.collectUserByIdAndSetObject = async function (userId, userObject) {
+  const user = query(collection(db, "users"), where("uid", "==", userId));
+  const userSnapshot = await getDocs(user);
+  const userData = userSnapshot.docs[0].data();
+  userObject.nickname = userData.nickname;
+  userObject.fullname = userData.fullname;
+  userObject.email = userData.email;
+  userObject.uid = userData.uid;
+};
+
+teamApi.collectUserByIdAndAddToList = async function (userId, members) {
+  const user = query(collection(db, "users"), where("uid", "==", userId));
+  const userSnapshot = await getDocs(user);
+  const userData = userSnapshot.docs[0].data();
+  members.push({
+    nickname: userData.nickname,
+    fullname: userData.fullname,
+    email: userData.email,
+    uid: userData.uid,
+  });
+};
+
 teamApi.collectTeams = async function (allTeams) {
   allTeams.length = 0;
   const querySnapshot = await getDocs(collection(db, "teams"));
   querySnapshot.forEach((doc) => {
     let data = doc.data();
     allTeams.push({
+      id: doc.id,
       name: data.name,
       members: data.members,
       captain: data.captain,
     });
   });
+};
+
+teamApi.collectTeamByID = async function (teamId, teamDetails) {
+  console.log("teamId: ", teamId);
+  const teamRef = doc(db, "teams", teamId);
+  const teamDoc = await getDoc(teamRef);
+  if (teamDoc.exists()) {
+    console.log("data: ", teamDoc.data());
+    teamDetails.id = teamDoc.id;
+    teamDetails.name = teamDoc.data().name;
+    teamDetails.captainId = teamDoc.data().captain;
+    teamDetails.membersId = teamDoc.data().members;
+  } else {
+    console.log("document does not exist");
+  }
 };
 
 teamApi.collectUserTeams = async function (userTeams, store) {

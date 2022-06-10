@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-dark">
+  <footer class="footer bg-dark">
     <span>{{ this.$store.state.$appName }} - 2022 © All rights reserved</span>
   </footer>
 </template>

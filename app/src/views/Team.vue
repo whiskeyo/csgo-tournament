@@ -32,8 +32,10 @@
       <div class="col-3">
         <h2>Existing teams</h2>
         <ul>
-          <li v-for="team in allTeams" v-bind:key="team.name">
-            {{ team.name }}
+          <li v-for="team in allTeams" v-bind:key="team.id">
+            <router-link :to="'/team/' + team.id">
+              {{ team.name }}
+            </router-link>
           </li>
         </ul>
       </div>
@@ -85,8 +87,8 @@ export default {
 
   created: function () {
     this.collectUsers();
-    // this.collectTeams();
-    // this.collectUserTeams();
+    this.collectTeams();
+    this.collectUserTeams();
   },
 };
 </script>

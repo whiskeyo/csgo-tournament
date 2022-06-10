@@ -1,11 +1,13 @@
 <template>
   <div id="wrapper">
-    <Navbar />
-    <section class="section">
-      <div class="container">
-        <router-view />
-      </div>
-    </section>
+    <div class="content">
+      <Navbar />
+      <section class="section">
+        <div class="container">
+          <router-view />
+        </div>
+      </section>
+    </div>
     <Footer />
   </div>
 </template>
