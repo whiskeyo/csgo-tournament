@@ -13,7 +13,12 @@
       </thead>
       <tbody>
         <tr v-for="tournament in allTournaments" :key="tournament.id">
-          <td class="text-start">{{ tournament.name }}</td>
+          <td class="text-start">
+            <!-- <router-link :to="'/tournament/' + tournament.id"> -->
+            <router-link :to="'/'">
+              {{ tournament.name }}
+            </router-link>
+          </td>
           <td>{{ tournament.type }}</td>
           <td>{{ tournament.status }}</td>
           <td class="text-start">
@@ -22,26 +27,6 @@
             </template>
           </td>
           <td>{{ this.getWinnerIfNotEmpty(tournament.winner) }}</td>
-          <!-- <td>
-            <template>
-
-            </template>
-            <table class="table table-white-text mb-0">
-              <tbody>
-                <tr>
-                  <td v-for="(n, index) in match.match_type" :key="index">
-                    {{ match.maps[index] }}
-                  </td>
-                </tr>
-                <tr>
-                  <td v-for="(n, index) in match.match_type" :key="index">
-                    {{ this.getScoreIfExists(match, index) }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-          <td>{{ match.winner }}</td> -->
         </tr>
       </tbody>
     </table>
@@ -71,7 +56,7 @@ export default {
 
   created: function () {
     tournamentApi.collectAllTournaments(this.allTournaments);
-    tournamentApi.createTournament();
+    // tournamentApi.createTournament();
     // this.fetchMaps();
   },
 };

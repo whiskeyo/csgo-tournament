@@ -1,7 +1,7 @@
 /** @namespace tournamentApi */
 
 import { db } from "../configs/db";
-import { /*doc, addDoc,*/ getDocs, /*updateDoc,*/ collection, where, query } from "firebase/firestore";
+import { /*doc,*/ addDoc, getDocs, /*updateDoc,*/ collection, where, query } from "firebase/firestore";
 import types from "../services/types";
 import objectGenerators from "../services/objectGenerators";
 import matchApi from "../api/matchApi";
@@ -30,17 +30,17 @@ tournamentApi.createTournament = async function (/*matchData, event*/) {
       createMatchPromises.push(matchApi.createMatch(match.first_team, match.second_team, match.match_type));
     });
     let matchesIds = [];
-    Promise.all(createMatchPromises).then(() => {
-      createMatchPromises.forEach((createdMatch) => {
-        matchesIds.push(createdMatch);
+    Promise.all(createMatchPromises).then((returnedMatchesIds) => {
+      returnedMatchesIds.forEach((matchId) => {
+        matchesIds.push(matchId);
       });
       console.log("matchesIds: ", matchesIds);
       objectGenerators.setMatchesIdsToTournamentObject(newTournament, matchesIds);
     });
 
     console.log("newTournament: ", newTournament);
-    // const docRef = await addDoc(collection(db, "tournaments"), newTournament);
-    // console.log("Tournament added with ID ", docRef.id);
+    const docRef = await addDoc(collection(db, "tournaments"), newTournament);
+    console.log("Tournament added with ID ", docRef.id);
   } catch (err) {
     console.log("Error while adding a tournament: ", err);
   }
