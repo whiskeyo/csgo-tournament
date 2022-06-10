@@ -8,7 +8,8 @@ const values = {
 describe("utils tests", () => {
   test("getRandomInt creates value in range", () => {
     const randomInt = utils.getRandomInt(values.min, values.max);
-    expect(randomInt).toBeGreaterThan(values.min);
+    expect(randomInt).toBeGreaterThanOrEqual(values.min);
     expect(randomInt).toBeLessThan(values.max);
+    expect(randomInt).tobegre
   });
 });

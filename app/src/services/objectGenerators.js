@@ -46,7 +46,14 @@ objectGenerators.createSingleEliminationMatches = function (teams, matchType) {
  * @param {boolean} isPrivate                   Visibility of the tournament
  * @returns {Object}                            Tournament object without matches
  */
-objectGenerators.createTournamentObjectWithoutMatches = function (name, creatorId, teams, tournamentType, matchType, isPrivate) {
+objectGenerators.createTournamentObjectWithoutMatches = function (
+  name,
+  creatorId,
+  teams,
+  tournamentType,
+  matchType,
+  isPrivate
+) {
   return {
     name: name,
     creator: creatorId,
@@ -65,8 +72,8 @@ objectGenerators.createTournamentObjectWithoutMatches = function (name, creatorI
  * @param {Array} teams             Array of matches IDs from matches collection
  * @returns {Object}                Tournament object with matches IDs
  */
-objectGenerators.setMatchesIdsToTournamentObject = function(tournamentObject, matchesIds) {
+objectGenerators.setMatchesIdsToTournamentObject = function (tournamentObject, matchesIds) {
   tournamentObject.matches = matchesIds;
-}
+};
 
 export default objectGenerators;
