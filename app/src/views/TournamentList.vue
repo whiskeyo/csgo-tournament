@@ -4,10 +4,9 @@
     <table class="table table-dark table-striped text-center align-middle">
       <thead>
         <tr>
-          <th style="width: 30%" class="text-start">Tournament</th>
-          <th style="width: 10%">Type</th>
-          <th style="width: 10%">Status</th>
-          <th style="width: 30%" class="text-start">Teams</th>
+          <th style="width: 50%" class="text-start">Tournament</th>
+          <th style="width: 15%">Type</th>
+          <th style="width: 15%">Status</th>
           <th style="width: 20%">Winner</th>
         </tr>
       </thead>
@@ -22,11 +21,6 @@
           </td>
           <td>{{ tournament.type }}</td>
           <td>{{ tournament.status }}</td>
-          <td class="text-start">
-            <template v-for="(n, index) in tournament.teams" :key="index" class="mb-0 mt-0">
-              {{ tournament.teams[index] + ", " }}
-            </template>
-          </td>
           <td>{{ this.getWinnerIfNotEmpty(tournament.winner) }}</td>
         </tr>
       </tbody>
@@ -56,18 +50,12 @@ export default {
     }
   },
 
-  computed: {
-  },
-
   created: async function () {
     await tournamentApi.collectAllTournaments(this.allTournaments);
     this.filteredTournaments = this.allTournaments.filter((x) => {
       console.log(x);
       return this.shouldTournamentAppearOnList(x)
     });
-  },
-
-  mounted: function () {
   }
 };
 </script>

@@ -27,10 +27,8 @@ teamApi.collectUserByIdAndSetObject = async function (userId, userObject) {
 };
 
 teamApi.getUserById = async function(userId) {
-  console.log("teamApi.getUserById", userId);
   const user = query(collection(db, "users"), where("uid", "==", userId));
   const userSnapshot = await getDocs(user);
-  console.log("userSnapshot", userSnapshot);
   const userData = userSnapshot.docs[0].data();
   return {
     nickname: userData.nickname,
@@ -67,26 +65,22 @@ teamApi.collectTeams = async function (allTeams) {
 };
 
 teamApi.collectTeamByID = async function (teamId, teamDetails) {
-  console.log("teamId: ", teamId);
   const teamRef = doc(db, "teams", teamId);
   const teamDoc = await getDoc(teamRef);
   if (teamDoc.exists()) {
-    console.log("data: ", teamDoc.data());
     teamDetails.id = teamDoc.id;
     teamDetails.name = teamDoc.data().name;
     teamDetails.captainId = teamDoc.data().captain;
     teamDetails.membersId = teamDoc.data().members;
   } else {
-    console.log("document does not exist");
+    console.log("Document " + teamId + " does not exist");
   }
 };
 
 teamApi.getTeamByID = async function (teamId) {
-  console.log("teamId: ", teamId);
   const teamRef = doc(db, "teams", teamId);
   const teamDoc = await getDoc(teamRef);
   if (teamDoc.exists()) {
-    console.log("data: ", teamDoc.data());
     return {
       id: teamDoc.id,
       name: teamDoc.data().name,
@@ -94,7 +88,7 @@ teamApi.getTeamByID = async function (teamId) {
       membersId: teamDoc.data().members,
     }
   } else {
-    console.log("document does not exist");
+    console.log("Document " + teamId + " does not exist");
     return {}
   }
 };

@@ -20,6 +20,20 @@ types.MatchType = {
  * @readonly
  * @enum {string}
  */
+ types.MatchStatus = {
+  /** Banning phase of the match, captains select maps to play, match has not started yet */
+  BANNING: "Banning phase",
+  /** Match started */
+  ONGOING: "Ongoing",
+  /** Match finished, winner already selected */
+  FINISHED: "Finished",
+};
+
+/**
+ * Enum for tracking status of the tournament.
+ * @readonly
+ * @enum {string}
+ */
 types.TournamentStatus = {
   /** Tournament scheduled, has not started yet */
   SCHEDULED: "Scheduled",

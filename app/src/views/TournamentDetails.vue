@@ -22,9 +22,19 @@
         <h2>Matches</h2>
         <ul>
           <li v-for="(match, i) in this.tournamentDetails.matches" :key="i">
-            <router-link :to="'/tournament/matches/' + tournamentDetails.matchesId[i]">
+            <router-link :to="'/tournament/matches/' + tournamentDetails.matchesId[i]"
+             v-if="getTeamName(match.firstTeam) != 'TBD' && getTeamName(match.secondTeam) != 'TBD'">
               {{ this.getTeamName(match.firstTeam) + " vs. " + this.getTeamName(match.secondTeam) }}
             </router-link>
+            <div v-else-if="getTeamName(match.firstTeam) != 'TBD' && getTeamName(match.secondTeam) == 'TBD'">
+              {{ getTeamName(match.firstTeam) }} vs. TBD
+            </div>
+            <div v-else-if="getTeamName(match.firstTeam) == 'TBD' && getTeamName(match.secondTeam) != 'TBD'">
+              TBD vs. {{ getTeamName(match.secondTeam) }}
+            </div>
+            <div v-else>
+              TBD vs. TBD
+            </div>
           </li>
         </ul>
       </div>
@@ -68,7 +78,7 @@ export default {
   methods: {
     getTeamName: function (teamId) {
       return utils.getTeamNameById(teamId, this.tournamentDetails.teams);
-    }
+    },
   },
 
   created: async function () {

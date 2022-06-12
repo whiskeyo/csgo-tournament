@@ -13,9 +13,9 @@
       <tbody>
         <tr v-for="map in allMaps" :key="map.name">
           <td>{{ map.name }}</td>
-          <td>{{ map.matches_played }}</td>
-          <td>{{ map.rounds_won_by_t }}</td>
-          <td>{{ map.rounds_won_by_ct }}</td>
+          <td>{{ map.matchesPlayed }}</td>
+          <td>{{ map.roundsWonByT }}</td>
+          <td>{{ map.roundsWonByCt }}</td>
         </tr>
       </tbody>
     </table>
