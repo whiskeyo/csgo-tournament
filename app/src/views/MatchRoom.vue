@@ -37,20 +37,20 @@
         <ul class="list-group">
           <li
             v-for="map in this.matchDetails.maps"
-            v-bind:key="map.id"
+            v-bind:key="map"
             class="list-group-item list-group-item-success fw-bold"
           >
-            {{ map.name }}
+            {{ map }}
           </li>
         </ul>
         <h3 v-if="matchDetails.mapsBanned.length">Banned Maps</h3>
         <ul class="list-group">
           <li
             v-for="map in this.matchDetails.mapsBanned"
-            v-bind:key="map.id"
+            v-bind:key="map"
             class="list-group-item list-group-item-danger"
           >
-            {{ map.name }}
+            {{ map }}
           </li>
         </ul>
       </div>
@@ -136,10 +136,10 @@ export default {
         case types.MatchType.BO1: {
           if (this.actionsTakenOnMaps < 2) {
             utils.removeItemFromArray(map, this.allMaps);
-            this.matchDetails.mapsBanned.push(map);
+            this.matchDetails.mapsBanned.push(map.name);
           } else {
             utils.removeItemFromArray(map, this.allMaps);
-            this.matchDetails.maps.push(map);
+            this.matchDetails.maps.push(map.name);
           }
           break;
         }
@@ -199,30 +199,12 @@ export default {
       })
       .then(async () => {
         await mapsApi.collectMaps(this.allMaps);
-      })
-      .then(() => {
-        /* filter all maps from selected and banned maps*/
-        const allMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.allMaps);
+        let allMapsArray = utils.getUniqueItemsByFieldArrayFromProxyArray(this.allMaps, "id");
         const selectedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.maps);
         const bannedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.mapsBanned);
 
-        for (let i = 0; i < allMapsArray.length; ++i) {
-          for (let j = 0; j < selectedMapsArray.length; ++j) {
-            if (allMapsArray[i].name == selectedMapsArray[j].name) {
-              utils.removeItemFromArray(allMapsArray[i], allMapsArray);
-            }
-          }
-        }
-
-        for (let i = 0; i < allMapsArray.length; ++i) {
-          for (let j = 0; j < bannedMapsArray.length; ++j) {
-            if (allMapsArray[i].name == bannedMapsArray[j].name) {
-              utils.removeItemFromArray(allMapsArray[i], allMapsArray);
-            }
-          }
-        }
-
-        this.allMaps.length = 0;
+        allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, selectedMapsArray));
+        allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, bannedMapsArray));
         this.allMaps = allMapsArray;
       });
   },
