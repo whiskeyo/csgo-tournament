@@ -1,7 +1,7 @@
 /** @namespace matchApi */
 
 import { db } from "../configs/db";
-import { doc, addDoc, getDocs, updateDoc, collection } from "firebase/firestore";
+import { doc, addDoc, getDoc, getDocs, updateDoc, collection } from "firebase/firestore";
 import objectGenerators from "../services/objectGenerators";
 
 const matchApi = {};
@@ -44,6 +44,27 @@ matchApi.updateMatch = async function (matchId, fieldsToChange) {
     console.log("Match with ID ", matchId, " changed");
   } catch (err) {
     console.log("Error while changing a match: ", err);
+  }
+};
+
+matchApi.getMatchByID = async function (matchId) {
+  console.log("matchId: ", matchId);
+  const matchRef = doc(db, "matches", matchId);
+  const matchDoc = await getDoc(matchRef);
+  if (matchDoc.exists()) {
+    console.log("matchDoc.data(): ", matchDoc.data());
+    return {
+      id: matchDoc.id,
+      firstTeam: matchDoc.data().first_team,
+      secondTeam: matchDoc.data().second_team,
+      matchType: matchDoc.data().match_type,
+      maps: matchDoc.data().maps,
+      mapsBanned: matchDoc.data().maps_banned,
+      scores: matchDoc.data().scores,
+      winner: matchDoc.data().winner,
+    }
+  } else {
+    console.log("document does not exist");
   }
 };
 

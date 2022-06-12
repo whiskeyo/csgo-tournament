@@ -4,11 +4,14 @@ import store from "../store";
 
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
-import Tournament from "../views/Tournament.vue";
+import TournamentCreate from "../views/TournamentCreate.vue";
+import TournamentList from "../views/TournamentList.vue";
+import TournamentDetails from "../views/TournamentDetails.vue";
 import Team from "../views/Team.vue";
 import TeamDetails from "../views/TeamDetails.vue";
 import Maps from "../views/Maps.vue";
 import Matches from "../views/Matches.vue";
+import MatchRoom from "../views/MatchRoom.vue";
 import CycleJsTest from "../views/CycleJsTest.vue";
 
 const routes = [
@@ -23,9 +26,19 @@ const routes = [
     component: About,
   },
   {
-    path: "/tournament",
+    path: "/tournament/create",
     name: "Tournament",
-    component: Tournament,
+    component: TournamentCreate,
+  },
+  {
+    path: "/tournament/list",
+    name: "List of Tournaments",
+    component: TournamentList,
+  },
+  {
+    path: "/tournament/:id",
+    name: "Tournament Details",
+    component: TournamentDetails,
   },
   {
     path: "/tournament/maps",
@@ -34,8 +47,13 @@ const routes = [
   },
   {
     path: "/tournament/matches",
-    name: "Matches",
+    name: "List of Matches",
     component: Matches,
+  },
+  {
+    path: "/tournament/matches/:id",
+    name: "Match Details",
+    component: MatchRoom,
   },
   {
     path: "/team",

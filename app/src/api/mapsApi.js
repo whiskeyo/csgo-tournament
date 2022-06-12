@@ -6,14 +6,15 @@ const mapsApi = {};
 mapsApi.collectMaps = async function (allMaps) {
   allMaps.length = 0;
   const querySnapshot = await getDocs(collection(db, "maps"));
-  console.log("querySnapshot (maps): ", querySnapshot);
   querySnapshot.forEach((doc) => {
     let data = doc.data();
+    console.log("data ====> ", data);
     allMaps.push({
+      id: doc.id,
       name: data.name,
-      matches_played: data.matches_played,
-      rounds_won_by_t: data.rounds_won_by_t,
-      rounds_won_by_ct: data.rounds_won_by_ct,
+      matchesPlayed: data.matches_played,
+      roundsWonByCt: data.rounds_won_by_ct,
+      roundsWonByT: data.rounds_won_by_t,
     });
   });
 };

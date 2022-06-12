@@ -67,8 +67,11 @@
               Tournaments
             </div>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li v-if="isSignedIn">
+                <router-link class="dropdown-item" to="/tournament/create">Create a Tournament</router-link>
+              </li>
               <li>
-                <router-link class="dropdown-item" to="/tournament">Tournaments</router-link>
+                <router-link class="dropdown-item" to="/tournament/list">List of Tournaments</router-link>
               </li>
               <li>
                 <router-link class="dropdown-item" to="/tournament/maps">Maps</router-link>
@@ -85,17 +88,17 @@
             </ul>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/tournament">Tournament</router-link>
-          </li>
-          <li class="nav-item">
             <router-link class="nav-link" to="/about">About</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
           </li>
         </ul>
-        <!-- <form class="d-flex">Logged in: {{ this.$store.state.$isLoggedIn }}</form> -->
-        <form v-if="!shouldDisplayLogin" class="d-flex">
+        <!-- <form class="d-flex">
+          Logged in: {{ this.$store.state.$isLoggedIn }} <br>
+          User: {{ this.$store.state.$user }}
+        </form> -->
+        <form v-if="!isSignedIn" class="d-flex">
           <router-link class="" to="/">
             <button @click="signInWithGoogle" class="btn btn-light margin-left-5px">Sign In With Google</button>
           </router-link>
@@ -144,7 +147,7 @@
           {{ "(" + this.$store.state.$user?.email + ")" }}
           <button @click="signOut" class="btn btn-light margin-left-5px">Sign Out</button>
         </form>
-        <ul class="navbar-nav margin-left-5px" v-if="!shouldDisplayLogin">
+        <ul class="navbar-nav margin-left-5px" v-if="!isSignedIn">
           <li class="nav-item dropdown">
             <button class="btn dropdown-toggle btn-light" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
               Sign Up
@@ -240,7 +243,7 @@ export default {
     },
   },
   computed: {
-    shouldDisplayLogin() {
+    isSignedIn() {
       return this.$store.state.$isLoggedIn;
     },
   },

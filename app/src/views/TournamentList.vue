@@ -12,12 +12,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="tournament in allTournaments" :key="tournament.id">
+        <tr v-for="tournament in filteredTournaments" :key="tournament.id">
           <td class="text-start">
-            <!-- <router-link :to="'/tournament/' + tournament.id"> -->
-            <router-link :to="'/'">
+            <router-link :to="'/tournament/' + tournament.id">
+              <!-- <router-link :to="'/'"> -->
               {{ tournament.name }}
             </router-link>
+            {{ tournament.is_private }}
           </td>
           <td>{{ tournament.type }}</td>
           <td>{{ tournament.status }}</td>
@@ -42,22 +43,31 @@ export default {
   data: function () {
     return {
       allTournaments: [],
+      filteredTournaments: [],
     };
   },
 
   methods: {
     getWinnerIfNotEmpty: function (entry) {
       return entry ? entry : "No winner yet :)";
+    },
+    shouldTournamentAppearOnList: function (tournament) {
+      return !tournament.is_private || tournament.creator === this.$store.state.$user.uid;
     }
   },
 
   computed: {
   },
 
-  created: function () {
-    tournamentApi.collectAllTournaments(this.allTournaments);
-    // tournamentApi.createTournament();
-    // this.fetchMaps();
+  created: async function () {
+    await tournamentApi.collectAllTournaments(this.allTournaments);
+    this.filteredTournaments = this.allTournaments.filter((x) => {
+      console.log(x);
+      return this.shouldTournamentAppearOnList(x)
+    });
   },
+
+  mounted: function () {
+  }
 };
 </script>

@@ -2,7 +2,7 @@
   <div>
     <h1>Matches</h1>
     <table class="table table-dark table-striped text-center align-middle">
-      <thead>
+      <thead class="align-middle">
         <tr>
           <th style="width: 15%">Team A</th>
           <th style="width: 15%">Team B</th>

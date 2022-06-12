@@ -16,7 +16,9 @@ objectGenerators.createMatchObject = function (firstTeam, secondTeam, matchType)
     first_team: firstTeam,
     second_team: secondTeam,
     match_type: matchType,
-    maps: [].fill("", 0, matchType),
+    // maps: [].fill("", 0, matchType),
+    maps: [],
+    maps_banned: [],
     scores: [],
     winner: "",
   };
@@ -26,13 +28,16 @@ objectGenerators.createMatchObject = function (firstTeam, secondTeam, matchType)
  * @method
  * @param {Array} teams               Array of teams' IDs
  * @param {types.MatchType} matchType Type of the match (BO1, BO3, BO5)
- * @returns {Array}                   Array of Match objects to be played in Single Elimination Tournament
+ * @returns {Array}                   Array of Match objects to be played in Single Elimination Tournament,
+ *                                    consisting of teams.length filled matches and `(teams.length / 2) - 1` slots
  */
 objectGenerators.createSingleEliminationMatches = function (teams, matchType) {
   const matches = [];
   for (let idx = 0; idx < teams.length / 2; ++idx) {
     matches.push(this.createMatchObject(teams[idx], teams[teams.length - 1 - idx], matchType));
   }
+  matches.length = teams.length - 1;
+  matches.fill(this.createMatchObject("", "", matchType), teams.length / 2, teams.length - 1);
 
   return matches;
 };
@@ -64,6 +69,39 @@ objectGenerators.createTournamentObjectWithoutMatches = function (
     is_private: isPrivate,
     matches: [],
     winner: "",
+  };
+};
+
+/**
+ * @param {string} name                         Name of the tournament
+ * @param {string} creatorId                    UID of the tournament's creator
+ * @param {Array} teams                         Array of teams attending the tournament
+ * @param {Array} matches                       Array of teams matches to be played
+ * @param {types.TournamentType} tournamentType Type of the tournament
+ * @param {types.MatchType} matchType           Type of the matches
+ * @param {boolean} isPrivate                   Visibility of the tournament
+ * @returns {Object}                            Tournament object with matches
+ */
+ objectGenerators.createTournamentObjectWithMatches = function (
+  name,
+  creatorId,
+  teams,
+  matches,
+  tournamentType,
+  matchType,
+  isPrivate
+) {
+  return {
+    name: name,
+    creator: creatorId,
+    teams: teams,
+    matches: matches,
+    status: types.TournamentStatus.SCHEDULED,
+    type: tournamentType,
+    match_type: matchType,
+    is_private: isPrivate,
+    winner: "",
+    created_at: Date.now(),
   };
 };
 

@@ -26,6 +26,20 @@ teamApi.collectUserByIdAndSetObject = async function (userId, userObject) {
   userObject.uid = userData.uid;
 };
 
+teamApi.getUserById = async function(userId) {
+  console.log("teamApi.getUserById", userId);
+  const user = query(collection(db, "users"), where("uid", "==", userId));
+  const userSnapshot = await getDocs(user);
+  console.log("userSnapshot", userSnapshot);
+  const userData = userSnapshot.docs[0].data();
+  return {
+    nickname: userData.nickname,
+    fullname: userData.fullname,
+    email: userData.email,
+    uid: userData.uid,
+  };
+}
+
 teamApi.collectUserByIdAndAddToList = async function (userId, members) {
   const user = query(collection(db, "users"), where("uid", "==", userId));
   const userSnapshot = await getDocs(user);
@@ -64,6 +78,24 @@ teamApi.collectTeamByID = async function (teamId, teamDetails) {
     teamDetails.membersId = teamDoc.data().members;
   } else {
     console.log("document does not exist");
+  }
+};
+
+teamApi.getTeamByID = async function (teamId) {
+  console.log("teamId: ", teamId);
+  const teamRef = doc(db, "teams", teamId);
+  const teamDoc = await getDoc(teamRef);
+  if (teamDoc.exists()) {
+    console.log("data: ", teamDoc.data());
+    return {
+      id: teamDoc.id,
+      name: teamDoc.data().name,
+      captainId: teamDoc.data().captain,
+      membersId: teamDoc.data().members,
+    }
+  } else {
+    console.log("document does not exist");
+    return {}
   }
 };
 

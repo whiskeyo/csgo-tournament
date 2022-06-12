@@ -34,6 +34,7 @@ describe("objectGenerators tests", () => {
       second_team: matchData.secondTeam,
       match_type: matchData.matchType,
       maps: [],
+      maps_banned: [],
       scores: [],
       winner: "",
     });
@@ -46,7 +47,7 @@ describe("objectGenerators tests", () => {
 
   test("Creating single elimination matches should create proper number of matches", () => {
     expect(singleEliminationMatches).not.toBeNull();
-    expect(singleEliminationMatches.length).toEqual(4);
+    expect(singleEliminationMatches.length).toEqual(7);
   });
 
   test("Creating single elimination matches should set proper matchType", () => {
@@ -54,9 +55,13 @@ describe("objectGenerators tests", () => {
     expect(singleEliminationMatches[1].match_type).toBe(tournamentData.matchType);
     expect(singleEliminationMatches[2].match_type).toBe(tournamentData.matchType);
     expect(singleEliminationMatches[3].match_type).toBe(tournamentData.matchType);
+    expect(singleEliminationMatches[4].match_type).toBe(tournamentData.matchType);
+    expect(singleEliminationMatches[5].match_type).toBe(tournamentData.matchType);
+    expect(singleEliminationMatches[6].match_type).toBe(tournamentData.matchType);
   });
 
   test("Creating single elimination matches should match teams properly", () => {
+    /* First round */
     expect(singleEliminationMatches[0].first_team).toBe(tournamentData.teams[0]);
     expect(singleEliminationMatches[1].first_team).toBe(tournamentData.teams[1]);
     expect(singleEliminationMatches[2].first_team).toBe(tournamentData.teams[2]);
@@ -65,6 +70,14 @@ describe("objectGenerators tests", () => {
     expect(singleEliminationMatches[1].second_team).toBe(tournamentData.teams[6]);
     expect(singleEliminationMatches[2].second_team).toBe(tournamentData.teams[5]);
     expect(singleEliminationMatches[3].second_team).toBe(tournamentData.teams[4]);
+    /* Second round (creating empty matches) */
+    expect(singleEliminationMatches[4].first_team).toBe("");
+    expect(singleEliminationMatches[4].second_team).toBe("");
+    expect(singleEliminationMatches[5].first_team).toBe("");
+    expect(singleEliminationMatches[5].second_team).toBe("");
+    /* Final (creating empty match) */
+    expect(singleEliminationMatches[6].first_team).toBe("");
+    expect(singleEliminationMatches[6].second_team).toBe("");
   });
 
   const tournamentObject = objectGenerators.createTournamentObjectWithoutMatches(
