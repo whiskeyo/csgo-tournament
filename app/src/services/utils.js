@@ -1,3 +1,5 @@
+import types from "./types";
+
 const utils = {};
 
 utils.getRandomInt = function (min, max) {
@@ -35,11 +37,74 @@ utils.getUniqueItemsByFieldArrayFromProxyArray = function (proxyArray, field) {
 };
 
 utils.isItemInArray = function (item, array) {
-  for (const value of array)
-    if (value == item)
-      return true;
+  for (const value of array) if (value == item) return true;
 
   return false;
+};
+
+utils.setMapState = function (map, matchDetails) {
+  switch (matchDetails.matchType) {
+    case types.MatchType.BO1: {
+      if (matchDetails.actionsTakenOnMaps < 6) {
+        matchDetails.phaseInfo = "Banning maps";
+        utils.removeItemFromArray(map, matchDetails.allMaps);
+        matchDetails.mapsBanned.push(map.name);
+      } else if (matchDetails.actionsTakenOnMaps == 6) {
+        matchDetails.phaseInfo = "Picking maps";
+        utils.removeItemFromArray(map, matchDetails.allMaps);
+        matchDetails.maps.push(map.name);
+      } else {
+        matchDetails.phaseInfo = "";
+      }
+      break;
+    }
+    case types.MatchType.BO3: {
+      switch (matchDetails.actionsTakenOnMaps) {
+        case 0: /* falls through */
+        case 1: /* falls through */
+        case 4: /* falls through */
+        case 5:
+          matchDetails.phaseInfo = "Banning maps";
+          utils.removeItemFromArray(map, matchDetails.allMaps);
+          matchDetails.mapsBanned.push(map.name);
+          break;
+        case 2: /* falls through */
+        case 3: /* falls through */
+        case 6:
+          matchDetails.phaseInfo = "Picking maps";
+          utils.removeItemFromArray(map, matchDetails.allMaps);
+          matchDetails.maps.push(map.name);
+          break;
+        default:
+          matchDetails.phaseInfo = "";
+          break;
+      }
+      break;
+    }
+    case types.MatchType.BO5: {
+      switch (matchDetails.actionsTakenOnMaps) {
+        case 0: /* falls through */
+        case 1:
+          matchDetails.phaseInfo = "Banning maps";
+          utils.removeItemFromArray(map, matchDetails.allMaps);
+          matchDetails.mapsBanned.push(map.name);
+          break;
+        case 2: /* falls through */
+        case 3: /* falls through */
+        case 4: /* falls through */
+        case 5: /* falls through */
+        case 6:
+          matchDetails.phaseInfo = "Picking maps";
+          utils.removeItemFromArray(map, matchDetails.allMaps);
+          matchDetails.maps.push(map.name);
+          break;
+        default:
+          matchDetails.phaseInfo = "";
+          break;
+      }
+      break;
+    }
+  }
 };
 
 export default utils;

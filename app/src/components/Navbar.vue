@@ -145,7 +145,7 @@
           <!-- <img v-bind:src="this.$store.state.$user?.photoURL" height="30" width="30"> -->
           {{ this.$store.state.$user?.nickname }}
           {{ "(" + this.$store.state.$user?.email + ")" }}
-          <button @click="signOut" class="btn btn-light margin-left-5px">Sign Out</button>
+          <button type="button" @click="signOut" class="btn btn-light margin-left-5px">Sign Out</button>
         </form>
         <ul class="navbar-nav margin-left-5px" v-if="!isSignedIn">
           <li class="nav-item dropdown">
@@ -228,8 +228,8 @@ export default {
     signInWithGoogle: function () {
       accountApi.signInWithGoogle(this.$store);
     },
-    signOut: function () {
-      accountApi.signOut(this.$store);
+    signOut: async function () {
+      await accountApi.signOut(this.$store);
     },
     clearSignUpForm: function () {
       this.signUp.email = "";
