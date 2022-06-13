@@ -168,12 +168,48 @@ export default {
 
       switch (this.matchDetails.matchType) {
         case types.MatchType.BO1: {
-          if (this.actionsTakenOnMaps < 2) {
+          if (this.actionsTakenOnMaps < 6) {
             utils.removeItemFromArray(map, this.allMaps);
             this.matchDetails.mapsBanned.push(map.name);
           } else {
             utils.removeItemFromArray(map, this.allMaps);
             this.matchDetails.maps.push(map.name);
+          }
+          break;
+        }
+        case types.MatchType.BO3: {
+          switch (this.actionsTakenOnMaps) {
+            case 0: /* falls through */
+            case 1: /* falls through */
+            case 4: /* falls through */
+            case 5:
+              utils.removeItemFromArray(map, this.allMaps);
+              this.matchDetails.mapsBanned.push(map.name);
+              break;
+            case 2: /* falls through */
+            case 3: /* falls through */
+            case 6:
+              utils.removeItemFromArray(map, this.allMaps);
+              this.matchDetails.maps.push(map.name);
+              break;
+          }
+          break;
+        }
+        case types.MatchType.BO5: {
+          switch (this.actionsTakenOnMaps) {
+            case 0: /* falls through */
+            case 1:
+              utils.removeItemFromArray(map, this.allMaps);
+              this.matchDetails.mapsBanned.push(map.name);
+              break;
+            case 2: /* falls through */
+            case 3: /* falls through */
+            case 4: /* falls through */
+            case 5: /* falls through */
+            case 6:
+              utils.removeItemFromArray(map, this.allMaps);
+              this.matchDetails.maps.push(map.name);
+              break;
           }
           break;
         }
@@ -239,61 +275,6 @@ export default {
         this.allMaps = allMapsArray;
       });
     });
-
-    /* this whole block works well but does not support real time changes */
-    // matchApi
-    //   .getMatchByID(this.$route.params.id)
-    //   .then((match) => {
-    //     this.matchDetails.id = this.$route.params.id;
-    //     this.matchDetails.firstTeamId = match.firstTeam;
-    //     this.matchDetails.secondTeamId = match.secondTeam;
-    //     this.matchDetails.winnerId = match.winner;
-    //     this.matchDetails.matchType = match.matchType;
-    //     this.matchDetails.maps = match.maps;
-    //     this.matchDetails.mapsBanned = match.mapsBanned;
-    //     this.matchDetails.scores = match.scores;
-    //   })
-    //   .then(async () => {
-    //     teamApi.getTeamByID(this.matchDetails.firstTeamId).then((firstTeam) => {
-    //       this.matchDetails.firstTeam = firstTeam;
-    //       let firstTeamPromises = [];
-    //       for (let i = 0; i < this.matchDetails.firstTeam.membersId.length; ++i) {
-    //         firstTeamPromises.push(teamApi.getUserById(this.matchDetails.firstTeam.membersId[i]));
-    //       }
-    //       Promise.all(firstTeamPromises).then((members) => {
-    //         this.matchDetails.firstTeam.members = members;
-    //       });
-
-    //       teamApi.getUserById(this.matchDetails.firstTeam.captainId).then((captain) => {
-    //         this.matchDetails.firstTeam.captain = captain;
-    //       });
-    //     });
-
-    //     teamApi.getTeamByID(this.matchDetails.secondTeamId).then((secondTeam) => {
-    //       this.matchDetails.secondTeam = secondTeam;
-    //       let secondTeamPromises = [];
-    //       for (let i = 0; i < this.matchDetails.secondTeam.membersId.length; ++i) {
-    //         secondTeamPromises.push(teamApi.getUserById(this.matchDetails.secondTeam.membersId[i]));
-    //       }
-    //       Promise.all(secondTeamPromises).then((members) => {
-    //         this.matchDetails.secondTeam.members = members;
-    //       });
-
-    //       teamApi.getUserById(this.matchDetails.secondTeam.captainId).then((captain) => {
-    //         this.matchDetails.secondTeam.captain = captain;
-    //       });
-    //     });
-    //   })
-    //   .then(async () => {
-    //     await mapsApi.collectMaps(this.allMaps);
-    //     let allMapsArray = utils.getUniqueItemsByFieldArrayFromProxyArray(this.allMaps, "id");
-    //     const selectedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.maps);
-    //     const bannedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.mapsBanned);
-
-    //     allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, selectedMapsArray));
-    //     allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, bannedMapsArray));
-    //     this.allMaps = allMapsArray;
-    //   });
   },
 };
 </script>

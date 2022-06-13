@@ -4,6 +4,15 @@ import types from "./types";
 
 const objectGenerators = {};
 
+objectGenerators.createMapObject = function (mapName) {
+  return {
+    name: mapName,
+    rounds_won_by_ct: 0,
+    rounds_won_by_t: 0,
+    matches_played: 0,
+  };
+}
+
 /**
  * @method
  * @param {string} firstTeam          ID of the first team
