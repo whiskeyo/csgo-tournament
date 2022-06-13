@@ -224,7 +224,59 @@ export default {
   },
 
   beforeCreate: async function () {
-    onSnapshot(doc(db, "matches", this.$route.params.id), (doc) => {
+    matchApi
+      .getMatchByID(this.$route.params.id)
+      .then((match) => {
+        this.matchDetails.id = this.$route.params.id;
+        this.matchDetails.firstTeamId = match.firstTeam;
+        this.matchDetails.secondTeamId = match.secondTeam;
+        this.matchDetails.winnerId = match.winner;
+        this.matchDetails.matchType = match.matchType;
+        this.matchDetails.maps = match.maps;
+        this.matchDetails.mapsBanned = match.mapsBanned;
+        this.matchDetails.scores = match.scores;
+      })
+      .then(async () => {
+        teamApi.getTeamByID(this.matchDetails.firstTeamId).then((firstTeam) => {
+          this.matchDetails.firstTeam = firstTeam;
+          let firstTeamPromises = [];
+          for (let i = 0; i < this.matchDetails.firstTeam.membersId.length; ++i) {
+            firstTeamPromises.push(teamApi.getUserById(this.matchDetails.firstTeam.membersId[i]));
+          }
+          Promise.all(firstTeamPromises).then((members) => {
+            this.matchDetails.firstTeam.members = members;
+          });
+          teamApi.getUserById(this.matchDetails.firstTeam.captainId).then((captain) => {
+            this.matchDetails.firstTeam.captain = captain;
+          });
+        });
+        teamApi.getTeamByID(this.matchDetails.secondTeamId).then((secondTeam) => {
+          this.matchDetails.secondTeam = secondTeam;
+          let secondTeamPromises = [];
+          for (let i = 0; i < this.matchDetails.secondTeam.membersId.length; ++i) {
+            secondTeamPromises.push(teamApi.getUserById(this.matchDetails.secondTeam.membersId[i]));
+          }
+          Promise.all(secondTeamPromises).then((members) => {
+            this.matchDetails.secondTeam.members = members;
+          });
+          teamApi.getUserById(this.matchDetails.secondTeam.captainId).then((captain) => {
+            this.matchDetails.secondTeam.captain = captain;
+          });
+        });
+      })
+      .then(async () => {
+        await mapsApi.collectMaps(this.allMaps);
+        let allMapsArray = utils.getUniqueItemsByFieldArrayFromProxyArray(this.allMaps, "id");
+        const selectedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.maps);
+        const bannedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.mapsBanned);
+        allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, selectedMapsArray));
+        allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, bannedMapsArray));
+        this.allMaps = allMapsArray;
+      });
+  },
+
+  created: async function () {
+    onSnapshot(doc(db, "matches", this.$route.params.id), async (doc) => {
       console.log("Current data: ", doc.data());
       this.matchDetails.id = this.$route.params.id;
       this.matchDetails.firstTeamId = doc.data().first_team;
@@ -235,37 +287,7 @@ export default {
       this.matchDetails.mapsBanned = doc.data().maps_banned;
       this.matchDetails.scores = doc.data().scores;
 
-      teamApi.getTeamByID(this.matchDetails.firstTeamId).then((firstTeam) => {
-        this.matchDetails.firstTeam = firstTeam;
-        let firstTeamPromises = [];
-        for (let i = 0; i < this.matchDetails.firstTeam.membersId.length; ++i) {
-          firstTeamPromises.push(teamApi.getUserById(this.matchDetails.firstTeam.membersId[i]));
-        }
-        Promise.all(firstTeamPromises).then((members) => {
-          this.matchDetails.firstTeam.members = members;
-        });
-
-        teamApi.getUserById(this.matchDetails.firstTeam.captainId).then((captain) => {
-          this.matchDetails.firstTeam.captain = captain;
-        });
-      });
-
-      teamApi.getTeamByID(this.matchDetails.secondTeamId).then((secondTeam) => {
-        this.matchDetails.secondTeam = secondTeam;
-        let secondTeamPromises = [];
-        for (let i = 0; i < this.matchDetails.secondTeam.membersId.length; ++i) {
-          secondTeamPromises.push(teamApi.getUserById(this.matchDetails.secondTeam.membersId[i]));
-        }
-        Promise.all(secondTeamPromises).then((members) => {
-          this.matchDetails.secondTeam.members = members;
-        });
-
-        teamApi.getUserById(this.matchDetails.secondTeam.captainId).then((captain) => {
-          this.matchDetails.secondTeam.captain = captain;
-        });
-      });
-
-      mapsApi.collectMaps(this.allMaps).then(() => {
+      await mapsApi.collectMaps(this.allMaps).then(() => {
         let allMapsArray = utils.getUniqueItemsByFieldArrayFromProxyArray(this.allMaps, "id");
         const selectedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.maps);
         const bannedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.mapsBanned);
