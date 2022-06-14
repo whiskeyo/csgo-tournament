@@ -46,7 +46,7 @@ export default {
       return entry ? entry : "No winner yet :)";
     },
     shouldTournamentAppearOnList: function (tournament) {
-      return !tournament.is_private || tournament.creator === this.$store.state.$user.uid;
+      return !tournament.is_private || tournament.creator === this.$store.state.$user?.uid;
     }
   },
 

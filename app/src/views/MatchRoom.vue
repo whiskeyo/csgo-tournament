@@ -217,6 +217,10 @@ export default {
       if (utils.canSecondCaptainTakeActionOnMap(this.matchDetails, this.$store)) return;
 
       utils.setMapState(map, this.matchDetails);
+      this.matchDetails.phaseInfo = utils.setBanningAndPickingPhase(
+        this.matchDetails.actionsTakenOnMaps,
+        this.matchDetails.matchType
+      );
 
       matchApi.updateMatch(this.$route.params.id, {
         maps: this.matchDetails.maps,

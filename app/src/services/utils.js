@@ -7,6 +7,10 @@ utils.getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+utils.isPowerOfTwo = function (value) {
+  return (Math.log(value) / Math.log(2)) % 1 === 0;
+};
+
 utils.getObjectFromProxy = function (proxy) {
   return JSON.parse(JSON.stringify(proxy));
 };
@@ -53,18 +57,15 @@ utils.setMapState = function (map, matchDetails) {
         case 3: /* falls through */
         case 4: /* falls through */
         case 5:
-          matchDetails.phaseInfo = "Banning maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.mapsBanned.push(map.name);
           break;
         case 6:
-          matchDetails.phaseInfo = "Picking maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.maps.push(map.name);
           matchDetails.scores.push(objectGenerators.createScoreObject());
           break;
         default:
-          matchDetails.phaseInfo = "";
           break;
       }
       break;
@@ -75,20 +76,17 @@ utils.setMapState = function (map, matchDetails) {
         case 1: /* falls through */
         case 4: /* falls through */
         case 5:
-          matchDetails.phaseInfo = "Banning maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.mapsBanned.push(map.name);
           break;
         case 2: /* falls through */
         case 3: /* falls through */
         case 6:
-          matchDetails.phaseInfo = "Picking maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.maps.push(map.name);
           matchDetails.scores.push(objectGenerators.createScoreObject());
           break;
         default:
-          matchDetails.phaseInfo = "";
           break;
       }
       break;
@@ -97,7 +95,6 @@ utils.setMapState = function (map, matchDetails) {
       switch (matchDetails.actionsTakenOnMaps) {
         case 0: /* falls through */
         case 1:
-          matchDetails.phaseInfo = "Banning maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.mapsBanned.push(map.name);
           break;
@@ -106,13 +103,11 @@ utils.setMapState = function (map, matchDetails) {
         case 4: /* falls through */
         case 5: /* falls through */
         case 6:
-          matchDetails.phaseInfo = "Picking maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.maps.push(map.name);
           matchDetails.scores.push(objectGenerators.createScoreObject());
           break;
         default:
-          matchDetails.phaseInfo = "";
           break;
       }
       break;
@@ -120,8 +115,58 @@ utils.setMapState = function (map, matchDetails) {
   }
 };
 
+utils.setBanningAndPickingPhase = function (actionsTakenOnMaps, matchType) {
+  switch (matchType) {
+    case types.MatchType.BO1: {
+      /* ban - ban - ban - ban - ban - ban - pick */
+      switch (actionsTakenOnMaps) {
+        case 0: /* falls through */
+        case 1: /* falls through */
+        case 2: /* falls through */
+        case 3: /* falls through */
+        case 4:
+          return "Banning maps";
+        case 5:
+          return "Picking maps";
+        default:
+          return "";
+      }
+    }
+    case types.MatchType.BO3: {
+      /* ban - ban - pick - pick - ban - ban - pick */
+      switch (actionsTakenOnMaps) {
+        case 0: /* falls through */
+        case 3: /* falls through */
+        case 4:
+          return "Banning maps";
+        case 1: /* falls through */
+        case 2: /* falls through */
+        case 5:
+          return "Picking maps";
+        default:
+          return "";
+      }
+    }
+    case types.MatchType.BO5: {
+      /* ban - ban - pick - pick - pick - pick - pick */
+      switch (actionsTakenOnMaps) {
+        case 0:
+          return "Banning maps";
+        case 1: /* falls through */
+        case 2: /* falls through */
+        case 3: /* falls through */
+        case 4: /* falls through */
+        case 5:
+          return "Picking maps";
+        default:
+          return "";
+      }
+    }
+  }
+};
+
 utils.canFirstCaptainTakeActionOnMap = function (matchDetails, store) {
-  return matchDetails.actionsTakenOnMaps % 2 == 0 && store.state.$user.uid != matchDetails.firstTeam.captainId;
+  return matchDetails.actionsTakenOnMaps % 2 == 0 && store.state.$user.uid !== matchDetails.firstTeam.captainId;
 };
 
 utils.canSecondCaptainTakeActionOnMap = function (matchDetails, store) {
