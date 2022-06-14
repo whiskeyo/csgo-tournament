@@ -53,7 +53,6 @@ export default {
   created: async function () {
     await tournamentApi.collectAllTournaments(this.allTournaments);
     this.filteredTournaments = this.allTournaments.filter((x) => {
-      console.log(x);
       return this.shouldTournamentAppearOnList(x)
     });
   }

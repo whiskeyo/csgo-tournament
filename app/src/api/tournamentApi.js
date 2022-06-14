@@ -1,33 +1,59 @@
 /** @namespace tournamentApi */
 
 import { db } from "../configs/db";
-import { doc, addDoc, getDoc, getDocs, /*updateDoc,*/ collection, where, query/*, deleteDoc*/ } from "firebase/firestore";
-// import types from "../services/types";
+import { doc, addDoc, getDoc, getDocs, updateDoc, collection, where, query } from "firebase/firestore";
 import objectGenerators from "../services/objectGenerators";
 import matchApi from "../api/matchApi";
+import utils from "../services/utils";
 
 const tournamentApi = {};
 
-tournamentApi.createTournament = async function (tournamentData, event) {
+tournamentApi.createTournament = async function (tournamentData, router, event) {
   event.preventDefault();
   try {
-    // let teams = ["2jyK60jI8VtymzCV70EK", "604FAoVwP1wOyQB4fubq", "Thb2wY0EzzBZLM7J6yjS", "wjO2Sl18wkHzSS89T6zv"];
-    // let matchType = types.MatchType.BO1;
-    console.log("creatorId: ", tournamentData.creator);
     let matches = objectGenerators.createSingleEliminationMatches(tournamentData.teams, tournamentData.matchType);
-    console.log("matches: ", matches);
     let createMatchPromises = [];
     matches.forEach((match) => {
-      createMatchPromises.push(matchApi.createMatch(match.first_team, match.second_team, match.match_type));
+      createMatchPromises.push(
+        matchApi.createMatch(match.first_team, match.second_team, match.match_type, match.next_match_index)
+      );
     });
     const matchesIds = [];
+    console.log("going to Promise.all(createMatchPromises)");
     Promise.all(createMatchPromises)
-      .then((returnedMatchesIds) => {
+      .then(async (returnedMatchesIds) => {
         returnedMatchesIds.forEach((matchId) => {
+          console.log("creating matchesIds array");
           matchesIds.push(matchId);
         });
-        console.log("matchesIds: ", matchesIds);
-        // objectGenerators.setMatchesIdsToTournamentObject(newTournament, matchesIds);
+        console.log("[DISABLED] going to updating matches with next match id");
+        // for (let idx = 0; idx < matchesIds.length; ++idx) {
+        // console.log("checking match with idx = " + idx);
+        //   if (matches[idx].next_match_index != -1) {
+        //     console.log("updating match with idx = " + idx);
+        //     let nextMatchId = matchesIds[matches[idx].next_match_index];
+        //     await matchApi.updateMatch(matchesIds[idx], {next_match_id: nextMatchId});
+        //   }
+        // }
+      })
+      .then(() => {
+        console.log("matchesIds.length = ", matchesIds.length);
+        let updateMatchWithNextMatchIdPromises = [];
+        const numberOfTeams = tournamentData.teams.length;
+        for (let idx = 0; idx < matchesIds.length; ++idx) {
+          const nextMatchIdx = utils.calculateNextMatchIndex(idx, numberOfTeams);
+          if (nextMatchIdx != -1)
+            /* final -> no next match */
+            updateMatchWithNextMatchIdPromises.push(
+              matchApi.updateMatch(matchesIds[idx], {
+                current_match_index: idx,
+                next_match_index: nextMatchIdx,
+                next_match_id: matchesIds[nextMatchIdx],
+                last_match_index: matchesIds.length - 1,
+              })
+            );
+        }
+        Promise.all(updateMatchWithNextMatchIdPromises);
       })
       .then(() => {
         const newTournament = objectGenerators.createTournamentObjectWithMatches(
@@ -39,9 +65,9 @@ tournamentApi.createTournament = async function (tournamentData, event) {
           tournamentData.matchType,
           tournamentData.isPrivate
         );
-        console.log("newTournament: ", newTournament);
         addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
           console.log("Tournament added with ID ", docRef.id);
+          router.push("/tournament/" + docRef.id);
           return docRef.id;
         });
       });
@@ -119,6 +145,16 @@ tournamentApi.collectAllTournaments = async function (allTournaments) {
       winner: data.winner,
     });
   });
+};
+
+tournamentApi.updateTournament = async function (tournamentId, fieldsToChange) {
+  try {
+    const tournamentRef = doc(db, "tournaments", tournamentId);
+    await updateDoc(tournamentRef, fieldsToChange);
+    console.log("Tournament with ID ", tournamentId, " changed");
+  } catch (err) {
+    console.log("Error while changing a tournament: ", err);
+  }
 };
 
 export default tournamentApi;

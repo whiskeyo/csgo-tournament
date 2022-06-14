@@ -37,6 +37,10 @@
             </div>
           </li>
         </ul>
+        <div v-if="tournamentDetails.matches[tournamentDetails.matches.length - 1]?.winner != ''">
+          <h2>Winner of the tournament</h2>
+          <h3>{{ this.tournamentDetails?.matches[tournamentDetails.matches.length - 1]?.winner }}</h3>
+        </div>
       </div>
     </div>
   </div>
@@ -75,6 +79,15 @@ export default {
     };
   },
 
+  watch: {
+    tournamentDetails: {
+      depp: true,
+      handler: function () {
+        this.tournamentDetails.winner = this.tournamentDetails.matches[this.tournamentDetails.matches.length - 1].winner;
+      }
+    }
+  },
+
   methods: {
     getTeamName: function (teamId) {
       return utils.getTeamNameById(teamId, this.tournamentDetails.teams);
@@ -82,7 +95,7 @@ export default {
   },
 
   created: async function () {
-    tournamentApi.collectTournamentByID(this.$route.params.id, this.tournamentDetails).then(() => {
+    await tournamentApi.collectTournamentByID(this.$route.params.id, this.tournamentDetails).then(() => {
       teamApi.getUserById(this.tournamentDetails.creatorId).then((creator) => {
         this.tournamentDetails.creator = creator;
       });
@@ -101,6 +114,10 @@ export default {
       }
       Promise.all(matchPromises).then((matches) => {
         this.tournamentDetails.matches = matches;
+        console.log(matches);
+        if (this.tournamentDetails.winner == "" && matches[matches.length - 1].winner !== "")
+          this.tournamentDetails.winner = matches[matches.length - 1].winner;
+          tournamentApi.updateTournament(this.tournamentDetails.id, {winner: this.tournamentDetails.winner})
       });
     });
   },

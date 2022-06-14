@@ -6,28 +6,9 @@ import objectGenerators from "../services/objectGenerators";
 
 const matchApi = {};
 
-/**
- * @param {string} firstTeam     ID of the first team
- * @param {string} secondTeam    ID of the second team
- * @param {types.MatchType} matchType  Type of the match (BO1, BO3, BO5)
- * @param {Array}  maps          Maps selected by both teams
- * @returns {Object}             Match Object
- */
-matchApi.createMatchObject = function (firstTeam, secondTeam, matchType, maps) {
-  return {
-    first_team: firstTeam,
-    second_team: secondTeam,
-    match_type: matchType,
-    maps: maps,
-    scores: [],
-    winner: "",
-  };
-};
-
-matchApi.createMatch = async function (firstTeam, secondTeam, matchType) {
-  // event.preventDefault();
+matchApi.createMatch = async function (firstTeam, secondTeam, matchType, nextMatchIdx) {
   try {
-    const newMatch = objectGenerators.createMatchObject(firstTeam, secondTeam, matchType);
+    const newMatch = objectGenerators.createMatchObject(firstTeam, secondTeam, matchType, nextMatchIdx);
     const docRef = await addDoc(collection(db, "matches"), newMatch);
     console.log("Match added with ID ", docRef.id);
     return docRef.id;
@@ -61,7 +42,12 @@ matchApi.getMatchByID = async function (matchId) {
       maps: matchDoc.data().maps,
       mapsBanned: matchDoc.data().maps_banned,
       scores: matchDoc.data().scores,
+      firstTeamMapWins: matchDoc.data().first_team_map_wins,
+      secondTeamMapWins: matchDoc.data().second_team_map_wins,
       winner: matchDoc.data().winner,
+      currentMatchIndex: matchDoc.data().current_match_index,
+      lastMatchIndex: matchDoc.data().last_match_index,
+      nextMatchId: matchDoc.data().next_match_id,
     }
   } else {
     console.log("document does not exist");

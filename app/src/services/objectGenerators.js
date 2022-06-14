@@ -11,7 +11,17 @@ objectGenerators.createMapObject = function (mapName) {
     rounds_won_by_t: 0,
     matches_played: 0,
   };
-}
+};
+
+objectGenerators.createScoreObject = function () {
+  return {
+    first_team_score: null,
+    second_team_score: null,
+    rounds_won_by_ct: null,
+    rounds_won_by_t: null,
+    winner: "",
+  };
+};
 
 /**
  * @method
@@ -25,10 +35,11 @@ objectGenerators.createMatchObject = function (firstTeam, secondTeam, matchType)
     first_team: firstTeam,
     second_team: secondTeam,
     match_type: matchType,
-    // maps: [].fill("", 0, matchType),
     maps: [],
     maps_banned: [],
     scores: [],
+    first_team_map_wins: 0,
+    second_team_map_wins: 0,
     winner: "",
   };
 };
@@ -42,11 +53,17 @@ objectGenerators.createMatchObject = function (firstTeam, secondTeam, matchType)
  */
 objectGenerators.createSingleEliminationMatches = function (teams, matchType) {
   const matches = [];
+  /* fill first round */
   for (let idx = 0; idx < teams.length / 2; ++idx) {
     matches.push(this.createMatchObject(teams[idx], teams[teams.length - 1 - idx], matchType));
   }
+
+  /* fill other rounds */
   matches.length = teams.length - 1;
   matches.fill(this.createMatchObject("", "", matchType), teams.length / 2, teams.length - 1);
+  // for (let idx = teams.length / 2; idx < matches.length; ++idx) {
+  //   matches.push(this.createMatchObject(teams[idx], teams[teams.length - 1 - idx], matchType));
+  // }
 
   return matches;
 };
@@ -91,7 +108,7 @@ objectGenerators.createTournamentObjectWithoutMatches = function (
  * @param {boolean} isPrivate                   Visibility of the tournament
  * @returns {Object}                            Tournament object with matches
  */
- objectGenerators.createTournamentObjectWithMatches = function (
+objectGenerators.createTournamentObjectWithMatches = function (
   name,
   creatorId,
   teams,

@@ -84,10 +84,7 @@ export default {
 
   methods: {
     createTournament: async function (event) {
-      await tournamentApi.createTournament(this.createTournamentForm, event).then((tournamentId) => {
-        this.$router.push("/tournament/" + tournamentId);
-        // tournamentId;
-      });
+      await tournamentApi.createTournament(this.createTournamentForm, this.$router, event);
     }
   },
 

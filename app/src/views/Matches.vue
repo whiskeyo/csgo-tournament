@@ -1,13 +1,13 @@
 <template>
   <div>
     <h1>Matches</h1>
-    <table class="table table-dark table-striped text-center align-middle">
+    <table style="table-layout: fixed;" class="table table-dark table-striped text-center align-middle">
       <thead class="align-middle">
         <tr>
-          <th style="width: 15%">Team A</th>
-          <th style="width: 15%">Team B</th>
-          <th style="width: 10%">Match Type</th>
-          <th style="width: 45%">Results</th>
+          <th style="width: 20%">Team A</th>
+          <th style="width: 20%">Team B</th>
+          <th style="width: 8%">Match Type</th>
+          <th style="width: 37%">Results</th>
           <th style="width: 15%">Winner</th>
         </tr>
       </thead>
@@ -52,17 +52,6 @@ export default {
   },
 
   methods: {
-    xd: function () {
-      const fieldsToChange = {
-        scores: [
-          matchApi.createScoreObject(16, 3, 0, 0),
-          matchApi.createScoreObject(12, 16, 0, 0),
-          matchApi.createScoreObject(16, 8, 0, 0),
-        ],
-      };
-      const matchId = "YDpWjFtuC8XTIT1GiLyP";
-      matchApi.updateMatch(matchId, fieldsToChange);
-    },
     getScoreIfExists(match, index) {
       if ("scores" in match) {
         if (match.scores[index] && match.scores[index])
@@ -74,8 +63,6 @@ export default {
   },
 
   created: function () {
-    // matchApi.createMatch();
-    // this.xd();
     matchApi.collectAllMatches(this.allMatches);
   },
 };

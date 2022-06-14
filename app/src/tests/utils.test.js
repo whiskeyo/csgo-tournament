@@ -43,4 +43,46 @@ describe("utils tests", () => {
     utils.removeItemFromArray(arr[0], arr);
     expect(arr.length).toBe(3);
   })
+
+  test("calculateNextMatchIndex successfully counts indexes for 2 teams", () => {
+    const numberOfTeams = 2;
+    expect(utils.calculateNextMatchIndex(0, numberOfTeams)).toBe(-1);
+  });
+
+  test("calculateNextMatchIndex successfully counts indexes for 4 teams", () => {
+    const numberOfTeams = 4;
+    expect(utils.calculateNextMatchIndex(0, numberOfTeams)).toBe(2);
+    expect(utils.calculateNextMatchIndex(1, numberOfTeams)).toBe(2);
+    expect(utils.calculateNextMatchIndex(2, numberOfTeams)).toBe(-1);
+  });
+
+  test("calculateNextMatchIndex successfully counts indexes for 8 teams", () => {
+    const numberOfTeams = 8;
+    expect(utils.calculateNextMatchIndex(0, numberOfTeams)).toBe(4);
+    expect(utils.calculateNextMatchIndex(1, numberOfTeams)).toBe(4);
+    expect(utils.calculateNextMatchIndex(2, numberOfTeams)).toBe(5);
+    expect(utils.calculateNextMatchIndex(3, numberOfTeams)).toBe(5);
+    expect(utils.calculateNextMatchIndex(4, numberOfTeams)).toBe(6);
+    expect(utils.calculateNextMatchIndex(5, numberOfTeams)).toBe(6);
+    expect(utils.calculateNextMatchIndex(6, numberOfTeams)).toBe(-1);
+  });
+
+  test("calculateNextMatchIndex successfully counts indexes for 16 teams", () => {
+    const numberOfTeams = 16;
+    expect(utils.calculateNextMatchIndex(0, numberOfTeams)).toBe(8);
+    expect(utils.calculateNextMatchIndex(1, numberOfTeams)).toBe(8);
+    expect(utils.calculateNextMatchIndex(2, numberOfTeams)).toBe(9);
+    expect(utils.calculateNextMatchIndex(3, numberOfTeams)).toBe(9);
+    expect(utils.calculateNextMatchIndex(4, numberOfTeams)).toBe(10);
+    expect(utils.calculateNextMatchIndex(5, numberOfTeams)).toBe(10);
+    expect(utils.calculateNextMatchIndex(6, numberOfTeams)).toBe(11);
+    expect(utils.calculateNextMatchIndex(7, numberOfTeams)).toBe(11);
+    expect(utils.calculateNextMatchIndex(8, numberOfTeams)).toBe(12);
+    expect(utils.calculateNextMatchIndex(9, numberOfTeams)).toBe(12);
+    expect(utils.calculateNextMatchIndex(10, numberOfTeams)).toBe(13);
+    expect(utils.calculateNextMatchIndex(11, numberOfTeams)).toBe(13);
+    expect(utils.calculateNextMatchIndex(12, numberOfTeams)).toBe(14);
+    expect(utils.calculateNextMatchIndex(13, numberOfTeams)).toBe(14);
+    expect(utils.calculateNextMatchIndex(14, numberOfTeams)).toBe(-1);
+  });
 });

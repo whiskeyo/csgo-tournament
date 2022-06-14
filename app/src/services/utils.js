@@ -1,3 +1,4 @@
+import objectGenerators from "./objectGenerators";
 import types from "./types";
 
 const utils = {};
@@ -45,16 +46,26 @@ utils.isItemInArray = function (item, array) {
 utils.setMapState = function (map, matchDetails) {
   switch (matchDetails.matchType) {
     case types.MatchType.BO1: {
-      if (matchDetails.actionsTakenOnMaps < 6) {
-        matchDetails.phaseInfo = "Banning maps";
-        utils.removeItemFromArray(map, matchDetails.allMaps);
-        matchDetails.mapsBanned.push(map.name);
-      } else if (matchDetails.actionsTakenOnMaps == 6) {
-        matchDetails.phaseInfo = "Picking maps";
-        utils.removeItemFromArray(map, matchDetails.allMaps);
-        matchDetails.maps.push(map.name);
-      } else {
-        matchDetails.phaseInfo = "";
+      switch (matchDetails.actionsTakenOnMaps) {
+        case 0: /* falls through */
+        case 1: /* falls through */
+        case 2: /* falls through */
+        case 3: /* falls through */
+        case 4: /* falls through */
+        case 5:
+          matchDetails.phaseInfo = "Banning maps";
+          utils.removeItemFromArray(map, matchDetails.allMaps);
+          matchDetails.mapsBanned.push(map.name);
+          break;
+        case 6:
+          matchDetails.phaseInfo = "Picking maps";
+          utils.removeItemFromArray(map, matchDetails.allMaps);
+          matchDetails.maps.push(map.name);
+          matchDetails.scores.push(objectGenerators.createScoreObject());
+          break;
+        default:
+          matchDetails.phaseInfo = "";
+          break;
       }
       break;
     }
@@ -74,6 +85,7 @@ utils.setMapState = function (map, matchDetails) {
           matchDetails.phaseInfo = "Picking maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.maps.push(map.name);
+          matchDetails.scores.push(objectGenerators.createScoreObject());
           break;
         default:
           matchDetails.phaseInfo = "";
@@ -97,12 +109,68 @@ utils.setMapState = function (map, matchDetails) {
           matchDetails.phaseInfo = "Picking maps";
           utils.removeItemFromArray(map, matchDetails.allMaps);
           matchDetails.maps.push(map.name);
+          matchDetails.scores.push(objectGenerators.createScoreObject());
           break;
         default:
           matchDetails.phaseInfo = "";
           break;
       }
       break;
+    }
+  }
+};
+
+utils.canFirstCaptainTakeActionOnMap = function (matchDetails, store) {
+  return matchDetails.actionsTakenOnMaps % 2 == 0 && store.state.$user.uid != matchDetails.firstTeam.captainId;
+};
+
+utils.canSecondCaptainTakeActionOnMap = function (matchDetails, store) {
+  return matchDetails.actionsTakenOnMaps % 2 == 1 && store.state.$user.uid != matchDetails.secondTeam.captainId;
+};
+
+utils.calculateNextMatchIndex = function (index, numberOfTeams) {
+  if (index < numberOfTeams - 1 - 1)
+    /* number of matches = number of teams - 1 (and -1 for starting indexing from 0) */
+    return Math.floor(index / 2) + numberOfTeams / 2;
+
+  return -1;
+};
+
+utils.getNumberOfMapsWonByFirstTeam = function (matchDetails) {
+  let mapsWon = 0;
+  for (const score of matchDetails.scores) {
+    if (Number(score.first_team_score) > 0 && Number(score.first_team_score) > Number(score.second_team_score))
+      mapsWon++;
+  }
+
+  return mapsWon;
+};
+
+utils.getNumberOfMapsWonBySecondTeam = function (matchDetails) {
+  let mapsWon = 0;
+  for (const score of matchDetails.scores)
+    if (Number(score.second_team_score) > 0 && Number(score.second_team_score) > Number(score.first_team_score))
+      mapsWon++;
+
+  return mapsWon;
+};
+
+utils.determineWinner = function (matchDetails) {
+  switch (matchDetails.matchType) {
+    case types.MatchType.BO1: {
+      if (matchDetails.firstTeamMapWins == 1) return matchDetails.firstTeam.name;
+      else if (matchDetails.secondTeamMapWins == 1) return matchDetails.secondTeam.name;
+      else return "";
+    }
+    case types.MatchType.BO3: {
+      if (matchDetails.firstTeamMapWins == 2) return matchDetails.firstTeam.name;
+      else if (matchDetails.secondTeamMapWins == 2) return matchDetails.secondTeam.name;
+      else return "";
+    }
+    case types.MatchType.BO5: {
+      if (matchDetails.firstTeamMapWins == 3) return matchDetails.firstTeam.name;
+      else if (matchDetails.secondTeamMapWins == 3) return matchDetails.secondTeam.name;
+      else return "";
     }
   }
 };

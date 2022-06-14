@@ -6,7 +6,7 @@
         {{ this.matchDetails?.firstTeam?.name + " versus " + this.matchDetails?.secondTeam?.name }}
       </h2>
       <div class="col-4 text-center">
-        <h3>{{ this.matchDetails.firstTeam.name }}</h3>
+        <h3>{{ this.matchDetails?.firstTeam?.name }}</h3>
         <ul class="list-group text-start mb-2">
           <li class="list-group-item list-group-item-primary fw-bold">
             Captain: {{ this.matchDetails.firstTeam.captain?.nickname }}
@@ -30,7 +30,7 @@
             <li
               v-for="map in matchDetails.allMaps"
               :key="map.id"
-              class="list-group-item list-group-item-dark"
+              class="list-group-item list-group-item-dark list-group-item-action"
               @click="changeMapState(map)"
             >
               {{ map.name }}
@@ -38,9 +38,81 @@
           </ul>
         </div>
         <h3 v-if="matchDetails.maps.length">Selected Maps</h3>
-        <ul class="list-group">
+        <ul v-if="matchDetails.maps.length < matchDetails.matchType" class="list-group">
           <li v-for="map in matchDetails.maps" :key="map" class="list-group-item list-group-item-success fw-bold">
             {{ map }}
+          </li>
+        </ul>
+        <ul v-else class="list-group">
+          <li
+            v-for="(map, idx) in matchDetails.maps"
+            :key="map"
+            class="list-group-item list-group-item-success fw-bold"
+          >
+            <table style="table-layout: fixed" class="table text-center align-middle mb-0">
+              <thead class="align-middle">
+                <tr>
+                  <th style="width: 30%" class="text-start no-wrap ps-0">{{ map }}</th>
+                  <th style="width: 15%" class="text-center">
+                    <input
+                      v-model="matchDetails.scores[idx].first_team_score"
+                      class="form-control form-control-sm text-center m-0 p-0"
+                      style="width: 100%"
+                      type="text"
+                      name="firstTeamScore"
+                      :id="'firstTeamScore' + idx"
+                      placeholder="&#x2190;"
+                    />
+                  </th>
+                  <th style="width: 15%">
+                    <input
+                      v-model="matchDetails.scores[idx].second_team_score"
+                      class="form-control form-control-sm text-center m-0 p-0"
+                      style="width: 100%"
+                      type="text"
+                      name="secondTeamScore"
+                      :id="'secondTeamScore' + idx"
+                      placeholder="&#x2192;"
+                    />
+                  </th>
+                  <th style="width: 15%">
+                    <input
+                      v-model="matchDetails.scores[idx].rounds_won_by_ct"
+                      class="form-control form-control-sm text-center m-0 p-0"
+                      style="width: 100%"
+                      type="text"
+                      name="roundsWonByCt"
+                      :id="'roundsWonByCt' + idx"
+                      placeholder="CT"
+                    />
+                  </th>
+                  <th style="width: 15%">
+                    <input
+                      v-model="matchDetails.scores[idx].rounds_won_by_t"
+                      class="form-control form-control-sm text-center m-0 p-0"
+                      style="width: 100%"
+                      type="text"
+                      name="roundsWonByT"
+                      :id="'roundsWonByT' + idx"
+                      placeholder="T"
+                    />
+                  </th>
+                  <!-- <th style="width: 10%">
+                    <button @click="updateScore" type="button" class="btn btn-dark btn-sm">&#128504;</button>
+                  </th> -->
+                </tr>
+              </thead>
+            </table>
+            <!-- {{ map }}  ({{ idx }}) -->
+          </li>
+          <li class="list-group-item list-group-item-success text-center">
+            <button @click="updateScore" type="button" class="btn btn-dark">Save scores</button>
+          </li>
+          <li class="list-group-item list-group-item-success smaller text-start">
+            1st box: score of {{ this.matchDetails?.firstTeam?.name }} <br />
+            2nd box: score of {{ this.matchDetails?.secondTeam?.name }} <br />
+            3rd box: rounds won by both teams on CT side <br />
+            4th box: rounds won by both teams on T side <br />
           </li>
         </ul>
         <h3 v-if="matchDetails.mapsBanned.length">Banned Maps</h3>
@@ -49,7 +121,7 @@
             {{ map }}
           </li>
         </ul>
-        <div v-if="matchDetails.phaseInfo != ''">
+        <div v-if="matchDetails.actionsTakenOnMaps < 7">
           {{ this.matchDetails.phaseInfo }}, turn of player:
           <div v-if="matchDetails.actionsTakenOnMaps % 2 == 0">
             {{ this.matchDetails.firstTeam?.captain?.nickname }}
@@ -86,7 +158,6 @@ import teamApi from "../api/teamApi";
 import matchApi from "../api/matchApi";
 import mapsApi from "../api/mapsApi";
 import utils from "../services/utils";
-// import types from "../services/types";
 import { db } from "../configs/db";
 import { doc, onSnapshot } from "firebase/firestore";
 
@@ -104,6 +175,8 @@ export default {
         maps: [],
         mapsBanned: [],
         scores: [],
+        firstTeamMapWins: 0,
+        secondTeamMapWins: 0,
         firstTeam: {
           name: "",
           captainId: "",
@@ -122,6 +195,9 @@ export default {
         allMaps: [],
         actionsTakenOnMaps: 0,
         phaseInfo: "Banning maps",
+        currentMatchIndex: null,
+        lastMatchIndex: null,
+        nextMatchId: null,
       },
     };
   },
@@ -136,36 +212,44 @@ export default {
   },
 
   methods: {
-    // unsubscribe: function () {
-    //   onSnapshot(doc(db, "matches", this.matchDetails.id), (doc) => {
-    //     console.log("match update!!!!", doc.data());
-    //   });
-    // },
-
     changeMapState: function (map) {
-      /* add if checking parity of this.matchDetails.actionsTakenOnMaps and set a person to ban */
-      // map;
-      // types;
-      if (
-        this.matchDetails.actionsTakenOnMaps % 2 == 0 &&
-        this.$store.state.$user.uid != this.matchDetails.firstTeam.captainId
-      )
-        return;
-
-      if (
-        this.matchDetails.actionsTakenOnMaps % 2 == 1 &&
-        this.$store.state.$user.uid != this.matchDetails.secondTeam.captainId
-      )
-        return;
+      if (utils.canFirstCaptainTakeActionOnMap(this.matchDetails, this.$store)) return;
+      if (utils.canSecondCaptainTakeActionOnMap(this.matchDetails, this.$store)) return;
 
       utils.setMapState(map, this.matchDetails);
 
-      matchApi
-        .updateMatch(this.$route.params.id, {
-          maps: this.matchDetails.maps,
-          maps_banned: this.matchDetails.mapsBanned,
-        })
-        .then(() => console.log("match updated"));
+      matchApi.updateMatch(this.$route.params.id, {
+        maps: this.matchDetails.maps,
+        maps_banned: this.matchDetails.mapsBanned,
+        scores: this.matchDetails.scores,
+      });
+    },
+
+    updateScore: async function () {
+      this.matchDetails.firstTeamMapWins = utils.getNumberOfMapsWonByFirstTeam(this.matchDetails);
+      this.matchDetails.secondTeamMapWins = utils.getNumberOfMapsWonBySecondTeam(this.matchDetails);
+      this.matchDetails.winner = utils.determineWinner(this.matchDetails);
+
+      await matchApi.updateMatch(this.$route.params.id, {
+        scores: this.matchDetails.scores,
+        first_team_map_wins: this.matchDetails.firstTeamMapWins,
+        second_team_map_wins: this.matchDetails.secondTeamMapWins,
+        winner: this.matchDetails.winner,
+      });
+
+      if (this.matchDetails.winner != "" && this.matchDetails.currentMatchIndex < this.matchDetails.lastMatchIndex) {
+        const winnerId =
+          this.matchDetails.firstTeam.name == this.matchDetails.winner
+            ? this.matchDetails.firstTeamId
+            : this.matchDetails.secondTeamId;
+
+        const nextMatchSlot = this.matchDetails.currentMatchIndex % 2 == 0 ? "first_team" : "second_team";
+
+        const fieldsToChange = {};
+        fieldsToChange[nextMatchSlot] = winnerId;
+
+        await matchApi.updateMatch(this.matchDetails.nextMatchId, fieldsToChange);
+      }
     },
   },
 
@@ -173,7 +257,6 @@ export default {
     await matchApi
       .getMatchByID(this.$route.params.id)
       .then((match) => {
-        console.log("fetching match details");
         this.matchDetails.id = this.$route.params.id;
         this.matchDetails.firstTeamId = match.firstTeam;
         this.matchDetails.secondTeamId = match.secondTeam;
@@ -182,10 +265,13 @@ export default {
         this.matchDetails.maps = match.maps;
         this.matchDetails.mapsBanned = match.mapsBanned;
         this.matchDetails.scores = match.scores;
-        console.log("fetching match details finished");
+        this.matchDetails.firstTeamMapWins = match.firstTeamMapWins;
+        this.matchDetails.secondTeamMapWins = match.secondTeamMapWins;
+        this.matchDetails.currentMatchIndex = match.currentMatchIndex;
+        this.matchDetails.nextMatchId = match.secondTeamMapWins;
+        this.matchDetails.lastMatchIndex = match.lastMatchIndex;
       })
       .then(async () => {
-        console.log("fetching first team details");
         teamApi.getTeamByID(this.matchDetails.firstTeamId).then(async (firstTeam) => {
           this.matchDetails.firstTeam = firstTeam;
           let firstTeamPromises = [];
@@ -199,7 +285,6 @@ export default {
             this.matchDetails.firstTeam.captain = captain;
           });
         });
-        console.log("fetching first team details finished, starting fetching second team details");
         teamApi.getTeamByID(this.matchDetails.secondTeamId).then(async (secondTeam) => {
           this.matchDetails.secondTeam = secondTeam;
           let secondTeamPromises = [];
@@ -222,15 +307,11 @@ export default {
         allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, selectedMapsArray));
         allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, bannedMapsArray));
         this.matchDetails.allMaps = allMapsArray;
-        console.log("fetching maps finished");
       });
-    console.log("beforeCreate finished");
   },
 
   created: function () {
-    console.log("created started");
     onSnapshot(doc(db, "matches", this.$route.params.id), async (doc) => {
-      console.log("Current data: ", doc.data());
       this.matchDetails.id = this.$route.params.id;
       this.matchDetails.firstTeamId = doc.data().first_team;
       this.matchDetails.secondTeamId = doc.data().second_team;
@@ -239,9 +320,12 @@ export default {
       this.matchDetails.maps = doc.data().maps;
       this.matchDetails.mapsBanned = doc.data().maps_banned;
       this.matchDetails.scores = doc.data().scores;
+      this.matchDetails.firstTeamMapWins = doc.data().first_team_map_wins;
+      this.matchDetails.secondTeamMapWins = doc.data().second_team_map_wins;
+      this.matchDetails.currentMatchIndex = doc.data().current_match_index;
+      this.matchDetails.nextMatchId = doc.data().next_match_id;
 
       await mapsApi.collectMaps(this.matchDetails.allMaps).then(() => {
-        console.log("filtering maps started");
         let allMapsArray = utils.getUniqueItemsByFieldArrayFromProxyArray(this.matchDetails.allMaps, "id");
         const selectedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.maps);
         const bannedMapsArray = utils.getUniqueItemsArrayFromProxyArray(this.matchDetails.mapsBanned);
@@ -249,10 +333,19 @@ export default {
         allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, selectedMapsArray));
         allMapsArray = allMapsArray.filter((map) => !utils.isItemInArray(map.name, bannedMapsArray));
         this.matchDetails.allMaps = allMapsArray;
-        console.log("filtering maps finished");
       });
-      console.log("created finished");
     });
   },
 };
 </script>
+
+<style scoped>
+.no-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.smaller {
+  font-size: 12px;
+}
+</style>
