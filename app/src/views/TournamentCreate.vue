@@ -12,13 +12,17 @@
           <div class="form-group mb-3">
             <label>Type of the tournament</label>
             <select v-model="createTournamentForm.type" class="form-select">
-              <option disabled>Select the type of the tournament</option>
+              <option selected="selected" disabled>Select the type of the tournament</option>
               <option v-for="type in tournamentTypes" v-bind:key="type" :value="type">
                 {{ type }}
               </option>
             </select>
-            <div v-if="!isAllVsAllTournament && !this.isPowerOfTwo()" class="form-text text-muted">
-              Number of teams for Single Elimination and Combined tournaments should be the power of 2 (2, 4, 8, etc.)
+            <div v-if="isSingleEliminationTournament" class="form-text text-muted">
+              Number of teams for Single Elimination Tournament should be the bigger than 4 and the power of 2 (4, 8,
+              etc.)
+            </div>
+            <div v-else-if="isCombinedTournament" class="form-text text-muted">
+              Number of teams for Combined Tournament should be the bigger than 8 and the power of 2 (8, 16, etc.)
             </div>
           </div>
           <div class="form-group mb-3">
@@ -37,7 +41,6 @@
               <option selected :value="false">No</option>
             </select>
           </div>
-          <!-- <input type="submit" value="Create!" /> -->
         </form>
       </div>
       <div class="col-6">
@@ -50,7 +53,6 @@
             class="form-select"
             aria-label="Default select example"
           >
-            <option disabled>Select multiple teams (# of teams must be the power of 2)</option>
             <option v-for="team in allTeams" v-bind:key="team.id" :value="team.id">
               {{ team.name }}
             </option>
@@ -59,13 +61,33 @@
       </div>
     </div>
     <div class="col-12 text-center align-middle mt-3">
-      <button v-if="isSingleEliminationTournament" @click="createSingleEliminationTournament" type="submit" class="btn btn-light">
+      <button
+        v-if="isSingleEliminationTournament"
+        @click="createSingleEliminationTournament"
+        :disabled="!isValidSingleEliminationTournament"
+        type="submit"
+        class="btn btn-light"
+      >
         Create Single Elimination Tournament
       </button>
-      <button v-if="isAllVsAllTournament" @click="createAllVsAllTournament" type="submit" class="btn btn-light">
+      <button
+        v-if="isAllVsAllTournament"
+        @click="createAllVsAllTournament"
+        :disabled="!isValidAllVsAllTournament"
+        type="submit"
+        class="btn btn-light"
+      >
         Create All Versus All Tournament
       </button>
-      <button v-if="isCombinedTournament" @click="createCombinedTournament" type="submit" class="btn btn-light">Create Combined Tournament</button>
+      <button
+        v-if="isCombinedTournament"
+        @click="createCombinedTournament"
+        :disabled="!isValidCombinedTournament"
+        type="submit"
+        class="btn btn-light"
+      >
+        Create Combined Tournament
+      </button>
     </div>
   </div>
 </template>
@@ -122,6 +144,15 @@ export default {
     },
     isCombinedTournament: function () {
       return this.createTournamentForm.type == types.TournamentType.COMBINED;
+    },
+    isValidSingleEliminationTournament: function () {
+      return this.createTournamentForm.teams.length >= 4 && this.isPowerOfTwo();
+    },
+    isValidAllVsAllTournament: function () {
+      return this.createTournamentForm.teams.length >= 2;
+    },
+    isValidCombinedTournament: function () {
+      return this.createTournamentForm.teams.length >= 8 && this.isPowerOfTwo();
     },
   },
 

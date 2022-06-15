@@ -16,8 +16,6 @@
 import "bootstrap";
 import Navbar from "./components/Navbar.vue";
 import Footer from "./components/Footer.vue";
-// import { app } from "./configs/firebase";
-// import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 export default {
   name: "App",

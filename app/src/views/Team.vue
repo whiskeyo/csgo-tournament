@@ -82,6 +82,8 @@ export default {
     },
     createTeam: async function (event) {
       teamApi.createTeam(this.createTeamForm, event, this.$store);
+      this.collectTeams();
+      this.collectUserTeams();
     },
   },
 

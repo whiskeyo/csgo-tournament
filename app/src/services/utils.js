@@ -51,6 +51,15 @@ utils.isItemInArray = function (item, array) {
   return false;
 };
 
+utils.shuffleArray = function (array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+};
+
 utils.setMapState = function (map, matchDetails) {
   switch (matchDetails.matchType) {
     case types.MatchType.BO1: {

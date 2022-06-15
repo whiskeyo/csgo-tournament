@@ -1,4 +1,4 @@
-# Notatki csgo-tournament (aplikacja CStrikers)
+# CStrikers (csgo-tournament)
 ## Opis tematu pracy inżynierskiej
 
 Z roku na rok rośnie liczba organizowanych profesjonalnych turniejów w wielu grach, jednak narzędzia wspomagające organizację turniejów są zwykle niedostępne dla widzów.
@@ -31,6 +31,3 @@ Moreover, the implementation will use two front-end frameworks, i.e. Vue and Cyc
 3. services (nie istnieje jeszcze) -> reuzywalne funkcje uzywane przez widoki/komponenty
 4. router/store musi zostac bo fajne (vue-router i vuex)
 
-## Trello - śledzenie zadań
-
-[Tablica zadań](https://trello.com/b/TVOeqq9D/thesis-project)

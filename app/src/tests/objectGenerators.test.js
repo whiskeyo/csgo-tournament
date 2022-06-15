@@ -1,5 +1,6 @@
 import objectGenerators from "../services/objectGenerators";
 import types from "../services/types";
+import {describe, expect, test} from '@jest/globals';
 
 const matchData = {
   firstTeam: "Team A",
@@ -37,6 +38,8 @@ describe("objectGenerators tests", () => {
       maps_banned: [],
       scores: [],
       winner: "",
+      first_team_map_wins: 0,
+      second_team_map_wins: 0,
     });
   });
 

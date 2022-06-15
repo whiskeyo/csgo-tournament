@@ -5,19 +5,21 @@ import { doc, addDoc, getDoc, getDocs, updateDoc, collection, where, query } fro
 import objectGenerators from "../services/objectGenerators";
 import matchApi from "../api/matchApi";
 import utils from "../services/utils";
-// import types from "../services/types";
+import types from "../services/types";
 
 const tournamentApi = {};
 
 tournamentApi.createSingleEliminationTournament = async function (tournamentData, router) {
   try {
     let matches = objectGenerators.createSingleEliminationMatches(tournamentData.teams, tournamentData.matchType);
+
     let createMatchPromises = [];
     matches.forEach((match) => {
       createMatchPromises.push(
         matchApi.createMatch(match.first_team, match.second_team, match.match_type, match.next_match_index)
       );
     });
+
     const matchesIds = [];
     console.log("going to Promise.all(createMatchPromises)");
     Promise.all(createMatchPromises)
@@ -52,7 +54,7 @@ tournamentApi.createSingleEliminationTournament = async function (tournamentData
           tournamentData.creator,
           tournamentData.teams,
           matchesIds,
-          tournamentData.type,
+          types.TournamentType.SINGLE_ELIMINATION,
           tournamentData.matchType,
           tournamentData.isPrivate
         );
@@ -70,12 +72,14 @@ tournamentApi.createSingleEliminationTournament = async function (tournamentData
 tournamentApi.createAllVsAllTournament = async function (tournamentData, router) {
   try {
     let matches = objectGenerators.createRoundRobinMatches(tournamentData.teams, tournamentData.matchType);
+
     let createMatchPromises = [];
     matches.forEach((match) => {
       createMatchPromises.push(
         matchApi.createMatch(match.first_team, match.second_team, match.match_type, match.next_match_index)
       );
     });
+
     const matchesIds = [];
     console.log("going to Promise.all(createMatchPromises)");
     Promise.all(createMatchPromises)
@@ -91,7 +95,7 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
           tournamentData.creator,
           tournamentData.teams,
           matchesIds,
-          tournamentData.type,
+          types.TournamentType.ALL_VS_ALL,
           tournamentData.matchType,
           tournamentData.isPrivate
         );
@@ -106,8 +110,68 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
   }
 };
 
-tournamentApi.createCombinedTournament = async function (tournamentData) {
-  tournamentData;
+tournamentApi.createCombinedTournament = async function (tournamentData, router) {
+  try {
+    const matches = objectGenerators.createCombinedMatches(tournamentData.teams, tournamentData.matchType);
+    console.log("[createCombinedTournament] matches: ", matches);
+
+    let createMatchPromises = [];
+    matches.forEach((match) => {
+      createMatchPromises.push(
+        matchApi.createMatch(match.first_team, match.second_team, match.match_type, match.next_match_index)
+      );
+    });
+
+    const matchesIds = [];
+    console.log("going to Promise.all(createMatchPromises)");
+    Promise.all(createMatchPromises)
+      .then(async (returnedMatchesIds) => {
+        returnedMatchesIds.forEach((matchId) => {
+          console.log("creating matchesIds array");
+          matchesIds.push(matchId);
+        });
+      })
+      .then(() => {
+        console.log("matchesIds.length = ", matchesIds.length);
+        let updateMatchWithNextMatchIdPromises = [];
+        const numberOfGroupMatches = 6 * (tournamentData.teams.length / 4);
+        const numberOfTeamsAfterGroupStage = tournamentData.teams.length / 2;
+        const numberOfSingleEliminationMatches = matches.length - numberOfGroupMatches;
+        for (let idx = 0; idx < numberOfSingleEliminationMatches; ++idx) {
+          const nextMatchIdx = utils.calculateNextMatchIndex(idx, numberOfTeamsAfterGroupStage);
+          if (nextMatchIdx != -1) {
+            /* final -> no next match */
+            updateMatchWithNextMatchIdPromises.push(
+              matchApi.updateMatch(matchesIds[idx + numberOfGroupMatches], {
+                current_match_index: idx + numberOfGroupMatches,
+                next_match_index: nextMatchIdx + numberOfGroupMatches,
+                next_match_id: matchesIds[nextMatchIdx + numberOfGroupMatches],
+                last_match_index: matchesIds.length - 1,
+              })
+            );
+          }
+        }
+        Promise.all(updateMatchWithNextMatchIdPromises);
+      })
+      .then(() => {
+        const newTournament = objectGenerators.createTournamentObjectWithMatches(
+          tournamentData.name,
+          tournamentData.creator,
+          tournamentData.teams,
+          matchesIds,
+          types.TournamentType.COMBINED,
+          tournamentData.matchType,
+          tournamentData.isPrivate
+        );
+        addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
+          console.log("Tournament (combined) added with ID ", docRef.id);
+          router.push("/tournament/" + docRef.id);
+          return docRef.id;
+        });
+      });
+  } catch (err) {
+    console.log("Tournament not added -- err -- ", err);
+  }
 };
 
 tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamentsPlayed) {

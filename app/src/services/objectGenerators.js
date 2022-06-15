@@ -81,9 +81,32 @@ objectGenerators.createRoundRobinMatches = function (teams, matchType) {
     matches.push(this.createMatchObject(matchesPairs[idx][0], matchesPairs[idx][1], matchType));
   }
 
-  console.log("[createRoundRobinMatches] matches: ", matches)
   return matches;
 };
+
+/**
+ * @method
+ * @param {Array} teams               Array of teams' IDs
+ * @param {types.MatchType} matchType Type of the match (BO1, BO3, BO5)
+ * @returns {Array}                   Array of Match objects to be played first in League system with
+ *                                    splitting teams into groups of 4, and then in Single Elimination
+ */
+objectGenerators.createCombinedMatches = function (teams, matchType) {
+  let shuffledTeams = teams;
+  utils.shuffleArray(shuffledTeams);
+
+  let matches = [];
+  /* create group matches, flatten results to get array of matches */
+  for (let i = 0; i < shuffledTeams.length / 4; ++i) {
+    matches.push(
+      ...objectGenerators.createRoundRobinMatches(shuffledTeams.slice(i * 4, i * 4 + 4), matchType)
+    );
+  }
+
+  let emptyTeamsId = new Array(shuffledTeams.length / 2).fill("", 0, shuffledTeams.length / 2);
+  matches.push(...objectGenerators.createSingleEliminationMatches(emptyTeamsId, matchType));
+  return matches;
+}
 
 objectGenerators.createTeamScore = function (team) {
   return {
