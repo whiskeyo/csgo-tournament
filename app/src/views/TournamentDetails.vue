@@ -11,17 +11,44 @@
         </div>
         <h2>Type of the tournament</h2>
         {{ this.tournamentDetails.type }}, matches played in Best Of {{ this.tournamentDetails.matchType }} system
-        <h2>Teams attending</h2>
-        <ul>
-          <li v-for="(team, i) in this.tournamentDetails.teams" :key="i">
-            {{ team.name }}
-          </li>
-        </ul>
+        <div v-if="!isAllVsAllTournament">
+          <h2>Teams attending</h2>
+          <ul>
+            <li v-for="(team, i) in this.tournamentDetails.teams" :key="i">
+              {{ team.name }}
+            </li>
+          </ul>
+        </div>
+        <div v-else>
+          <h2>Score Table</h2>
+          <table class="table table-dark table-striped text-center align-middle">
+            <thead>
+              <tr>
+                <th style="width: 10%">#</th>
+                <th style="width: 50%" class="text-start">Team</th>
+                <th style="width: 10%">W</th>
+                <th style="width: 10%">L</th>
+                <th style="width: 10%">RW</th>
+                <th style="width: 10%">RL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(score, idx) in this.tournamentDetails?.scoreTable" :key="idx">
+                <td class="text-center">{{ idx + 1}}</td>
+                <td class="text-start"> {{ score.name }}</td>
+                <td class="text-center"> {{ score.matchesWon }}</td>
+                <td class="text-center"> {{ score.matchesLost }}</td>
+                <td class="text-center"> {{ score.roundsWon }}</td>
+                <td class="text-center"> {{ score.roundsLost }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="col-6">
         <h2>Matches</h2>
         <ul>
-          <li v-for="(match, i) in this.tournamentDetails.matches" :key="i">
+          <li v-for="(match, i) in this.tournamentDetails?.matches" :key="i">
             <router-link
               :to="'/tournament/matches/' + tournamentDetails.matchesId[i]"
               v-if="getTeamName(match.firstTeam) != 'TBD' && getTeamName(match.secondTeam) != 'TBD'"
@@ -50,6 +77,7 @@
 import tournamentApi from "../api/tournamentApi";
 import teamApi from "../api/teamApi";
 import matchApi from "../api/matchApi";
+import objectGenerators from "../services/objectGenerators";
 import utils from "../services/utils";
 import types from "../services/types";
 
@@ -76,6 +104,7 @@ export default {
         type: "",
         status: "",
         winner: "",
+        scoreTable: [],
       },
     };
   },
@@ -93,6 +122,12 @@ export default {
   methods: {
     getTeamName: function (teamId) {
       return utils.getTeamNameById(teamId, this.tournamentDetails.teams);
+    },
+  },
+
+  computed: {
+    isAllVsAllTournament: function () {
+      return this.tournamentDetails.type == types.TournamentType.ALL_VS_ALL;
     },
   },
 
@@ -124,6 +159,14 @@ export default {
         ) {
           this.tournamentDetails.winner = matches[matches.length - 1].winner;
           tournamentApi.updateTournament(this.tournamentDetails.id, { winner: this.tournamentDetails.winner });
+        }
+
+        if (this.tournamentDetails.type == types.TournamentType.ALL_VS_ALL) {
+          this.tournamentDetails.scoreTable = objectGenerators.createScoreTableForRoundRobin(
+            this.tournamentDetails.teams,
+            this.tournamentDetails.matches
+          );
+          console.log("scoreTable: ", this.tournamentDetails.scoreTable);
         }
       });
     });

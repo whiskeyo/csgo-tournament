@@ -1,6 +1,7 @@
 /** @namespace objectGenerators */
 
 import types from "./types";
+import utils from "./utils";
 import robin from "roundrobin";
 
 const objectGenerators = {};
@@ -83,6 +84,51 @@ objectGenerators.createRoundRobinMatches = function (teams, matchType) {
   console.log("[createRoundRobinMatches] matches: ", matches)
   return matches;
 };
+
+objectGenerators.createTeamScore = function (team) {
+  return {
+    id: team.id,
+    name: team.name,
+    matchesWon: 0,
+    matchesLost: 0,
+    roundsWon: 0,
+    roundsLost: 0,
+  };
+}
+
+objectGenerators.createScoreTableForRoundRobin = function (teamsProxy, matchesProxy) {
+  const teams = utils.getObjectFromProxy(teamsProxy);
+  const matches = utils.getObjectFromProxy(matchesProxy);
+
+  let scoreTable = [];
+  for (const team of teams)
+    scoreTable.push(objectGenerators.createTeamScore(team));
+
+  for (const match of matches) {
+    const firstTeamIdx = scoreTable.findIndex((team) => team.id == match.firstTeam);
+    const secondTeamIdx = scoreTable.findIndex((team) => team.id == match.secondTeam);
+
+    for (const score of match.scores) {
+      scoreTable[firstTeamIdx].roundsWon += Number(score.first_team_score);
+      scoreTable[firstTeamIdx].roundsLost += Number(score.second_team_score);
+      scoreTable[secondTeamIdx].roundsWon += Number(score.second_team_score);
+      scoreTable[secondTeamIdx].roundsLost += Number(score.first_team_score);
+    }
+
+    if (match.winner != "" && match.winner == teams[firstTeamIdx].name) {
+      scoreTable[firstTeamIdx].matchesWon += 1;
+      scoreTable[secondTeamIdx].matchesLost += 1;
+    }
+
+    if (match.winner != "" && match.winner == teams[secondTeamIdx].name) {
+      scoreTable[secondTeamIdx].matchesWon += 1;
+      scoreTable[firstTeamIdx].matchesLost += 1;
+    }
+  }
+
+  scoreTable.sort(utils.scoreTableComparator);
+  return scoreTable;
+}
 
 /**
  * @param {string} name                         Name of the tournament

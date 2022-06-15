@@ -42,7 +42,11 @@ utils.getUniqueItemsByFieldArrayFromProxyArray = function (proxyArray, field) {
 };
 
 utils.isItemInArray = function (item, array) {
-  for (const value of array) if (value == item) return true;
+  for (const value of array) {
+    if (value == item) {
+      return true;
+    }
+  }
 
   return false;
 };
@@ -218,6 +222,22 @@ utils.determineWinner = function (matchDetails) {
       else return "";
     }
   }
+};
+
+utils.scoreTableComparator = function (firstTeam, secondTeam) {
+  if (firstTeam.matchesWon > secondTeam.matchesWon) return -1;
+  if (firstTeam.matchesWon < secondTeam.matchesWon) return 1;
+
+  if (firstTeam.roundsWon > secondTeam.roundsWon) return -1;
+  if (firstTeam.roundsWon < secondTeam.roundsWon) return 1;
+
+  if (firstTeam.matchesLost < secondTeam.matchesLost) return -1;
+  if (firstTeam.matchesLost > secondTeam.matchesLost) return 1;
+
+  if (firstTeam.roundsLost < secondTeam.roundsLost) return -1;
+  if (firstTeam.roundsLost > secondTeam.roundsLost) return 1;
+
+  return 0;
 };
 
 export default utils;
