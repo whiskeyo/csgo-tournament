@@ -22,8 +22,10 @@
         <h2>Matches</h2>
         <ul>
           <li v-for="(match, i) in this.tournamentDetails.matches" :key="i">
-            <router-link :to="'/tournament/matches/' + tournamentDetails.matchesId[i]"
-             v-if="getTeamName(match.firstTeam) != 'TBD' && getTeamName(match.secondTeam) != 'TBD'">
+            <router-link
+              :to="'/tournament/matches/' + tournamentDetails.matchesId[i]"
+              v-if="getTeamName(match.firstTeam) != 'TBD' && getTeamName(match.secondTeam) != 'TBD'"
+            >
               {{ this.getTeamName(match.firstTeam) + " vs. " + this.getTeamName(match.secondTeam) }}
             </router-link>
             <div v-else-if="getTeamName(match.firstTeam) != 'TBD' && getTeamName(match.secondTeam) == 'TBD'">
@@ -32,9 +34,7 @@
             <div v-else-if="getTeamName(match.firstTeam) == 'TBD' && getTeamName(match.secondTeam) != 'TBD'">
               TBD vs. {{ getTeamName(match.secondTeam) }}
             </div>
-            <div v-else>
-              TBD vs. TBD
-            </div>
+            <div v-else>TBD vs. TBD</div>
           </li>
         </ul>
         <div v-if="tournamentDetails.matches[tournamentDetails.matches.length - 1]?.winner != ''">
@@ -51,6 +51,7 @@ import tournamentApi from "../api/tournamentApi";
 import teamApi from "../api/teamApi";
 import matchApi from "../api/matchApi";
 import utils from "../services/utils";
+import types from "../services/types";
 
 export default {
   name: "Tournament Details",
@@ -83,9 +84,10 @@ export default {
     tournamentDetails: {
       depp: true,
       handler: function () {
-        this.tournamentDetails.winner = this.tournamentDetails.matches[this.tournamentDetails.matches.length - 1].winner;
-      }
-    }
+        this.tournamentDetails.winner =
+          this.tournamentDetails.matches[this.tournamentDetails.matches.length - 1].winner;
+      },
+    },
   },
 
   methods: {
@@ -115,9 +117,14 @@ export default {
       Promise.all(matchPromises).then((matches) => {
         this.tournamentDetails.matches = matches;
         console.log(matches);
-        if (this.tournamentDetails.winner == "" && matches[matches.length - 1].winner !== "")
+        if (
+          this.tournamentDetails.type == types.TournamentType.SINGLE_ELIMINATION &&
+          this.tournamentDetails.winner == "" &&
+          matches[matches.length - 1].winner !== ""
+        ) {
           this.tournamentDetails.winner = matches[matches.length - 1].winner;
-          tournamentApi.updateTournament(this.tournamentDetails.id, {winner: this.tournamentDetails.winner})
+          tournamentApi.updateTournament(this.tournamentDetails.id, { winner: this.tournamentDetails.winner });
+        }
       });
     });
   },

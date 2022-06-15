@@ -1,6 +1,7 @@
 /** @namespace objectGenerators */
 
 import types from "./types";
+import robin from "roundrobin";
 
 const objectGenerators = {};
 
@@ -61,10 +62,25 @@ objectGenerators.createSingleEliminationMatches = function (teams, matchType) {
   /* fill other rounds */
   matches.length = teams.length - 1;
   matches.fill(this.createMatchObject("", "", matchType), teams.length / 2, teams.length - 1);
-  // for (let idx = teams.length / 2; idx < matches.length; ++idx) {
-  //   matches.push(this.createMatchObject(teams[idx], teams[teams.length - 1 - idx], matchType));
-  // }
 
+  return matches;
+};
+
+/**
+ * @method
+ * @param {Array} teams               Array of teams' IDs
+ * @param {types.MatchType} matchType Type of the match (BO1, BO3, BO5)
+ * @returns {Array}                   Array of Match objects to be played in League (All vs All)
+ */
+objectGenerators.createRoundRobinMatches = function (teams, matchType) {
+  let rounds = robin(teams.length, teams);
+  let matchesPairs = rounds.flat();
+  const matches = [];
+  for (let idx = 0; idx < matchesPairs.length; ++idx) {
+    matches.push(this.createMatchObject(matchesPairs[idx][0], matchesPairs[idx][1], matchType));
+  }
+
+  console.log("[createRoundRobinMatches] matches: ", matches)
   return matches;
 };
 

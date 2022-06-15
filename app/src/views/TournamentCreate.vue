@@ -4,7 +4,7 @@
     <div class="row">
       <h2>Create a Tournament</h2>
       <div class="col-6">
-        <form @submit="createTournament">
+        <form>
           <div class="form-group mb-3">
             <label>Name of the tournament</label>
             <input class="form-control" placeholder="Your team name" v-model="createTournamentForm.name" />
@@ -17,7 +17,7 @@
                 {{ type }}
               </option>
             </select>
-            <div v-if="isNotLeague && !this.isPowerOfTwo()" class="form-text text-muted">
+            <div v-if="!isAllVsAllTournament && !this.isPowerOfTwo()" class="form-text text-muted">
               Number of teams for Single Elimination and Combined tournaments should be the power of 2 (2, 4, 8, etc.)
             </div>
           </div>
@@ -38,7 +38,6 @@
             </select>
           </div>
           <!-- <input type="submit" value="Create!" /> -->
-          <button type="submit" class="btn btn-light">Create</button>
         </form>
       </div>
       <div class="col-6">
@@ -58,6 +57,15 @@
           </select>
         </div>
       </div>
+    </div>
+    <div class="col-12 text-center align-middle mt-3">
+      <button v-if="isSingleEliminationTournament" @click="createSingleEliminationTournament" type="submit" class="btn btn-light">
+        Create Single Elimination Tournament
+      </button>
+      <button v-if="isAllVsAllTournament" @click="createAllVsAllTournament" type="submit" class="btn btn-light">
+        Create All Versus All Tournament
+      </button>
+      <button v-if="isCombinedTournament" @click="createCombinedTournament" type="submit" class="btn btn-light">Create Combined Tournament</button>
     </div>
   </div>
 </template>
@@ -88,17 +96,32 @@ export default {
   },
 
   methods: {
-    createTournament: async function (event) {
-      await tournamentApi.createTournament(this.createTournamentForm, this.$router, event);
+    createSingleEliminationTournament: async function (event) {
+      event.preventDefault();
+      await tournamentApi.createSingleEliminationTournament(this.createTournamentForm, this.$router);
+    },
+    createAllVsAllTournament: async function (event) {
+      event.preventDefault();
+      await tournamentApi.createAllVsAllTournament(this.createTournamentForm, this.$router);
+    },
+    createCombinedTournament: async function (event) {
+      event.preventDefault();
+      await tournamentApi.createCombinedTournament(this.createTournamentForm, this.$router);
     },
     isPowerOfTwo: function () {
       return utils.isPowerOfTwo(this.createTournamentForm.teams.length);
-    }
+    },
   },
 
   computed: {
-    isNotLeague: function () {
-      return this.createTournamentForm.type != types.TournamentType.ALL_VS_ALL;
+    isSingleEliminationTournament: function () {
+      return this.createTournamentForm.type == types.TournamentType.SINGLE_ELIMINATION;
+    },
+    isAllVsAllTournament: function () {
+      return this.createTournamentForm.type == types.TournamentType.ALL_VS_ALL;
+    },
+    isCombinedTournament: function () {
+      return this.createTournamentForm.type == types.TournamentType.COMBINED;
     },
   },
 

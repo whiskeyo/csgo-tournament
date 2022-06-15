@@ -5,11 +5,11 @@ import { doc, addDoc, getDoc, getDocs, updateDoc, collection, where, query } fro
 import objectGenerators from "../services/objectGenerators";
 import matchApi from "../api/matchApi";
 import utils from "../services/utils";
+// import types from "../services/types";
 
 const tournamentApi = {};
 
-tournamentApi.createTournament = async function (tournamentData, router, event) {
-  event.preventDefault();
+tournamentApi.createSingleEliminationTournament = async function (tournamentData, router) {
   try {
     let matches = objectGenerators.createSingleEliminationMatches(tournamentData.teams, tournamentData.matchType);
     let createMatchPromises = [];
@@ -26,15 +26,6 @@ tournamentApi.createTournament = async function (tournamentData, router, event) 
           console.log("creating matchesIds array");
           matchesIds.push(matchId);
         });
-        console.log("[DISABLED] going to updating matches with next match id");
-        // for (let idx = 0; idx < matchesIds.length; ++idx) {
-        // console.log("checking match with idx = " + idx);
-        //   if (matches[idx].next_match_index != -1) {
-        //     console.log("updating match with idx = " + idx);
-        //     let nextMatchId = matchesIds[matches[idx].next_match_index];
-        //     await matchApi.updateMatch(matchesIds[idx], {next_match_id: nextMatchId});
-        //   }
-        // }
       })
       .then(() => {
         console.log("matchesIds.length = ", matchesIds.length);
@@ -66,7 +57,7 @@ tournamentApi.createTournament = async function (tournamentData, router, event) 
           tournamentData.isPrivate
         );
         addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
-          console.log("Tournament added with ID ", docRef.id);
+          console.log("Tournament (single elimination) added with ID ", docRef.id);
           router.push("/tournament/" + docRef.id);
           return docRef.id;
         });
@@ -76,25 +67,49 @@ tournamentApi.createTournament = async function (tournamentData, router, event) 
   }
 };
 
-// function generateMatchesForSingleElimination() {}
-// function generateMatchesForLeague() {}
+tournamentApi.createAllVsAllTournament = async function (tournamentData, router) {
+  try {
+    let matches = objectGenerators.createRoundRobinMatches(tournamentData.teams, tournamentData.matchType);
+    let createMatchPromises = [];
+    matches.forEach((match) => {
+      createMatchPromises.push(
+        matchApi.createMatch(match.first_team, match.second_team, match.match_type, match.next_match_index)
+      );
+    });
+    const matchesIds = [];
+    console.log("going to Promise.all(createMatchPromises)");
+    Promise.all(createMatchPromises)
+      .then(async (returnedMatchesIds) => {
+        returnedMatchesIds.forEach((matchId) => {
+          console.log("creating matchesIds array");
+          matchesIds.push(matchId);
+        });
+      })
+      .then(() => {
+        const newTournament = objectGenerators.createTournamentObjectWithMatches(
+          tournamentData.name,
+          tournamentData.creator,
+          tournamentData.teams,
+          matchesIds,
+          tournamentData.type,
+          tournamentData.matchType,
+          tournamentData.isPrivate
+        );
+        addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
+          console.log("Tournament (all vs all) added with ID ", docRef.id);
+          router.push("/tournament/" + docRef.id);
+          return docRef.id;
+        });
+      });
+  } catch (err) {
+    console.log("Tournament not added -- err -- ", err);
+  }
+};
 
-// tournamentApi.addMatchesToTournament = async function (/*matchData, event*/) {
+tournamentApi.createCombinedTournament = async function (tournamentData) {
+  tournamentData;
+};
 
-// }
-
-// tournamentApi.updateTournament = async function (matchId, fieldsToChange) {
-//   // event.preventDefault();
-//   try {
-//     const matchRef = doc(db, "matches", matchId);
-//     await updateDoc(matchRef, fieldsToChange);
-//     console.log("Match with ID ", matchId, " changed");
-//   } catch (err) {
-//     console.log("Error while changing a match: ", err);
-//   }
-// };
-
-// TODO: get this to work...........................................
 tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamentsPlayed) {
   console.log("collectTournamentsPlayedByTeam", teamId, "and typeof teamId is", typeof teamId);
   const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
