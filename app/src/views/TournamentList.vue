@@ -4,8 +4,8 @@
     <table class="table table-dark table-striped text-center align-middle">
       <thead>
         <tr>
-          <th style="width: 50%" class="text-start">Tournament</th>
-          <th style="width: 15%">Type</th>
+          <th style="width: 40%" class="text-start">Tournament</th>
+          <th style="width: 20%">Type</th>
           <th style="width: 15%">Status</th>
           <th style="width: 20%">Winner</th>
         </tr>
@@ -17,7 +17,6 @@
               <!-- <router-link :to="'/'"> -->
               {{ tournament.name }}
             </router-link>
-            {{ tournament.is_private }}
           </td>
           <td>{{ tournament.type }}</td>
           <td>{{ tournament.status }}</td>

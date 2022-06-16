@@ -29,11 +29,9 @@ matchApi.updateMatch = async function (matchId, fieldsToChange) {
 };
 
 matchApi.getMatchByID = async function (matchId) {
-  console.log("matchId: ", matchId);
   const matchRef = doc(db, "matches", matchId);
   const matchDoc = await getDoc(matchRef);
   if (matchDoc.exists()) {
-    console.log("matchDoc.data(): ", matchDoc.data());
     return {
       id: matchDoc.id,
       firstTeam: matchDoc.data().first_team,

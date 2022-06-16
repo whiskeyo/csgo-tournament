@@ -20,34 +20,60 @@
           </ul>
         </div>
         <div v-else>
-          <h2 v-if="isAllVsAllTournament">Score Table</h2>
-          <h2 v-else-if="isCombinedTournament">Score Tables</h2>
-          <table class="table table-dark table-striped text-center align-middle">
-            <thead>
-              <tr>
-                <th style="width: 10%">#</th>
-                <th style="width: 50%" class="text-start">Team</th>
-                <th style="width: 10%">W</th>
-                <th style="width: 10%">L</th>
-                <th style="width: 10%">RW</th>
-                <th style="width: 10%">RL</th>
-              </tr>
-            </thead>
-            <tbody v-for="(groupScores, idx) in this.tournamentDetails?.scoreTable" :key="idx">
-              <tr v-for="(score, idx2) in groupScores" :key="idx2">
-                <td class="text-center">{{ idx2 + 1 }}</td>
-                <td class="text-start">{{ score.name }}</td>
-                <td class="text-center">{{ score.matchesWon }}</td>
-                <td class="text-center">{{ score.matchesLost }}</td>
-                <td class="text-center">{{ score.roundsWon }}</td>
-                <td class="text-center">{{ score.roundsLost }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div v-if="isAllVsAllTournament">
+            <h2>Score Table</h2>
+            <table class="table table-dark table-striped text-center align-middle">
+              <thead>
+                <tr>
+                  <th style="width: 10%">#</th>
+                  <th style="width: 50%" class="text-start">Team</th>
+                  <th style="width: 10%">W</th>
+                  <th style="width: 10%">L</th>
+                  <th style="width: 10%">RW</th>
+                  <th style="width: 10%">RL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(score, idx) in this.tournamentDetails?.scoreTable" :key="idx">
+                  <td class="text-center">{{ idx + 1 }}</td>
+                  <td class="text-start">{{ score.name }}</td>
+                  <td class="text-center">{{ score.matchesWon }}</td>
+                  <td class="text-center">{{ score.matchesLost }}</td>
+                  <td class="text-center">{{ score.roundsWon }}</td>
+                  <td class="text-center">{{ score.roundsLost }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div v-else-if="isCombinedTournament">
+            <h2>Score Tables</h2>
+            <table class="table table-dark table-striped text-center align-middle">
+              <thead>
+                <tr>
+                  <th style="width: 10%">#</th>
+                  <th style="width: 50%" class="text-start">Team</th>
+                  <th style="width: 10%">W</th>
+                  <th style="width: 10%">L</th>
+                  <th style="width: 10%">RW</th>
+                  <th style="width: 10%">RL</th>
+                </tr>
+              </thead>
+              <tbody v-for="(groupScores, idx) in this.tournamentDetails?.scoreTable" :key="idx">
+                <tr v-for="(score, idx2) in groupScores" :key="idx2">
+                  <td class="text-center">{{ idx2 + 1 }}</td>
+                  <td class="text-start">{{ score.name }}</td>
+                  <td class="text-center">{{ score.matchesWon }}</td>
+                  <td class="text-center">{{ score.matchesLost }}</td>
+                  <td class="text-center">{{ score.roundsWon }}</td>
+                  <td class="text-center">{{ score.roundsLost }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <div class="col-2"></div>
-      <div class="col-4">
+      <!-- <div class="col-2"></div> -->
+      <div class="col-6">
         <h2>Matches</h2>
         <ul>
           <template v-for="(match, i) in this.tournamentDetails?.matches" :key="i">
@@ -165,6 +191,14 @@ export default {
       );
       return "(Round " + roundNumber + ") ";
     },
+    areAllGroupMatchesFinished: function (groupScores, numberOfOneTeamMatches) {
+      for (const team of groupScores) {
+        if (team.matchesWon + team.matchesLost != numberOfOneTeamMatches) {
+          return false;
+        }
+      }
+      return true;
+    },
   },
 
   computed: {
@@ -199,19 +233,32 @@ export default {
       }
       Promise.all(matchPromises).then((matches) => {
         this.tournamentDetails.matches = matches;
-        console.log(matches);
         if (
           this.tournamentDetails.type == types.TournamentType.SINGLE_ELIMINATION &&
           this.tournamentDetails.winner == "" &&
           matches[matches.length - 1].winner !== ""
         ) {
           this.tournamentDetails.winner = matches[matches.length - 1].winner;
-          tournamentApi.updateTournament(this.tournamentDetails.id, { winner: this.tournamentDetails.winner });
+          tournamentApi.updateTournament(this.tournamentDetails.id, {
+            winner: this.tournamentDetails.winner,
+            status: types.TournamentStatus.FINISHED,
+          });
         } else if (this.tournamentDetails.type == types.TournamentType.ALL_VS_ALL) {
           this.tournamentDetails.scoreTable = objectGenerators.createScoreTableForRoundRobin(
             this.tournamentDetails.teams,
             this.tournamentDetails.matches
           );
+          if (
+            this.areAllGroupMatchesFinished(this.tournamentDetails.scoreTable, this.tournamentDetails.teams.length - 1) &&
+            this.tournamentDetails.winner == ""
+          ) {
+            console.log("Abc");
+            this.tournamentDetails.winner = this.tournamentDetails.scoreTable[0].name;
+            tournamentApi.updateTournament(this.tournamentDetails.id, {
+              winner: this.tournamentDetails.winner,
+              status: types.TournamentStatus.FINISHED,
+            });
+          }
         } else if (this.tournamentDetails.type == types.TournamentType.COMBINED) {
           for (let i = 0; i < this.tournamentDetails.teams.length / 4; ++i) {
             this.tournamentDetails.scoreTable.push(
@@ -224,24 +271,31 @@ export default {
 
           const numberOfGroupMatches = 6 * (this.tournamentDetails?.teams.length / 4);
           const numberOfFirstRoundMatches = this.tournamentDetails?.teams.length / 4;
-          for (let [idx, groupScore] of this.tournamentDetails.scoreTable.entries()) {
-            for (const teamScore of groupScore) {
-              if (teamScore.matchesWon + teamScore.matchesLost == 3) {
-                if (this.tournamentDetails.matchesId[numberOfGroupMatches + idx].first_team != "")
-                  matchApi.updateMatch(this.tournamentDetails.matchesId[numberOfGroupMatches + idx], {
-                    first_team: groupScore[0].id,
-                  });
+          for (let [idx, groupScores] of this.tournamentDetails.scoreTable.entries()) {
+            if (this.areAllGroupMatchesFinished(groupScores, 3)) {
+              const nextIndexForFirstPlace = numberOfGroupMatches + idx;
+              if (this.tournamentDetails.matches[nextIndexForFirstPlace].firstTeam == "")
+                matchApi.updateMatch(this.tournamentDetails.matchesId[nextIndexForFirstPlace], {
+                  first_team: groupScores[0].id,
+                });
 
-                if (
-                  this.tournamentDetails.matchesId[numberOfGroupMatches + numberOfFirstRoundMatches - idx - 1]
-                    .second_team != ""
-                )
-                  matchApi.updateMatch(
-                    this.tournamentDetails.matchesId[numberOfGroupMatches + numberOfFirstRoundMatches - idx - 1],
-                    { second_team: groupScore[1].id }
-                  );
-              }
+              const nextIndexForSecondPlace = numberOfGroupMatches + numberOfFirstRoundMatches - idx - 1;
+              if (this.tournamentDetails.matches[nextIndexForSecondPlace].secondTeam == "")
+                matchApi.updateMatch(this.tournamentDetails.matchesId[nextIndexForSecondPlace], {
+                  second_team: groupScores[1].id,
+                });
             }
+          }
+          if (
+            this.tournamentDetails.winner == "" &&
+            this.tournamentDetails.matches[this.tournamentDetails.matches.length - 1].winner !== ""
+          ) {
+            this.tournamentDetails.winner =
+              this.tournamentDetails.matches[this.tournamentDetails.matches.length - 1].winner;
+            tournamentApi.updateTournament(this.tournamentDetails.id, {
+              winner: this.tournamentDetails.winner,
+              status: types.TournamentStatus.FINISHED,
+            });
           }
         }
       });
