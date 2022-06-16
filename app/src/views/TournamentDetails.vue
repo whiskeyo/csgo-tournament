@@ -252,7 +252,6 @@ export default {
             this.areAllGroupMatchesFinished(this.tournamentDetails.scoreTable, this.tournamentDetails.teams.length - 1) &&
             this.tournamentDetails.winner == ""
           ) {
-            console.log("Abc");
             this.tournamentDetails.winner = this.tournamentDetails.scoreTable[0].name;
             tournamentApi.updateTournament(this.tournamentDetails.id, {
               winner: this.tournamentDetails.winner,

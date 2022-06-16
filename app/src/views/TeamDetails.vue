@@ -56,7 +56,6 @@ export default {
   created: async function () {
     teamApi.collectTeamByID(this.$route.params.id, this.teamDetails).then(() => {
       for (const memberId of this.teamDetails.membersId) {
-        console.log("memberId: ", memberId);
         teamApi.collectUserByIdAndAddToList(memberId, this.teamDetails.members);
       }
       teamApi.collectUserByIdAndSetObject(this.teamDetails.captainId, this.teamDetails.captain);

@@ -84,10 +84,6 @@ accountApi.signInWithGoogle = function (store) {
     })
     .then(async () => {
       store.commit("setLoggedIn", { user: await getUserFromDbOnSignIn(auth) });
-    })
-    .catch((error) => {
-      console.log("accountApi.signInWithGoogle error.code: ", error.code);
-      console.log("accountApi.signInWithGoogle error.message: ", error.message);
     });
 };
 

@@ -107,13 +107,11 @@ teamApi.collectUserTeams = async function (userTeams, store) {
 teamApi.createTeam = async function (createTeamForm, event, store) {
   event.preventDefault();
   try {
-    console.log("store.state.$user: ", store.state.$user);
-    const docRef = await addDoc(collection(db, "teams"), {
+    await addDoc(collection(db, "teams"), {
       name: createTeamForm.teamName,
       captain: store.state.$user.uid,
       members: createTeamForm.selectedUsers,
     });
-    console.log("Team ", createTeamForm.teamName, " added with ID ", docRef.id);
   } catch (err) {
     console.log("Error while adding a team: ", err);
   }

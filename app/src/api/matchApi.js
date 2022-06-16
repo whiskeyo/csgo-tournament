@@ -10,7 +10,6 @@ matchApi.createMatch = async function (firstTeam, secondTeam, matchType, nextMat
   try {
     const newMatch = objectGenerators.createMatchObject(firstTeam, secondTeam, matchType, nextMatchIdx);
     const docRef = await addDoc(collection(db, "matches"), newMatch);
-    console.log("Match added with ID ", docRef.id);
     return docRef.id;
   } catch (err) {
     console.log("Error while adding a match: ", err);
@@ -22,7 +21,6 @@ matchApi.updateMatch = async function (matchId, fieldsToChange) {
   try {
     const matchRef = doc(db, "matches", matchId);
     await updateDoc(matchRef, fieldsToChange);
-    console.log("Match with ID ", matchId, " changed");
   } catch (err) {
     console.log("Error while changing a match: ", err);
   }
@@ -48,7 +46,7 @@ matchApi.getMatchByID = async function (matchId) {
       nextMatchId: matchDoc.data().next_match_id,
     }
   } else {
-    console.log("document does not exist");
+    console.log("Document " + matchId + " does not exist");
   }
 };
 

@@ -4,7 +4,6 @@
 </template>
 
 <script>
-// import runner from './CycleTest'
 import { run } from "@cycle/run";
 import { makeDOMDriver } from "@cycle/dom";
 import cycleJsTest from "../services/cycleTest.js";

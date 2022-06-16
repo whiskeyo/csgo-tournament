@@ -21,16 +21,13 @@ tournamentApi.createSingleEliminationTournament = async function (tournamentData
     });
 
     const matchesIds = [];
-    console.log("going to Promise.all(createMatchPromises)");
     Promise.all(createMatchPromises)
       .then(async (returnedMatchesIds) => {
         returnedMatchesIds.forEach((matchId) => {
-          console.log("creating matchesIds array");
           matchesIds.push(matchId);
         });
       })
       .then(() => {
-        console.log("matchesIds.length = ", matchesIds.length);
         let updateMatchWithNextMatchIdPromises = [];
         const numberOfTeams = tournamentData.teams.length;
         for (let idx = 0; idx < matchesIds.length; ++idx) {
@@ -59,7 +56,6 @@ tournamentApi.createSingleEliminationTournament = async function (tournamentData
           tournamentData.isPrivate
         );
         addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
-          console.log("Tournament (single elimination) added with ID ", docRef.id);
           router.push("/tournament/" + docRef.id);
           return docRef.id;
         });
@@ -81,11 +77,9 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
     });
 
     const matchesIds = [];
-    console.log("going to Promise.all(createMatchPromises)");
     Promise.all(createMatchPromises)
       .then(async (returnedMatchesIds) => {
         returnedMatchesIds.forEach((matchId) => {
-          console.log("creating matchesIds array");
           matchesIds.push(matchId);
         });
       })
@@ -100,7 +94,6 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
           tournamentData.isPrivate
         );
         addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
-          console.log("Tournament (all vs all) added with ID ", docRef.id);
           router.push("/tournament/" + docRef.id);
           return docRef.id;
         });
@@ -113,7 +106,6 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
 tournamentApi.createCombinedTournament = async function (tournamentData, router) {
   try {
     const matches = objectGenerators.createCombinedMatches(tournamentData.teams, tournamentData.matchType);
-    console.log("[createCombinedTournament] matches: ", matches);
 
     let createMatchPromises = [];
     matches.forEach((match) => {
@@ -123,16 +115,13 @@ tournamentApi.createCombinedTournament = async function (tournamentData, router)
     });
 
     const matchesIds = [];
-    console.log("going to Promise.all(createMatchPromises)");
     Promise.all(createMatchPromises)
       .then(async (returnedMatchesIds) => {
         returnedMatchesIds.forEach((matchId) => {
-          console.log("creating matchesIds array");
           matchesIds.push(matchId);
         });
       })
       .then(() => {
-        console.log("matchesIds.length = ", matchesIds.length);
         let updateMatchWithNextMatchIdPromises = [];
         const numberOfGroupMatches = 6 * (tournamentData.teams.length / 4);
         const numberOfTeamsAfterGroupStage = tournamentData.teams.length / 2;
@@ -164,7 +153,6 @@ tournamentApi.createCombinedTournament = async function (tournamentData, router)
           tournamentData.isPrivate
         );
         addDoc(collection(db, "tournaments"), newTournament).then((docRef) => {
-          console.log("Tournament (combined) added with ID ", docRef.id);
           router.push("/tournament/" + docRef.id);
           return docRef.id;
         });
@@ -175,10 +163,8 @@ tournamentApi.createCombinedTournament = async function (tournamentData, router)
 };
 
 tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamentsPlayed) {
-  console.log("collectTournamentsPlayedByTeam", teamId, "and typeof teamId is", typeof teamId);
   const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
   const tournamentsSnapshot = await getDocs(tournaments);
-  console.log("is tournamentsSnapshot empty: ", tournamentsSnapshot.empty);
   tournamentsSnapshot.forEach((doc) => {
     tournamentsPlayed.push({
       id: doc.id,
@@ -188,11 +174,9 @@ tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamen
 };
 
 tournamentApi.collectTournamentByID = async function (tournamentId, tournamentDetails) {
-  console.log("tournamentId: ", tournamentId);
   const tournamentRef = doc(db, "tournaments", tournamentId);
   const tournamentDoc = await getDoc(tournamentRef);
   if (tournamentDoc.exists()) {
-    console.log("data: ", tournamentDoc.data());
     tournamentDetails.id = tournamentDoc.id;
     tournamentDetails.name = tournamentDoc.data().name;
     tournamentDetails.creatorId = tournamentDoc.data().creator;
@@ -203,7 +187,7 @@ tournamentApi.collectTournamentByID = async function (tournamentId, tournamentDe
     tournamentDetails.status = tournamentDoc.data().status;
     tournamentDetails.winner = tournamentDoc.data().winner;
   } else {
-    console.log("document does not exist");
+    console.log("Document " + tournamentId + " does not exist");
   }
 };
 
@@ -230,7 +214,6 @@ tournamentApi.updateTournament = async function (tournamentId, fieldsToChange) {
   try {
     const tournamentRef = doc(db, "tournaments", tournamentId);
     await updateDoc(tournamentRef, fieldsToChange);
-    console.log("Tournament with ID ", tournamentId, " changed");
   } catch (err) {
     console.log("Error while changing a tournament: ", err);
   }
