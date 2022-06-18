@@ -21,29 +21,25 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/team">Team</router-link>
-          </li>
-          <!-- <li class="nav-item dropdown">
-            <router-link
+          <li class="nav-item dropdown">
+            <div
               class="nav-link dropdown-toggle"
-              to="/team"
               id="navbarDropdown"
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Team
-            </router-link>
+              Teams
+            </div>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item disabled-link" href="#"
-                  >Create a Team (Vue)</a
+              <li v-if="isSignedIn">
+                <router-link to="/team" class="dropdown-item"
+                  >Create a Team (Vue)</router-link
                 >
               </li>
-              <li>
-                <a class="dropdown-item disabled-link" href="#"
-                  >Create a Team (Cycle.js)</a
+              <li v-if="isSignedIn">
+                <router-link to="/team/create" class="dropdown-item"
+                  >Create a Team (Cycle.js)</router-link
                 >
               </li>
               <li>
@@ -55,7 +51,7 @@
                 >
               </li>
             </ul>
-          </li> -->
+          </li>
           <li class="nav-item dropdown">
             <div
               class="nav-link dropdown-toggle"

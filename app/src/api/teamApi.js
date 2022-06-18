@@ -16,6 +16,21 @@ teamApi.collectUsers = async function (allUsers) {
   });
 };
 
+teamApi.getUsers = async function () {
+  let allUsers = [];
+  const querySnapshot = await getDocs(collection(db, "users"));
+  querySnapshot.forEach((doc) => {
+    let data = doc.data();
+    allUsers.push({
+      nickname: data.nickname,
+      fullname: data.fullname,
+      email: data.email,
+      uid: data.uid,
+    });
+  });
+  return allUsers;
+};
+
 teamApi.collectUserByIdAndSetObject = async function (userId, userObject) {
   const user = query(collection(db, "users"), where("uid", "==", userId));
   const userSnapshot = await getDocs(user);
@@ -104,13 +119,18 @@ teamApi.collectUserTeams = async function (userTeams, store) {
   });
 };
 
-teamApi.createTeam = async function (createTeamForm, event, store) {
-  event.preventDefault();
+teamApi.createTeam = async function (createTeamForm, store) {
   try {
+    console.log("[teamApi.createTeam] createTeamForm: ", createTeamForm);
+    console.log("[teamApi.createTeam] store: ", store);
+    console.log("[teamApi.createTeam] store.state.$user.uid: ", store.state.$user.uid);
     await addDoc(collection(db, "teams"), {
       name: createTeamForm.teamName,
       captain: store.state.$user.uid,
       members: createTeamForm.selectedUsers,
+    }).then(() => {
+      console.log("created team ", createTeamForm.teamName);
+      // router.push("/team/" + docRef.id);
     });
   } catch (err) {
     console.log("Error while adding a team: ", err);
