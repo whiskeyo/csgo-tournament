@@ -1,116 +1,69 @@
 import xs from "xstream";
-import { div, h1, button, label, input, select, option, p } from "@cycle/dom";
+import { a, div, h1, table, thead, tr, th, tbody, td } from "@cycle/dom";
 import teamApi from "../api/teamApi";
-import store from "../store";
 
-function renderTeamNameInput(teamName) {
-  return div(".form-group", [
-    label("Name of the team"),
-    input(".team-name form-control mb-2", { attrs: { type: "text", value: teamName } }),
-  ]);
-}
-
-function renderTeamPlayersSelect(players, selectedPlayers) {
-  console.log("[renderTeamPlayersSelect] players: ", players);
-  console.log("[renderTeamPlayersSelect] selectedPlayers: ", selectedPlayers);
-  return div(".form-group", [
-    label("Add players to your team"),
-    select(".team-players form-select", { attrs: { multiple: "multiple", size: 15 } }, [
-      option({ attrs: { disabled: true } }, "Select multiple players"),
-      ...players.map((player) => option({ attrs: { value: player.uid } }, `${player.nickname} (${player.email})`)),
+function renderTeamsTable(teamsList, playersList) {
+  return table(".table table-dark table-striped text-start align-middle", [
+    thead([
+      tr([
+        th("Team"),
+        th("Captain"),
+      ])
     ]),
-  ]);
+    tbody([
+      ...teamsList.map((team) => {
+        let captainNickname = "";
+        let captainEmail = "";
+        for (const player of playersList) {
+          if (team.captain == player.uid) {
+            captainNickname = player.nickname;
+            captainEmail = player.email;
+            break;
+          }
+        }
+
+        return tr([
+          td(
+            a({attrs: { href: "/team/" + team.id }}, `${team.name}`)
+          ),
+          td(`${captainNickname} (${captainEmail})`),
+        ])
+      })
+    ])
+  ])
 }
 
-function renderCreateTeamButton(createTeam, teamName, selectedPlayers) {
-  console.log("[renderCreateTeamButton] store.state.$user.uid: ", store.state.$user.uid);
-  return button(
-    ".team-create-button btn btn-light",
-    {
-      attrs: {
-        type: "button",
-        onclick: createTeam ? teamApi.createTeam({ teamName: teamName, selectedUsers: selectedPlayers }, store) : null,
-      },
-    },
-    "Create a Team"
-  );
-}
-
-function renderTeamsTable(teams) {
-  console.log("[renderTeamsTable] teams: ", teams);
-  return p(".team-table", teams.map((team) => team.name).join(", "));
-}
-
-function intent(domSource) {
-  const changeTeamName$ = domSource
-    .select(".team-name")
-    .events("input")
-    .map((ev) => ev.target.value);
-  const changeSelectedTeamPlayers$ = domSource
-    .select(".team-players")
-    .events("input")
-    .map((ev) => {
-      let selectedPlayers = [];
-      for (let i = 0; i < ev.target.selectedOptions.length; ++i) {
-        selectedPlayers.push(ev.target.selectedOptions[i].value);
-      }
-      return selectedPlayers;
-    });
-  const createTeamButton$ = domSource
-    .select(".team-create-button")
-    .events("click")
-    .map(() => true);
-  const teamsList$ = domSource
-    .select(".team-table")
-    .events("onload")
-    .startWith(null);
+function intent() {
+  const teamsList$ = xs.from(teamApi.getTeams());
+  const playersList$ = xs.from(teamApi.getUsers());
 
   return {
-    changeTeamName$: changeTeamName$,
-    changeSelectedTeamPlayers$: changeSelectedTeamPlayers$,
-    createTeamButton$: createTeamButton$,
-    teamsList$: teamsList$
+    teamsList$: teamsList$,
+    playersList$: playersList$,
   };
 }
 
 function model(actions) {
-  let players = [];
-  teamApi.getUsers().then((fetchedPlayers) => {
-    players = fetchedPlayers;
-  });
+  const teamsList$ = actions.teamsList$.startWith([]);
+  const playersList$ = actions.playersList$.startWith([]);
 
-  let teams = [];
-  teamApi.getTeams().then((fetchedTeams) => {
-    teams = fetchedTeams;
-  });
-
-  const teamName$ = actions.changeTeamName$.startWith("");
-  const selectedPlayers$ = actions.changeSelectedTeamPlayers$.startWith([]);
-  const createTeam$ = actions.createTeamButton$.startWith(false);
-  // const teamsLoaded$ = actions.teamsList$.startWith(false);
-
-  return xs.combine(teamName$, selectedPlayers$, createTeam$, actions.teamsList$)
-    .map(([teamName, selectedPlayers, createTeam, teamsList]) => {
-      return { teamName, selectedPlayers, players, createTeam, teamsList, teams };
+  return xs.combine(teamsList$, playersList$)
+    .map(([teamsList, playersList]) => {
+      return { teamsList, playersList };
   });
 }
 
 function view(state$) {
-  return state$.map(({ teamName, selectedPlayers, players, createTeam, teams }) =>
+  return state$.map(({ teamsList, playersList }) =>
     div([
       div(".row", [
-        div(".col-2", []),
-        div(".col-8", [
+        // div(".col-2", []),
+        div(".col-12", [
           h1("List of Teams"),
-          renderTeamNameInput(teamName),
-          renderTeamPlayersSelect(players, selectedPlayers),
+          renderTeamsTable(teamsList, playersList),
         ]),
-        div(".col-2", []),
+        // div(".col-2", []),
       ]),
-      div(".col-12 text-center align-middle mt-3", [
-        renderCreateTeamButton(createTeam, teamName, selectedPlayers),
-        renderTeamsTable(teams)
-      ])
     ])
   );
 }
