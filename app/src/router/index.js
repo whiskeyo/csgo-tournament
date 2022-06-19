@@ -9,6 +9,7 @@ import TournamentList from "../views/TournamentList.vue";
 import TournamentDetails from "../views/TournamentDetails.vue";
 import Team from "../views/Team.vue";
 import TeamCreateHandler from "../views/TeamCreateHandler.vue";
+import TeamListHandler from "../views/TeamListHandler.vue";
 import TeamDetails from "../views/TeamDetails.vue";
 import Maps from "../views/Maps.vue";
 import Matches from "../views/Matches.vue";
@@ -57,6 +58,11 @@ const routes = [
     component: MatchRoom,
   },
   {
+    path: "/team/create",
+    name: "Create a Team",
+    component: TeamCreateHandler,
+  },
+  {
     path: "/team",
     name: "Team",
     component: Team,
@@ -67,9 +73,9 @@ const routes = [
     component: TeamDetails,
   },
   {
-    path: "/team/create",
-    name: "Create a Team",
-    component: TeamCreateHandler,
+    path: "/team/list",
+    name: "List of Teams",
+    component: TeamListHandler,
   },
   {
     path: "/cyclejstest",

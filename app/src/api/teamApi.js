@@ -1,5 +1,6 @@
 import { db } from "../configs/db";
 import { doc, addDoc, getDocs, query, where, collection, getDoc } from "firebase/firestore";
+import router from "../router";
 
 const teamApi = {};
 
@@ -79,6 +80,21 @@ teamApi.collectTeams = async function (allTeams) {
   });
 };
 
+teamApi.getTeams = async function () {
+  let allTeams = [];
+  const querySnapshot = await getDocs(collection(db, "teams"));
+  querySnapshot.forEach((doc) => {
+    let data = doc.data();
+    allTeams.push({
+      id: doc.id,
+      name: data.name,
+      members: data.members,
+      captain: data.captain,
+    });
+  });
+  return allTeams;
+};
+
 teamApi.collectTeamByID = async function (teamId, teamDetails) {
   const teamRef = doc(db, "teams", teamId);
   const teamDoc = await getDoc(teamRef);
@@ -128,9 +144,9 @@ teamApi.createTeam = async function (createTeamForm, store) {
       name: createTeamForm.teamName,
       captain: store.state.$user.uid,
       members: createTeamForm.selectedUsers,
-    }).then(() => {
+    }).then((docRef) => {
       console.log("created team ", createTeamForm.teamName);
-      // router.push("/team/" + docRef.id);
+      router.push("/team/" + docRef.id);
     });
   } catch (err) {
     console.log("Error while adding a team: ", err);

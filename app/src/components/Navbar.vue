@@ -33,22 +33,19 @@
             </div>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li v-if="isSignedIn">
-                <router-link to="/team" class="dropdown-item"
-                  >Create a Team (Vue)</router-link
-                >
-              </li>
-              <li v-if="isSignedIn">
-                <router-link to="/team/create" class="dropdown-item"
-                  >Create a Team (Cycle.js)</router-link
-                >
+                <router-link to="/team" class="dropdown-item">Create a Team (Vue)</router-link>
               </li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
+              <li v-if="isSignedIn">
+                <router-link to="/team/create" class="dropdown-item">Create a Team (Cycle.js)</router-link>
+              </li>
+              <li v-if="isSignedIn">
+                <router-link to="/team/create" class="dropdown-item">List Your Teams (Cycle.js)</router-link>
+              </li>
               <li>
-                <a class="dropdown-item disabled-link" href="#"
-                  >Something else here</a
-                >
+                <router-link to="/team/list" class="dropdown-item">List All Teams (Cycle.js)</router-link>
               </li>
             </ul>
           </li>
