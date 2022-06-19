@@ -216,8 +216,7 @@ Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} - udost
 \end{itemize}
 
 \section{Opisy kolekcji Firestore Database}
-\subsection{Users (authentication)}
-Kolekcja zawierająca wpisy dotyczące zarejestrowanych użytkowników na poziomie Firebase Authentication.
+Firestore Database jest bazą danych mającą podobną strukturę do MongoDB.
 
 \subsection{Users}
 Kolekcja korzystająca z kolekcji Users wbudowanej w Firebase Authentication. Przechowuje informacje o użytkownikach: ich pseudonim, imię i nazwisko, email oraz pole uid będące referencją.
@@ -244,7 +243,7 @@ Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące I
 \begin{itemize}
     \item Jako gracz, chcę zarejestrować się w aplikacji, żeby inny gracz mógł mnie dodać do swojej drużyny.
     \item Jako gracz, chcę stworzyć drużynę, żeby móc wziąć udział w turnieju.
-    \item Jako gracz, chcę mieć możliwość łatwego odrzucania i wybierania map w meczach, w których biorę udział, żeby nie musieć tego zapamiętywać.
+    \item Jako gracz, chcę mieć możliwość łatwego odrzucania i wybierania map w meczach, w których biorę udział, żeby móc grać na mapach, które preferuje mój zespół.
     \item Jako gracz, chcę mieć możliwość wpisywania wyników spotkań, które rozgrywam, żeby wiedzieć w którym miejscu w tabeli/w której rundzie jest moja drużyna.
 \end{itemize}
 
