@@ -162,6 +162,20 @@ tournamentApi.createCombinedTournament = async function (tournamentData, router)
   }
 };
 
+tournamentApi.getTournamentsPlayedByTeam = async function (teamId) {
+  let tournamentsPlayed = [];
+  const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
+  const tournamentsSnapshot = await getDocs(tournaments);
+  tournamentsSnapshot.forEach((doc) => {
+    tournamentsPlayed.push({
+      id: doc.id,
+      name: doc.data().name,
+      winner: doc.data().winner,
+    });
+  });
+  return tournamentsPlayed;
+};
+
 tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamentsPlayed) {
   const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
   const tournamentsSnapshot = await getDocs(tournaments);
@@ -169,6 +183,7 @@ tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamen
     tournamentsPlayed.push({
       id: doc.id,
       name: doc.data().name,
+      winner: doc.data().winner,
     });
   });
 };

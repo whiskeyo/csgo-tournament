@@ -32,17 +32,14 @@
               Teams
             </div>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li v-if="isSignedIn">
+              <li v-if="isSignedIn && shouldDisplayVueComponents">
                 <router-link to="/team" class="dropdown-item">Create a Team (Vue)</router-link>
               </li>
-              <li>
+              <li v-if="shouldDisplayVueComponents">
                 <hr class="dropdown-divider" />
               </li>
               <li v-if="isSignedIn">
                 <router-link to="/team/create" class="dropdown-item">Create a Team (Cycle.js)</router-link>
-              </li>
-              <li v-if="isSignedIn">
-                <router-link to="/team/create" class="dropdown-item">List Your Teams (Cycle.js)</router-link>
               </li>
               <li>
                 <router-link to="/team/list" class="dropdown-item">List All Teams (Cycle.js)</router-link>
@@ -87,10 +84,6 @@
             <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
           </li>
         </ul>
-        <!-- <form class="d-flex">
-          Logged in: {{ this.$store.state.$isLoggedIn }} <br>
-          User: {{ this.$store.state.$user }}
-        </form> -->
         <form v-if="!isSignedIn" class="d-flex">
           <router-link class="" to="/">
             <button @click="signInWithGoogle" class="btn btn-light margin-left-5px">Sign In With Google</button>
@@ -135,7 +128,6 @@
           </ul>
         </form>
         <form v-else>
-          <!-- <img v-bind:src="this.$store.state.$user?.photoURL" height="30" width="30"> -->
           {{ this.$store.state.$user?.nickname }}
           {{ "(" + this.$store.state.$user?.email + ")" }}
           <button type="button" @click="signOut" class="btn btn-light margin-left-5px">Sign Out</button>
@@ -239,6 +231,9 @@ export default {
     isSignedIn() {
       return this.$store.state.$isLoggedIn;
     },
+    shouldDisplayVueComponents() {
+      return this.$store.state.$shouldDisplayVueComponents;
+    }
   },
 };
 </script>

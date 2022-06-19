@@ -24,7 +24,7 @@ function renderTeamsTable(teamsList, playersList) {
 
         return tr([
           td(
-            a({attrs: { href: "/team/" + team.id }}, `${team.name}`)
+            a({attrs: { href: "/team/details/" + team.id }}, `${team.name}`)
           ),
           td(`${captainNickname} (${captainEmail})`),
         ])

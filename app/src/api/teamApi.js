@@ -124,6 +124,32 @@ teamApi.getTeamByID = async function (teamId) {
   }
 };
 
+teamApi.getTeamDetailsByID = async function (teamId) {
+  const teamRef = doc(db, "teams", teamId);
+  const teamDoc = await getDoc(teamRef);
+  if (teamDoc.exists()) {
+    let captain = await this.getUserById(teamDoc.data().captain);
+    let members = [];
+    let membersPromises = [];
+    for (const memberId of teamDoc.data().members) {
+      members.push(await this.getUserById(memberId));
+    }
+    Promise.all(membersPromises).then((fetchedMembers) => members = fetchedMembers);
+
+    return {
+      id: teamDoc.id,
+      name: teamDoc.data().name,
+      captainId: teamDoc.data().captain,
+      captain: captain,
+      membersId: teamDoc.data().members,
+      members: members,
+    };
+  } else {
+    console.log("Document " + teamId + " does not exist");
+    return {}
+  }
+}
+
 teamApi.collectUserTeams = async function (userTeams, store) {
   userTeams.length = 0;
   const teams = query(collection(db, "teams"), where("captain", "==", store.state.$user?.uid));
