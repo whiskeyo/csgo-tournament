@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
 
+/**
+ * Object storing config used to connect with Firestore Database
+ * @readonly
+ * @object
+ */
 const firebaseConfig = {
   apiKey: "AIzaSyBXQMByC_McVaPW6FwuBiCOjK9H2iEzDjA",
   authDomain: "cstrikers-dev-ff691.firebaseapp.com",

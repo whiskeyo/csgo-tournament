@@ -1,9 +1,15 @@
+/** @namespace mapsApi */
+
 import { db } from "../configs/db";
-import { addDoc, getDocs, collection } from "firebase/firestore";
+import { doc, updateDoc, addDoc, getDocs, collection } from "firebase/firestore";
 import objectGenerators from "../services/objectGenerators";
 
 const mapsApi = {};
 
+/**
+ * Populates Firestore Database with official CSGO maps
+ * @method
+ */
 mapsApi.populateDbWithAllMaps = async function () {
   await Promise.all([
     addDoc(collection(db, "maps"), objectGenerators.createMapObject("Mirage")),
@@ -16,6 +22,10 @@ mapsApi.populateDbWithAllMaps = async function () {
   ]).then(() => console.log("Maps added successfully!"));
 }
 
+/**
+ * @method
+ * @param {Array} allMaps Array in which all maps from DB are saved
+ */
 mapsApi.collectMaps = async function (allMaps) {
   allMaps.length = 0;
   const querySnapshot = await getDocs(collection(db, "maps"));
@@ -29,6 +39,20 @@ mapsApi.collectMaps = async function (allMaps) {
       roundsWonByT: data.rounds_won_by_t,
     });
   });
+};
+
+/**
+ * @method
+ * @param {string} mapId          ID of the map to be updated
+ * @param {Object} fieldsToChange Object contating fields that are updated
+ */
+mapsApi.updateMap = async function (mapId, fieldsToChange) {
+  try {
+    const mapRef = doc(db, "maps", mapId);
+    await updateDoc(mapRef, fieldsToChange);
+  } catch (err) {
+    console.log("Error while changing a map: ", err);
+  }
 };
 
 export default mapsApi;

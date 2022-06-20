@@ -1,3 +1,5 @@
+/** @namespace accountApi */
+
 import { app } from "../configs/firebase";
 import {
   getAuth,
@@ -12,6 +14,11 @@ import { addDoc, getDocs, query, where, collection } from "firebase/firestore";
 
 const accountApi = {};
 
+/**
+ * @method
+ * @param {Object} auth Auth object returned from getAuth(app)
+ * @returns User details from users collection
+ */
 async function getUserFromDbOnSignIn(auth) {
   const user = query(collection(db, "users"), where("uid", "==", auth.currentUser.uid));
   const userSnapshot = await getDocs(user);
@@ -24,6 +31,12 @@ async function getUserFromDbOnSignIn(auth) {
   };
 }
 
+/**
+ * @method
+ * @param {string} uid User id from Firestore Authentication
+ * @returns            Boolean saying whether there is a user with a given uid field
+ *                     set in the DB
+ */
 async function isUserInDb(uid) {
   const users = query(collection(db, "users"), where("uid", "==", uid));
   const usersSnapshot = await getDocs(users);
@@ -31,6 +44,13 @@ async function isUserInDb(uid) {
   return !usersSnapshot.empty;
 }
 
+/**
+ * @method
+ * @param {string} uid      User id to be checked if there is such user in DB
+ * @param {string} nickname Nickname of the user
+ * @param {string} fullname Full name of the user
+ * @param {string} email    Email address of the user
+ */
 async function createUserInDb(uid, nickname, fullname, email) {
   if (await isUserInDb(uid)) return;
 
@@ -46,6 +66,15 @@ async function createUserInDb(uid, nickname, fullname, email) {
   }
 }
 
+/**
+ * Function allowing the sign-up with given parameters
+ * @method
+ * @param {string} email    Email of the new user
+ * @param {string} password Password of the new user
+ * @param {string} nickname Nickname of the new user
+ * @param {string} fullname Full name of the new user
+ * @returns {Boolean}       Boolean saying if the sing-up was successful
+ */
 accountApi.signUpWithEmailAndPassword = function (email, password, nickname, fullname) {
   const auth = getAuth(app);
   createUserWithEmailAndPassword(auth, email, password)
@@ -59,6 +88,14 @@ accountApi.signUpWithEmailAndPassword = function (email, password, nickname, ful
     });
 };
 
+/**
+ * Function allowing the sign-in
+ * @method
+ * @param {string} email    Email of the user for a sign-in
+ * @param {string} password Password of the user for a sign-in
+ * @param {Object} store    Vuex store instance
+ * @returns {Boolean}       Boolean saying if the sing-in was successful
+ */
 accountApi.signInWithEmail = function (email, password, store) {
   const auth = getAuth(app);
 
@@ -73,6 +110,11 @@ accountApi.signInWithEmail = function (email, password, store) {
     });
 };
 
+/**
+ * Function allowing the sign-in with a Google account
+ * @method
+ * @param {Object} store    Vuex store instance
+ */
 accountApi.signInWithGoogle = function (store) {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
@@ -87,6 +129,11 @@ accountApi.signInWithGoogle = function (store) {
     });
 };
 
+/**
+ * Function for signing out
+ * @method
+ * @param {Object} store Vuex store instance
+ */
 accountApi.signOut = async function (store) {
   store.commit("setLoggedOff");
   const auth = getAuth(app);

@@ -6,6 +6,11 @@ import robin from "roundrobin";
 
 const objectGenerators = {};
 
+/**
+ * @method
+ * @param {string} mapName Name of the map
+ * @returns {Object}       Object containing empty fields for statistics of matches played on the map
+ */
 objectGenerators.createMapObject = function (mapName) {
   return {
     name: mapName,
@@ -15,6 +20,10 @@ objectGenerators.createMapObject = function (mapName) {
   };
 };
 
+/**
+ * @method
+ * @returns {Object} Object containing null fields for a single map of the match
+ */
 objectGenerators.createScoreObject = function () {
   return {
     first_team_score: null,
@@ -108,6 +117,10 @@ objectGenerators.createCombinedMatches = function (teams, matchType) {
   return matches;
 }
 
+/**
+ * @param {Object} team Team object containing fields id and name
+ * @returns {Object}    Object containing empty scores for given team
+ */
 objectGenerators.createTeamScore = function (team) {
   return {
     id: team.id,
@@ -119,6 +132,12 @@ objectGenerators.createTeamScore = function (team) {
   };
 }
 
+/**
+ * @param {Proxy} teamsProxy   Proxy with an array of teams
+ * @param {Proxy} matchesProxy Proxy with an array of matches
+ * @returns {Array}            Array of scores of every team scored in a tournament
+ *                             played in League or Combined system
+ */
 objectGenerators.createScoreTableForRoundRobin = function (teamsProxy, matchesProxy) {
   const teams = utils.getObjectFromProxy(teamsProxy);
   const matches = utils.getObjectFromProxy(matchesProxy);
@@ -207,7 +226,7 @@ objectGenerators.createTournamentObjectWithMatches = function (
     creator: creatorId,
     teams: teams,
     matches: matches,
-    status: types.TournamentStatus.SCHEDULED,
+    status: types.TournamentStatus.ONGOING,
     type: tournamentType,
     match_type: matchType,
     is_private: isPrivate,

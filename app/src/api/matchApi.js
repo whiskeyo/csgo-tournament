@@ -6,6 +6,14 @@ import objectGenerators from "../services/objectGenerators";
 
 const matchApi = {};
 
+/**
+ * @method
+ * @param {string} firstTeam          ID of the first team
+ * @param {string} secondTeam         ID of the second team
+ * @param {types.MatchType} matchType Type of the match (B01/B03/B05)
+ * @param {Number} nextMatchIdx       Index of the next match played
+ * @returns {string}                  ID of the created match
+ */
 matchApi.createMatch = async function (firstTeam, secondTeam, matchType, nextMatchIdx) {
   try {
     const newMatch = objectGenerators.createMatchObject(firstTeam, secondTeam, matchType, nextMatchIdx);
@@ -17,6 +25,11 @@ matchApi.createMatch = async function (firstTeam, secondTeam, matchType, nextMat
   }
 };
 
+/**
+ * @method
+ * @param {string} matchId        ID of the match to be updated
+ * @param {Object} fieldsToChange Object contating fields that are updated
+ */
 matchApi.updateMatch = async function (matchId, fieldsToChange) {
   try {
     const matchRef = doc(db, "matches", matchId);
@@ -26,6 +39,11 @@ matchApi.updateMatch = async function (matchId, fieldsToChange) {
   }
 };
 
+/**
+ * @method
+ * @param {string} matchId ID of the match to have collected its data
+ * @returns {Object}       Object with the match data stored in DB
+ */
 matchApi.getMatchByID = async function (matchId) {
   const matchRef = doc(db, "matches", matchId);
   const matchDoc = await getDoc(matchRef);
@@ -50,6 +68,10 @@ matchApi.getMatchByID = async function (matchId) {
   }
 };
 
+/**
+ * @method
+ * @param {Array} allMatches Array in which all matches from DB are saved
+ */
 matchApi.collectAllMatches = async function (allMatches) {
   allMatches.length = 0;
   const querySnapshot = await getDocs(collection(db, "matches"));

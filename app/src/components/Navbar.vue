@@ -3,7 +3,6 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img :src="this.$store.state.$appLogoURL" height="40" />
-        <!-- {{ this.$store.state.$appName }} -->
       </a>
       <button
         class="navbar-toggler"
@@ -69,19 +68,7 @@
               <li>
                 <router-link class="dropdown-item" to="/tournament/matches">Matches</router-link>
               </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about">About</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/cyclejstest">Cycle.js Test</router-link>
           </li>
         </ul>
         <form v-if="!isSignedIn" class="d-flex">

@@ -234,6 +234,21 @@ export default {
       this.matchDetails.secondTeamMapWins = utils.getNumberOfMapsWonBySecondTeam(this.matchDetails);
       this.matchDetails.winner = utils.determineWinner(this.matchDetails);
 
+      let maps = [];
+      maps = await mapsApi.collectMaps(maps).then(() => {
+        for (let mapIdx = 0; mapIdx < this.matchDetails.maps.length; ++mapIdx) {
+          for (const mapObject of maps) {
+            if (this.matchDetails.maps[mapIdx] == mapObject.name) {
+              mapsApi.updateMap(mapObject.id, {
+                matches_played: mapObject.matchesPlayed + 1,
+                rounds_won_by_ct: Number(mapObject.roundsWonByCt) + Number(this.matchDetails.scores[mapIdx]?.rounds_won_by_ct),
+                rounds_won_by_t: Number(mapObject.roundsWonByT) + Number(this.matchDetails.scores[mapIdx]?.rounds_won_by_t),
+              });
+            }
+          }
+        }
+      });
+
       await matchApi.updateMatch(this.$route.params.id, {
         scores: this.matchDetails.scores,
         first_team_map_wins: this.matchDetails.firstTeamMapWins,

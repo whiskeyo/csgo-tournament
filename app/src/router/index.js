@@ -15,8 +15,12 @@ import TeamDetails from "../views/TeamDetails.vue";
 import Maps from "../views/Maps.vue";
 import Matches from "../views/Matches.vue";
 import MatchRoom from "../views/MatchRoom.vue";
-import CycleJsTest from "../views/CycleJsTest.vue";
 
+/**
+ * Array storing routes used by Vue Router for redirections
+ * @readonly
+ * @array
+ */
 const routes = [
   {
     path: "/",
@@ -83,19 +87,25 @@ const routes = [
     name: "List of Teams",
     component: TeamListHandler,
   },
-  {
-    path: "/cyclejstest",
-    name: "Cycle.js Test",
-    component: CycleJsTest,
-  },
 ];
 
+/**
+ * Router object storing the history and routes
+ * @readonly
+ * @object
+ */
 export const router = createRouter({
   history: createWebHistory(),
   mode: "history",
   routes,
 });
 
+/**
+ * @method
+ * @param {RouteLocationNormalized} to   Route to be redirected to
+ * @param {RouteLocationNormalized} from Route to be redirected from
+ * @param {NavigationGuardNext} next     Action to happen next
+ */
 router.beforeEach((to, from, next) => {
   document.title = "[" + store.state.$appName + "] " + to.name;
   next();

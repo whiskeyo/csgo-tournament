@@ -9,6 +9,12 @@ import types from "../services/types";
 
 const tournamentApi = {};
 
+/**
+ * @method
+ * @param {Object} tournamentData Object with Single Elimination tournament data to be saved in DB
+ * @param {Object} router         Vue-router instance used for redirection to newly
+ *                                created Single Elimination tournament
+ */
 tournamentApi.createSingleEliminationTournament = async function (tournamentData, router) {
   try {
     let matches = objectGenerators.createSingleEliminationMatches(tournamentData.teams, tournamentData.matchType);
@@ -65,6 +71,12 @@ tournamentApi.createSingleEliminationTournament = async function (tournamentData
   }
 };
 
+/**
+ * @method
+ * @param {Object} tournamentData Object with All vs. All tournament data to be saved in DB
+ * @param {Object} router         Vue-router instance used for redirection to newly
+ *                                created All vs. All tournament
+ */
 tournamentApi.createAllVsAllTournament = async function (tournamentData, router) {
   try {
     let matches = objectGenerators.createRoundRobinMatches(tournamentData.teams, tournamentData.matchType);
@@ -103,6 +115,12 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
   }
 };
 
+/**
+ * @method
+ * @param {Object} tournamentData Object with Combined tournament data to be saved in DB
+ * @param {Object} router         Vue-router instance used for redirection to newly
+ *                                created Combined tournament
+ */
 tournamentApi.createCombinedTournament = async function (tournamentData, router) {
   try {
     const matches = objectGenerators.createCombinedMatches(tournamentData.teams, tournamentData.matchType);
@@ -162,6 +180,11 @@ tournamentApi.createCombinedTournament = async function (tournamentData, router)
   }
 };
 
+/**
+ * @method
+ * @param {string} teamId ID of the team to have collected all attended tournaments
+ * @returns {Array}       Array of all tournaments attended by team with given ID
+ */
 tournamentApi.getTournamentsPlayedByTeam = async function (teamId) {
   let tournamentsPlayed = [];
   const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
@@ -176,6 +199,11 @@ tournamentApi.getTournamentsPlayedByTeam = async function (teamId) {
   return tournamentsPlayed;
 };
 
+/**
+ * @method
+ * @param {string} teamId           ID of the team to have collected all attended tournaments
+ * @param {Array} tournamentsPlayed Array to be filled with all tournaments attended by team with given ID
+ */
 tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamentsPlayed) {
   const tournaments = query(collection(db, "tournaments"), where("teams", "array-contains", teamId));
   const tournamentsSnapshot = await getDocs(tournaments);
@@ -188,6 +216,11 @@ tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamen
   });
 };
 
+/**
+ * @method
+ * @param {string} tournamentId      ID of the tournament to have collected its data
+ * @param {Object} tournamentDetails Object with the tournament data stored in DB
+ */
 tournamentApi.collectTournamentByID = async function (tournamentId, tournamentDetails) {
   const tournamentRef = doc(db, "tournaments", tournamentId);
   const tournamentDoc = await getDoc(tournamentRef);
@@ -206,6 +239,10 @@ tournamentApi.collectTournamentByID = async function (tournamentId, tournamentDe
   }
 };
 
+/**
+ * @method
+ * @param {Array} allTournaments Array in which all tournaments from DB are saved
+ */
 tournamentApi.collectAllTournaments = async function (allTournaments) {
   allTournaments.length = 0;
   const querySnapshot = await getDocs(collection(db, "tournaments"));
@@ -225,6 +262,11 @@ tournamentApi.collectAllTournaments = async function (allTournaments) {
   });
 };
 
+/**
+ * @method
+ * @param {string} tournamentId   ID of the tournament to be updated
+ * @param {Object} fieldsToChange Object contating fields that are updated
+ */
 tournamentApi.updateTournament = async function (tournamentId, fieldsToChange) {
   try {
     const tournamentRef = doc(db, "tournaments", tournamentId);
