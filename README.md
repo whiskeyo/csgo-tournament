@@ -1,37 +1,75 @@
-# CSGO Tournament
+# CStrikers (csgo-tournament)
+## Opis tematu pracy inżynierskiej
 
-Web application which makes organising CSGO torurnaments and leagues easier. 
+Z roku na rok rośnie liczba organizowanych profesjonalnych turniejów w wielu grach, jednak narzędzia wspomagające organizację turniejów są zwykle niedostępne dla widzów.
 
-It is written in Django and Vue.js.
+Implementacja tej aplikacji miałaby się przyczynić do ułatwienia organizacji turniejów dla każdego. Z założenia miałaby głównie wspierać:
+- system ligowy, pucharowy i mieszany,
+- rozgrywane mecze w formacie BO1/3/5 (Best of...),
+- odrzucanie map przez kapitanów obu drużyn,
+- możliwość tworzenia turniejów prywatnych i publicznych,
+- panel administracyjny do zarządzania rozgrywkami.
 
-## Install Vue CLI, build virtualenv
+Ponadto implementacja będzie korzystać z dwóch frameworków front-endowych, tj. Vue oraz Cycle.js, które prezentują całkowicie odmienne podejście do programowania aplikacji webowych.
+
+## Description of thesis
+
+The number of organized professional tournaments in many games is growing every year, but the tools for organizing tournaments are usually inaccessible to spectators.
+
+Implementation of this application would contribute to facilitating the organization of tournaments for everyone. By design it would mainly support:
+- league, cup and mixed system,
+- matches played in BO1/3/5 (Best of...) format,
+- discarding of maps by the captains of both teams,
+- possibility to create private and public tournaments,
+- administration panel to manage the games.
+
+Moreover, the implementation will use two front-end frameworks, i.e. Vue and Cycle.js, which present a completely different approach to web application programming.
+
+## Struktura projektu
 
 ```
-$ sudo npm install -g @vue/cli
-$ sudo pip install virtualenv
-$ virtualenv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
+src
+|
++---api (funkcje obsługujące zapytania do Cloud Firestore)
+|
++---App.vue (główny komponent zawierający layout strony)
+|
++---assets (pliki CSS)
+|
++---components (komponenty Vue.js)
+|
++---configs (pliki konfiguracyjne Firebase)
+|
++---main.js (plik tworzący aplikację Vue)
+|
++---router (router Vue, katalog zawierający plik obsługujący przekierowania)
+|
++---services (funkcje pomocnicze, komponenty Cycle.js)
+|
++---store (Vuex store, katalog zawierający plik przechowujący globalny stan)
+|
++---views (widoki Vue.js)
+|
++---tests (testy jednostkowe)
 ```
 
-## Building for development (available on `localhost:8000`):
+## Podstawowe polecenia pozwalające uruchomić projekt
 
-```
-# Terminal 1:
-$ source venv/bin/activate
-$ python3 app/backend/manage.py runserver
+### Konfiguracja Vue + instalacja paczek
 
-# Terminal 2:
-$ cd app/frontend
-$ npm run serve
+```bash
+sudo npm install -g @vue/cli # jednorazowo
+cd app && npm install # jednorazowo
 ```
 
-## Building for production (available on `localhost:8000`):
+### Polecenia uruchamiane przez `npm run`
 
-```
-$ pushd app/frontend
-$ npm run build
-$ popd
-$ source venv/bin/activate
-$ python3 app/backend/manage.py runserver
+```bash
+npm run dev      # uruchomienie serwera developerskiego
+npm run build    # kompilacja projektu z możliwością hostowania na serwerach
+npm run lint     # uruchomienie lintera wskazującego błędy w kodzie
+npm run format   # uruchomienie formattera
+npm run test     # uruchomienie testów jednostkowych
+npm run coverage # uruchomienie testów jednostkowych oraz wygenerowanie pokrycia
+npm run docs     # wygenerowanie dokumentacji
 ```
