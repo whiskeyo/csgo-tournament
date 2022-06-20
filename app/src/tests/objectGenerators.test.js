@@ -227,7 +227,6 @@ describe("objectGenerators tests", () => {
   const matchesArrayProxy = new Proxy(matchesArray, {});
 
   const scoreTable = objectGenerators.createScoreTableForRoundRobin(teamsArrayProxy, matchesArrayProxy);
-  console.log(scoreTable);
   test("Creating score table for round robin sorts teams by number of maps won", () => {
     expect(scoreTable[0].name).toBe(teamsArray[0].name); /* first place */
     expect(scoreTable[1].name).toBe(teamsArray[2].name); /* second place */
