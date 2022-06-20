@@ -14,7 +14,6 @@
         <tr v-for="tournament in filteredTournaments" :key="tournament.id">
           <td class="text-start">
             <router-link :to="'/tournament/' + tournament.id">
-              <!-- <router-link :to="'/'"> -->
               {{ tournament.name }}
             </router-link>
           </td>

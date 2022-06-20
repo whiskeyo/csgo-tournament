@@ -7,7 +7,7 @@
         <form>
           <div class="form-group mb-3">
             <label>Name of the tournament</label>
-            <input class="form-control" placeholder="Your team name" v-model="createTournamentForm.name" />
+            <input class="form-control" placeholder="Your tournament's name" v-model="createTournamentForm.name" />
           </div>
           <div class="form-group mb-3">
             <label>Type of the tournament</label>

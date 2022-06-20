@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Matches</h1>
-    <table style="table-layout: fixed;" class="table table-dark table-striped text-center align-middle">
+    <table style="table-layout: fixed" class="table table-dark table-striped text-center align-middle">
       <thead class="align-middle">
         <tr>
           <th style="width: 20%">Team A</th>
@@ -12,27 +12,34 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="match in allMatches" :key="match.id">
-          <td>{{ match.first_team }}</td>
-          <td>{{ match.second_team }}</td>
+        <tr v-for="match in filteredMatches" :key="match.id">
+          <td>{{ getTeamNameById(match.first_team) }}</td>
+          <td>{{ getTeamNameById(match.second_team) }}</td>
           <td>{{ "Best Of " + match.match_type }}</td>
           <td>
             <table class="table table-borderless table-white-text mb-0">
-              <tbody>
+              <tbody style="table-layout: fixed">
                 <tr>
-                  <td v-for="(n, index) in match.match_type" :key="index">
-                    {{ (match.maps[index] != "") ? match.maps[index] : "Not selected" }}
-                  </td>
+                  <template v-if="match.scores.length > 0">
+                    <td v-for="(n, index) in match.scores.length" :key="index" :style="'width: ' + 100 / match.scores.length + '%'">
+                      {{ match.maps[index] != "" ? match.maps[index] : "Not selected" }}
+                    </td>
+                  </template>
+                  <template v-else>
+                    Maps not selected
+                  </template>
                 </tr>
                 <tr>
-                  <td v-for="(n, index) in match.match_type" :key="index">
-                    {{ this.getScoreIfExists(match, index) }}
-                  </td>
+                  <template v-if="match.scores.length > 0">
+                    <td v-for="(n, index) in match.scores.length" :key="index" :style="'width: ' + 100 / match.scores.length + '%'">
+                      {{ this.getScoreIfExists(match, index) }}
+                    </td>
+                  </template>
                 </tr>
               </tbody>
             </table>
           </td>
-          <td>{{ match.winner }}</td>
+          <td>{{ match.winner != "" ? match.winner : "No winner yet" }}</td>
         </tr>
       </tbody>
     </table>
@@ -41,6 +48,8 @@
 
 <script>
 import matchApi from "../api/matchApi";
+import teamApi from "../api/teamApi";
+import utils from "../services/utils";
 
 export default {
   name: "Matches",
@@ -48,22 +57,35 @@ export default {
   data: function () {
     return {
       allMatches: [],
+      filteredMatches: [],
+      allTeams: [],
     };
   },
 
   methods: {
-    getScoreIfExists(match, index) {
+    getScoreIfExists: function (match, index) {
       if ("scores" in match) {
-        if (match.scores[index] && match.scores[index])
+        if (match.scores[index].first_team_score && match.scores[index].second_team_score)
           return match.scores[index].first_team_score + ":" + match.scores[index].second_team_score;
         else return "-:-";
       }
       return "Not played yet";
     },
+    getTeamNameById: function (teamId) {
+      return utils.getTeamNameById(teamId, this.allTeams);
+    },
+    shouldMatchAppearOnList: function (match) {
+      return match.first_team != "" && match.second_team != "";
+    },
   },
 
-  created: function () {
-    matchApi.collectAllMatches(this.allMatches);
+  created: async function () {
+    await teamApi.collectTeams(this.allTeams);
+    await matchApi.collectAllMatches(this.allMatches).then(() => {
+      this.filteredMatches = this.allMatches.filter((match) => {
+        return this.shouldMatchAppearOnList(match);
+      });
+    });
   },
 };
 </script>

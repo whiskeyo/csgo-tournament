@@ -14,8 +14,8 @@
         <tr v-for="map in allMaps" :key="map.name">
           <td>{{ map.name }}</td>
           <td>{{ map.matchesPlayed }}</td>
-          <td>{{ map.roundsWonByT }}</td>
-          <td>{{ map.roundsWonByCt }}</td>
+          <td>{{ map.roundsWonByT + calculatePercentOfRounds(map.roundsWonByT, map.roundsWonByT + map.roundsWonByCt)}}</td>
+          <td>{{ map.roundsWonByCt + calculatePercentOfRounds(map.roundsWonByCt, map.roundsWonByT + map.roundsWonByCt)}}</td>
         </tr>
       </tbody>
     </table>
@@ -34,7 +34,11 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    calculatePercentOfRounds(roundsWonOnOneSide, roundsTogether) {
+      return " (" + (roundsWonOnOneSide / roundsTogether * 100).toFixed(1) + "%)"
+    }
+  },
 
   created: function () {
     mapsApi.collectMaps(this.allMaps);
