@@ -98,6 +98,29 @@ import teamApi from "../api/teamApi";
 import types from "../services/types";
 import utils from "../services/utils";
 
+/**
+ * @vue-data {Object} createTournamentForm - Object representing current state of fields
+ *                                           in the view, used for creation of the tournament
+ * @vue-data {Array} [allTeams=[]] - Array of all teams fetched used as a list of candidates
+ * @vue-data {types.TournamentType} [tournamentTypes=types.TournamentType]
+ *    Enumerator storing values of tournament types
+ * @vue-data {types.MatchType} [matchTypes=types.MatchType]
+ *    Enumerator storing values of match types
+ * @vue-event {void} createSingleEliminationTournament - Wrapper for tournamentApi.createSingleEliminationTournament
+ * @vue-event {void} createAllVsAllTournament - Wrapper for tournamentApi.createAllVsAllTournament
+ * @vue-event {void} createCombinedTournament - Wrapper for tournamentApi.createCombinedTournament
+ * @vue-event {Boolean} isPowerOfTwo - Wrapper for utils.isPowerOfTwo
+ * @vue-event {Boolean} created - Fetches all teams from database
+ * @vue-computed {Boolean} isSingleEliminationTournament - Checks if selected type is SINGLE_ELIMINATION
+ * @vue-computed {Boolean} isAllVsAllTournament - Checks if selected type is ALL_VS_ALL
+ * @vue-computed {Boolean} isCombinedTournament - Checks if selected type is COMBINED
+ * @vue-computed {Boolean} isValidSingleEliminationTournament
+ *    Checks if createTournamentForm meets requirements for creating Single Elimination tournament
+ * @vue-computed {Boolean} isValidAllVsAllTournament
+ *    Checks if createTournamentForm meets requirements for creating All versus All tournament
+ * @vue-computed {Boolean} isValidCombinedTournament
+ *    Checks if createTournamentForm meets requirements for creating Combined tournament
+ */
 export default {
   name: "TournamentCreate",
 

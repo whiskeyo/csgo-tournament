@@ -25,6 +25,11 @@
 <script>
 import mapsApi from "../api/mapsApi";
 
+/**
+ * @vue-data {Array} [allMaps=[]] - All maps fetched from the database
+ * @vue-event {string} calculatePercentOfRounds - Calculates percent of rounds won on the map
+ * @vue-event {void} created - Hook fetching statistics of all maps
+ */
 export default {
   name: "Maps",
 

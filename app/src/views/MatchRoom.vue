@@ -97,13 +97,9 @@
                       placeholder="T"
                     />
                   </th>
-                  <!-- <th style="width: 10%">
-                    <button @click="updateScore" type="button" class="btn btn-dark btn-sm">&#128504;</button>
-                  </th> -->
                 </tr>
               </thead>
             </table>
-            <!-- {{ map }}  ({{ idx }}) -->
           </li>
           <li class="list-group-item list-group-item-success text-center">
             <button @click="updateScore" type="button" class="btn btn-dark">Save scores</button>
@@ -161,6 +157,23 @@ import utils from "../services/utils";
 import { db } from "../configs/db";
 import { doc, onSnapshot } from "firebase/firestore";
 
+/**
+ * @vue-data {Object} [matchDetails] - All match details used for displaying the current
+ *                                     state of the match. It also includes information about
+ *                                     both teams such as members and their captains.
+ * @vue-event {void} changeMapState - Function called on any map-related button press. Its role
+ *                                    is to decide whether a player is a captain and it is his
+ *                                    turn in banning/picking phase. It also sets the note about
+ *                                    current phase and updates the match with maps picked and
+ *                                    banned after such action has been taken.
+ * @vue-event {void} updateScore - Function used to update the score of the match after the
+ *                                 "Save scores" button has been clicked. It also updates the
+ *                                 statistics used by Map component.
+ * @vue-event {void} beforeCreate - Hook fetching all data which is displayed in the Match Room
+ *                                  since the user entered the page.
+ * @vue-event {void} created - Hook using onSnapshot function to allow users ban/pick maps in
+ *                             real time. It updates all maps/score related match details.
+ */
 export default {
   name: "MatchRoom",
 

@@ -31,17 +31,11 @@
               Teams
             </div>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li v-if="isSignedIn && shouldDisplayVueComponents">
-                <router-link to="/team" class="dropdown-item">Create a Team (Vue)</router-link>
-              </li>
-              <li v-if="shouldDisplayVueComponents">
-                <hr class="dropdown-divider" />
-              </li>
               <li v-if="isSignedIn">
-                <router-link to="/team/create" class="dropdown-item">Create a Team (Cycle.js)</router-link>
+                <router-link to="/team/create" class="dropdown-item">Create a Team</router-link>
               </li>
               <li>
-                <router-link to="/team/list" class="dropdown-item">List All Teams (Cycle.js)</router-link>
+                <router-link to="/team/list" class="dropdown-item">List All Teams</router-link>
               </li>
             </ul>
           </li>
@@ -166,6 +160,19 @@
 <script>
 import accountApi from "../api/accountApi";
 
+/**
+ * @vue-data {Object} [signIn={ email: "", password: "" }]
+ *    Parameters used for signing-in with email and password
+ * @vue-data {Object} [signUp={ email: "", password: "", fullname: "", nickname: "" }]
+ *    Parameters used for signing-up, used by a function to create an account
+ * @vue-event {void} signUpWithEmailAndPassword - Creates an account for a user with given parameters
+ * @vue-event {void} signInWithEmail - Authenticates user for a email+password sign-in
+ * @vue-event {void} signInWithGoogle - Authenticates user with a Google account on sign-in
+ * @vue-event {void} signOut - Signs out the user
+ * @vue-event {void} clearSignUpForm - Clears fields of signUp object
+ * @vue-event {void} clearSignInForm - Clears fields of signIn object
+ * @vue-computed {Boolean} isSignedIn - Checks if the user is signed-in based on the store state
+ */
 export default {
   name: "Navbar",
   data() {
@@ -192,7 +199,7 @@ export default {
           this.signUp.fullname
         )
       )
-        this.clearSignUpForm();
+      this.clearSignUpForm();
     },
     signInWithEmail: function () {
       if (accountApi.signInWithEmail(this.signIn.email, this.signIn.password, this.$store)) this.clearSignInForm();
@@ -217,9 +224,6 @@ export default {
   computed: {
     isSignedIn() {
       return this.$store.state.$isLoggedIn;
-    },
-    shouldDisplayVueComponents() {
-      return this.$store.state.$shouldDisplayVueComponents;
     }
   },
 };

@@ -127,6 +127,19 @@ import objectGenerators from "../services/objectGenerators";
 import utils from "../services/utils";
 import types from "../services/types";
 
+/**
+ * @vue-data {Object} tournamentDetails - Details about single tournament fetched
+ * @vue-event {string} getTeamName - Wrapper for utils.getTeamNameById
+ * @vue-event {string} getRoundStringFromMatchIdx - Calculates round number based on the index
+ *                                                  of the match and returns a string with its name
+ * @vue-event {string} getGroupOrRoundStringFromMatchIdx - Calculates the group name or round number
+ *                                                         by the index of the match
+ * @vue-event {Boolean} areAllGroupMatchesFinished - Checks if all matches in given group have finished
+ * @vue-event {Boolean} created - Fetches all tournament details required to display them in a view
+ * @vue-computed {Boolean} isSingleEliminationTournament - Checks if selected type is SINGLE_ELIMINATION
+ * @vue-computed {Boolean} isAllVsAllTournament - Checks if selected type is ALL_VS_ALL
+ * @vue-computed {Boolean} isCombinedTournament - Checks if selected type is COMBINED
+ */
 export default {
   name: "Tournament Details",
 

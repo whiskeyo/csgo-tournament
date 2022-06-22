@@ -29,6 +29,16 @@
 <script>
 import tournamentApi from "../api/tournamentApi";
 
+/**
+ * @vue-data {Array} allTournaments - List of all tournaments fetched from database
+ * @vue-data {Array} filteredTournaments - List of filtered tournaments by the visibility
+ * @vue-event {string} getWinnerIfNotEmpty - Returns name of the winner of the match if
+ *                                           the winner is known
+ * @vue-event {Boolean} shouldTournamentAppearOnList - Checks if the tournament is private
+ *                                                     and should not be displayed on the
+ *                                                     list. It displays ALL tournaments
+ *                                                     created by currently logged-in user.
+ */
 export default {
   name: "Tournament",
 
@@ -41,7 +51,7 @@ export default {
 
   methods: {
     getWinnerIfNotEmpty: function (entry) {
-      return entry ? entry : "No winner yet :)";
+      return entry ? entry : "No winner yet";
     },
     shouldTournamentAppearOnList: function (tournament) {
       return !tournament.is_private || tournament.creator === this.$store.state.$user?.uid;

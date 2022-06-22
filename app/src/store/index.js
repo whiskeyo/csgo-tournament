@@ -11,7 +11,6 @@ export default createStore({
     $appName: "CStrikers",
     $appLogoURL: "https://i.imgur.com/k5Ns72R.png",
     $isLoggedIn: false,
-    $shouldDisplayVueComponents: false,
     $user: null,
   },
   mutations: {

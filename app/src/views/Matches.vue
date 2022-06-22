@@ -51,6 +51,16 @@ import matchApi from "../api/matchApi";
 import teamApi from "../api/teamApi";
 import utils from "../services/utils";
 
+/**
+ * @vue-data {Array} [allMatches=[]] - All matches fetched from the database
+ * @vue-data {Array} [filteredMatches=[]] - Filtered matches using event shouldMatchAppearOnList
+ * @vue-data {Array} [allTeams=[]] - All teams fetched from the database used to print the name of the teams in match
+ * @vue-event {string} getScoreIfExists - Gets score of the match if it is not null
+ * @vue-event {string} getTeamNameById - Calls utils function to get the team's name
+ * @vue-event {Boolean} shouldMatchAppearOnList - Checks if the match has both teams assigned
+ * @vue-event {void} created - Hook fetching teams and matches, then filtering matches
+ *                             based on the name of the team
+ */
 export default {
   name: "Matches",
 
