@@ -17,26 +17,10 @@
 % \polishtitle    {Implementacja aplikacji magazynu sprzętu \fmlinebreak elektronicznego z wykorzystaniem\fmlinebreak Domain Driven Design}
 \polishtitle    {Implementacja aplikacji webowej służącej \fmlinebreak do obsługi turniejów do gry \fmlinebreak Counter Strike: Global Offensive}
 \englishtitle   {Implementation of web application \fmlinebreak used to organize tournaments for \fmlinebreak Counter Strike: Global Offensive}
-\polishabstract{Z roku na rok rośnie liczba organizowanych profesjonalnych turniejów w wielu grach, jednak narzędzia wspomagające organizację turniejów są zwykle niedostępne dla widzów. Implementacja tej aplikacji miałaby się przyczynić do ułatwienia organizacji turniejów dla każdego. Z założenia miałaby głównie wspierać:
-
-\begin{itemize}
-    \item system ligowy, pucharowy i mieszany,
-    \item rozgrywane mecze w formacie BO1/3/5 (Best of...),
-    \item odrzucanie map przez kapitanów obu drużyn,
-    \item możliwość tworzenia turniejów prywatnych i publicznych,
-    \item panel administracyjny do zarządzania rozgrywkami.
-\end{itemize}
+\polishabstract{Z roku na rok rośnie liczba organizowanych profesjonalnych turniejów w wielu grach, jednak narzędzia wspomagające organizację turniejów są zwykle niedostępne dla widzów. Implementacja tej aplikacji miałaby się przyczynić do ułatwienia organizacji turniejów dla każdego. Z założenia miałaby głównie wspierać: system ligowy, pucharowy i mieszany; rozgrywane mecze w formacie BO1/3/5 (Best of...); odrzucanie map przez kapitanów obu drużyn; możliwość tworzenia turniejów prywatnych i publicznych; panel administracyjny do zarządzania rozgrywkami.
 
 Ponadto implementacja będzie korzystać z dwóch frameworków front-endowych: Vue oraz Cycle.js, które prezentują całkowicie odmienne podejście do programowania aplikacji webowych.}
-\englishabstract{The number of organized professional tournaments in many games is growing every year, but the tools for organizing tournaments are usually inaccessible to spectators. Implementation of this application would contribute to enabling the organization of tournaments for everyone. By design it would mainly support:
-
-\begin{itemize}
-    \item league, cup and mixed system,
-    \item matches played in BO1/3/5 (Best of...) format,
-    \item discarding of maps by the captains of both teams,
-    \item possibility to create private and public tournaments,
-    \item administration panel to manage the games.
-\end{itemize}
+\englishabstract{The number of organized professional tournaments in many games is growing every year, but the tools for organizing tournaments are usually inaccessible to spectators. Implementation of this application would contribute to enabling the organization of tournaments for everyone. By design it would mainly support: league, cup and mixed system; matches played in BO1/3/5 (Best of...) format; discarding of maps by the captains of both teams; possibility to create private and public tournaments; administration panel to manage the games.
 
 Moreover, the implementation will use two front-end frameworks, i.e. Vue.js and Cycle.js, which present a completely different approach to web application programming.
 }
@@ -71,53 +55,90 @@ Moreover, the implementation will use two front-end frameworks, i.e. Vue.js and 
 
 \chapter{Wprowadzenie}
 \section{Motywacja}
-W ciągu ostatnich lat brałem udział w kilkunastu amatorskich, jak i półprofesjonalnych turniejach offline w grze Counter Strike: Global Offensive i niejednokrotnie byłem świadkiem chaosu, który powstawał poprzez niepoprawne podejście organizatorów do organizacji zawodów. Zwykle wiązało się to z prowadzeniem wszelkich statystyk w niepoprawnie przygotowanych arkuszach kalkulacyjnych, albo co gorsza - na kartkach, bez żadnych narzędzi wspomagających automatyzację procesu. Kolejnym sporym problemem było wybieranie i odrzucanie map przez obie drużyny, zwykle gracze musieli chodzić po ogromych salach i się szukać, a informacje o wybranych mapach przekazywali administratorom po kilku minutach. Stworzenie aplikacji do organizacji turniejów było pomysłem, który miał wyjść na przeciw oczekiwaniom i zarówno ułatwić udział w turniejach, jak i ich organizację.
+W ciągu ostatnich lat brałem udział w kilkunastu amatorskich, jak i półprofesjonalnych turniejach offline w grze Counter Strike: Global Offensive i niejednokrotnie byłem świadkiem chaosu, który powstawał poprzez niepoprawne podejście organizatorów do organizacji zawodów. Zwykle wiązało się to z prowadzeniem wszelkich statystyk w niepoprawnie przygotowanych arkuszach kalkulacyjnych albo co gorsza -- na kartkach, bez żadnych narzędzi wspomagających automatyzację procesu. Kolejnym sporym problemem było wybieranie i odrzucanie map przez obie drużyny, zwykle gracze musieli chodzić po ogromnych salach i się szukać, a informacje o wybranych mapach przekazywali administratorom po kilku minutach. Stworzenie aplikacji do organizacji turniejów było pomysłem, który miał wyjść naprzeciw oczekiwaniom i zarówno ułatwić udział w turniejach, jak i ich organizację.
 
 \section{Opis aplikacji CStrikers}
-Aplikacja CStrikers sprawia, że organizatorzy mogą w łatwy sposób tworzyć turnieje różnych rodzajów, a gracze brać w nich udział. Najczęściej spotykanymi rodzajami turniejów są system pucharowy, system ligowy oraz system mieszany. Wszystkie mecze rozgrywane w turnieju są rozgrywane w jednym z systemów: Best Of 1, Best Of 3 albo Best of 5. Rozgrywane mecze są na mapach wybieranych przez obie drużyny - ich wybór odbywa się na żywo poprzez odrzucanie i wybieranie map przez kapitanów obu drużyn. Po każdym meczu uzupełniane są statystyki końcowe każdej z map, a następnie na ich podstawie wyznaczany jest wynik końcowy.
+Aplikacja CStrikers sprawia, że organizatorzy mogą w łatwy sposób tworzyć turnieje różnych rodzajów, a gracze brać w nich udział. Najczęściej spotykanymi rodzajami turniejów są system pucharowy, system ligowy oraz system mieszany. Wszystkie mecze rozgrywane w turnieju są rozgrywane w jednym z systemów: Best Of 1, Best Of 3 albo Best of 5. Rozgrywane mecze są na mapach wybieranych przez obie drużyny -- ich wybór odbywa się na żywo poprzez odrzucanie i wybieranie map przez kapitanów obu drużyn. Po każdym meczu uzupełniane są statystyki końcowe każdej z map, a następnie na ich podstawie wyznaczany jest wynik. Aplikacja również śledzi informacje o ilości wygranych rund przez obie strony na każdej mapie.
+
+Aplikacja znajduje się w publicznym repozytorium dostępnym na GitHubie: \url{https://github.com/whiskeyo/csgo-tournament}.
 
 
 \section{Ważniejsze pojęcia i skróty}
 \begin{definition}
-    Counter Strike: Global Offensive --- gra z gatunku first-person shooter stworzona przez Valve w 2012. roku. Do każdej rozgrywki przystępują dwie drużyny, każda z nich składa się z 5 graczy biorących aktywnie udział (często spotyka się zmienników, jednak w jednym momencie może grać tylko 5 osób). Celem każdej z drużyn jest wygranie 16 rund, lub więcej w przypadku dogrywki. W kolejnych rozdziałach tytuł gry skracany będzie do CSGO.
+    Counter Strike: Global Offensive --- gra z gatunku \textit{first-person shooter} stworzona przez Valve w 2012. roku. Do każdej rozgrywki przystępują dwie drużyny, każda z nich składa się zwykle z 5 graczy biorących aktywnie udział (często spotyka się zmienników, jednak w jednym momencie może grać tylko 5 osób). Celem każdej z drużyn jest wygranie 16 rund lub więcej w przypadku dogrywki. W kolejnych rozdziałach tytuł gry skracany będzie do CSGO.
 \end{definition}
 
 \begin{definition}
-    System pucharowy --- sposób rozgrywania turnieju polegający na rozgrywaniu bezpośrednich pojedynków. Zwycięzca spotkania przechodzi do kolejnej rundy, a pokonany odpada z turnieju. W turnieju może wziąć udział liczba drużyn będąca potęgą liczby 2. Często spotykanymi określeniami są Single Elimination oraz Knock-out.
+    Counter-Terrorists (CT), Terrorists (T) --- dwie strony możliwe do wyboru w CSGO. Obie drużyny w trakcie jednego meczu grają po obu stronach. Drużyny po rozegraniu połowy (15 rund lub 3 w przypadku dogrywki) zostają zamienione.
 \end{definition}
 
 \begin{definition}
-    System ligowy --- sposób rozgrywania turnieju, w którym każda drużyna gra ze wszystkimi pozostałymi. Wyniki końcowe ligi są obliczane na podstawie wygranych meczów, a w przypadku takiej samej liczby wygranych brane są pod uwagę również wygrane i przegrane rundy. Innymi określeniami na system ligowy są również system kołowy, każdy z każdym oraz round-robin.
+    System pucharowy --- sposób rozgrywania turnieju polegający na rozgrywaniu bezpośrednich pojedynków. Zwycięzca spotkania przechodzi do kolejnej rundy, a pokonany odpada z turnieju. W turnieju może wziąć udział liczba drużyn będąca potęgą liczby 2. Często spotykanymi określeniami tego systemu są \textit{Single Elimination} oraz \textit{Knock-out}.
 \end{definition}
 
 \begin{definition}
-    System mieszany --- sposób rozgrywania turnieju będący połączeniem systemu ligowego oraz systemu pucharowego. Uczestnicy turnieju są rozdzielani do czterodrużynowych grup, w których rozgrywa się mecze w systemie kołowym, a następnie dwie najlepsze drużyny z każdej grupy przechodzą do kolejnego etapu rozgrywanego w systemie pucharowym.
+    System ligowy --- sposób rozgrywania turnieju, w którym każda drużyna gra ze wszystkimi pozostałymi. Wyniki ligi są obliczane na podstawie wygranych meczów, a w przypadku takiej samej liczby wygranych brane są pod uwagę również wygrane i przegrane rundy. Innymi określeniami na system ligowy są również system kołowy, każdy z każdym oraz \textit{round-robin}.
 \end{definition}
 
 \begin{definition}
-    Best of $N$ --- określenie na typ pojedynczego meczu. $N$ oznacza liczbę maksymalnie rozgrywanych map w bezpośrednim starciu, z czego aby wygrać cały mecz, należy wygrać $\left\lceil \frac{N}{2} \right\rceil$ map. W systemie BO1 kapitanowie odrzucają mapy dopóki nie zostanie ostatnia, na której będzie odbywał się mecz. Wybór rozgrywanych map w systemie BO3 odbywa się następująco: $B - B - P - P - B - B - P$, gdzie $B$ oznacza mapę zbanowaną (odrzuconą), a $P$ mapę wybraną. W systemie BO5 kapitanowie odrzucają po jednej mapie, a następnie wybierają kolejność rozgrywek na pozostałych mapach.
+    System mieszany --- sposób rozgrywania turnieju będący połączeniem systemu ligowego oraz systemu pucharowego. Uczestnicy turnieju są rozdzielani do czterodrużynowych grup, w których rozgrywa się mecze w systemie kołowym, a~następnie dwie najlepsze drużyny z każdej grupy przechodzą do kolejnego etapu rozgrywanego w systemie pucharowym.
 \end{definition}
 
 \begin{definition}
-    Framework --- szkielet definujący strukturę aplikacji oraz sposób jej działania. Projekt CStrikers wykorzystuje dwa frameworki front-endowe: Vue.js oraz Cycle.js.
+    Best of $N$ --- określenie na typ pojedynczego meczu. $N$ oznacza liczbę maksymalnie rozgrywanych map w bezpośrednim starciu, z czego, aby wygrać cały mecz, należy wygrać $\left\lceil \frac{N}{2} \right\rceil$ map. W systemie BO1 kapitanowie odrzucają mapy, dopóki nie zostanie ostatnia, na której będzie odbywał się mecz. Wybór rozgrywanych map w systemie BO3 odbywa się następująco: $B - B - P - P - B - B - P$, gdzie $B$ oznacza mapę zbanowaną (odrzuconą), a $P$ mapę wybraną. W systemie BO5 kapitanowie odrzucają po jednej mapie, a następnie wybierają kolejność rozgrywek na pozostałych mapach.
 \end{definition}
+
+\begin{definition}
+    Framework --- szkielet definiujący strukturę aplikacji oraz sposób jej działania. Projekt CStrikers wykorzystuje dwa frameworki front-endowe: Vue.js oraz Cycle.js.
+\end{definition}
+
+\section{Porównanie z istniejącymi aplikacjami}
+\subsection{Toornament}
+Toornament to oprogramowanie działające jako usługa (\textit{Software as a Service}) \cite{bib:toornament-saas} służąca do organizacji turniejów w wielu grach dostępnych na różnych platformach. W darmowej wersji udostępnia narzędzia pozwalające na zarządzanie rozgrywkami, umożliwia zapisywanie się na turnieje przez drużyny, jednak ilość dużyn biorących udział w jednym turnieju nie może przekroczyć 128. Implementacja aplikacji CStrikers nie posiada takiego limitu i w każdym turnieju może wziąć udział dowolna liczba drużyn.
+
+Toornament pozwala na wykupienie dodatkowych planów rozszerzających możliwości organizatorów. Są to między innymi rozszerzenie ilości uczestników turniejów, dodanie informacji o sponsorach w (pakiet Starter), wykupienie własnej domeny przygotowanej pod organizację jednego turnieju (pakiet Tourney), czy nawet uzyskanie dostępu do API w celu stworzenia własnej usługi na podstawie Toornament (pakiet API) \cite{bib:toornament-pricing}.
+
+\subsection{E-Sports Entertainment Association}
+E-Sports Entertainment Association (ESEA) to aplikacja umożliwiająca graczom na udział w pojedynczych meczach, ligach oraz turniejach. Udostępnia ona stronę internetową, na której użytkownicy mają dostęp do turniejów, statystyk oraz forum, oraz aplikację będącą jednocześnie oprogramowaniem służącym do szukania gier, dołączania do meczów oraz odrzucania map, jednak ma w sobie wbudowany anti-cheat \cite{bib:esea-anticheat} (tj. system wykrywający osoby używające oprogramowania, które wspomaga ich grę).
+
+Niestety ESEA nie udostępnia użytkownikom narzędzi do organizacji własnych lig ani turniejów. Możliwości użytkowników serwisu ograniczają się jedynie do brania w nich udziału, jednak uczestnictwo w ESEA jest płatne \cite{bib:esea-subscribe}.
+
+Aplikacja CStrikers nie posiada narzędzi do wykrywania niechcianego oprogramowania, iż jest aplikacją internetową nieingerującą w pliki użytkownika. Pozwala jednak każdemu użytkownikowi na stworzenie drużyny i wzięcie udziału w rozgrywkach bądź stworzenie własnego turnieju w jednym z trzech systemów.
+
+\section{Plan pracy}
+W rozdziale drugim opisano zasadę działania, wykorzystane architektury frameworków Vue.js oraz Cycle.js oraz uzasadniono wybór każdego z nich.
+
+W rozdziale trzecim opisano strukturę aplikacji i jej architekturę. Opis zawiera informacje o katalogach, jakie można znaleźć w repozytorium, mówi o wykorzystanej architekturze, prezentuje diagram modelu pojęciowego oraz model C4, ponadto znajdują się w nim informacje na temat pokrycia kodu testami jednostkowymi oraz metryki kodu.
+
+W rozdziale czwartym opisano cele aplikacji, kolekcje Firestore Database.
+
+W rozdziale piątym zaprezentowano historyjki użytkownika wraz ze zrzutami ekranu aplikacji.
+
+W rozdziale szóstym opisano przebieg implementacji aplikacji CStrikers wraz z pomysłami na wykorzystanie różnych technologii i problemami, jakie wystąpiły przy ich wyborze. Ponadto znajdują się w nim informacje na temat procesu testowania aplikacji oraz sporządzania dokumentacji.
+
+W rozdziale siódmym omówiono wnioski wynikające z wyboru dwóch frameworków do pracy nad jednym projektem, również wyciągnięto wnioski na podstawie doświadczeń przy implementacji. Zaprezentowano też \textit{future work}, czyli pomysły na rozwój aplikacji w przyszłości o dodatkowe funkcjonalności.
+
+W ostatnim, ósmym rozdziale przedstawiono opis techniczny aplikacji, kroki wymagane do skonfigurowania środowiska oraz możliwe do wywołania polecenia.
+
+
 
 \chapter{Opis wykorzystanych frameworków}
 \section{Vue.js}
+\subsection{Opis frameworku}
 Vue.js to framework napisany w języku JavaScript. Korzysta z architektury \textit{Model-View-ViewModel}. Powstał on w celu stworzenia bardziej elastycznego narzędzia niż istniejące dotychczas frameworki React.js oraz Angular. Vue charakteryzuje bardzo niski próg wejścia (m.in. dzięki bardzo dobrej dokumentacji), bardzo przejrzysta struktura kodu oraz cechuje go intuicyjność. Głównymi funkcjonalnościami wyróżniającymi ten framework są:
 \begin{itemize}
     \item \textit{declarative binding}, czyli rozszerzenie standardu HTML o składnię wzorców, umożliwiające opisywać wyjście HTML na podstawie stanu JavaScript.
     \item \textit{reactivity} (reaktywność), czyli automatyczne śledzenie stanu JavaScript na podstawie zmian i aktualizowanie DOM.
 \end{itemize}
 
-Kolejnym dużym plusem jest zastosowanie \textit{Single-File Components}, a więc komponentów zawierających się w jednym pliku \texttt{*.vue}. SFC pozwala na enkapsulację logiki komponetentu w JavaScript, wzorca strony w HTML oraz styli CSS w jednym pliku. Podejście do programowania SFC jest zalecane przez autorów frameworku.
+Kolejnym dużym plusem jest zastosowanie \textit{Single-File Components}, a więc komponentów zawierających się w jednym pliku \texttt{*.vue}. SFC pozwala na enkapsulację logiki komponetentu w JavaScript, wzorca strony w HTML oraz stylów CSS w jednym pliku. Podejście do programowania SFC jest zalecane przez autorów frameworku.
 
 Nie jest to jednak jedyna możliwość implementowania aplikacji we Vue.js. Drugim sposobem jest podzielenie komponentu na kilka plików (JS, HTML oraz CSS) i połączenie ich wszystkich poprzez wywołanie metody \texttt{createApp} z modułu \texttt{vue}, a następnie zamontowania jej do wybranego ID z pliku HTML. To podejście jest jednak używane znacznie rzadziej, jako że przenaszalność komponentów znacząco maleje, co sprawia, że w aplikacji mógłby powstać bardzo powtarzalny kod.
 
 \begin{figure}[H]
 	\centering
 	$\vcenter{\hbox{\includegraphics[width=0.8\textwidth]{images/vue-sfc-example.png}}}$
-    \caption[]{Przykład prostego komponentu SFC \cite{bib:sfc}}
+    \caption[]{Przykład prostego komponentu SFC \cite{bib:vue-sfc}}
     \label{fig:vue-sfc}
 \end{figure}
 
@@ -128,7 +149,7 @@ Nie jest to jednak jedyna możliwość implementowania aplikacji we Vue.js. Drug
     \label{fig:vue-splitted}
 \end{figure}
 
-Ważną częścią Vue.js jest cykl życia komponentów. Każda instancja komponentu przechodzi przez serię kroków inicializacyjnych przy stworzeniu, a sam framework udostępnia możliwość dodania kodu do istniejących \textit{lifecycle hooks}. Dzięki temu programista może w łatwy sposób wpłynąć na działanie komponentu, wywołując w odpowiednich momentach zawołania API do bazy danych, inicializując wartości domyślne danych komponentów i inne.
+Ważną częścią Vue.js jest cykl życia komponentów. Każda instancja komponentu przechodzi przez serię kroków inicjalizacyjnych przy stworzeniu, a sam framework udostępnia możliwość dodania kodu do istniejących \textit{lifecycle hooks}. Dzięki temu programista może w łatwy sposób wpłynąć na działanie komponentu, wywołując w odpowiednich momentach zawołania API do bazy danych, inicjalizując wartości domyślne danych komponentów i inne.
 
 \begin{figure}[H]
 	\centering
@@ -137,19 +158,45 @@ Ważną częścią Vue.js jest cykl życia komponentów. Każda instancja kompon
     \label{fig:vue-lifecycle-hooks}
 \end{figure}
 
-\section{Cycle.js}
-Cycle.js to funkcyjny i reaktywny framework JavaScript. Funkcyjność sprawia, że kod jest bardziej przewidywalny, a reaktywność pozwala na rozdzielenie kodu. Aplikacje Cycle.js są w pełni stworzone z funkcji, dzięki czemu na podstawie wejścia (argumentów funkcji) jest generowane przewidywalne wyjście, bez niepożądanych efektów I/O.
+\subsection{Powody sprzyjające wyborowi Vue.js}
+Vue.js wybrano z kilku powodów.
 
-Elementem składowym są reaktywne strumienie z bibliotek takich jak \texttt{xstream}, \texttt{RxJS}, czy \texttt{Most.js}. Strukturyzacja aplikacji Cycle.js za pomocą strumieni usuwa problemy dotyczące zmian z zewnątrz, jako że wszystkie zmiany danych są wewnątrz strumieni. Strumień w \texttt{xstream} jest ciągiem wydarzeń, którym może wyemitować zero lub więcej wydarzeń oraz może się skończyć lub nie skończyć. Zakończenie się strumienia oznacza wykonanie jakiegoś działania lub wyemitowanie błędu.
+Pierwszym z nich jest jasno określony cykl życia komponentów, co sprawia, że w łatwy sposób można podzielić wywołania API przypisujące wartości polom określonym w sekcji \texttt{data}. Dobrym tego przykładem jest sposób, w jaki są pobierane dane w pliku \texttt{MatchRoom.vue} -- \textit{hook} \texttt{beforeCreate} pobiera wszystkie dane dotyczące meczu, są to: nazwy drużyn, członkowie obu zespołów, możliwe mapy do wyboru. Następnie w \textit{hooku} \texttt{created} wywoływana jest funkcja \texttt{onSnapshot}, która w czasie rzeczywistym nasłuchuje zmian dotyczących zmieniających się map, dzięki czemu liczba zapytań jest ograniczona do minimum.
+
+Drugim powodem przemawiającym za wyborem Vue są \textit{Single-File Components}. Dzięki nim panuje znacznie większy porządek w repozytorium, a każdy plik jest odpowiedzialny za jedną rzecz.
+
+Kolejnym powodem jest dostęp do wartości z sekcji \texttt{data}. Są to obiekty proxy, więc wyciągnięcie z nich danych nie stanowi problemu. Pozwala to również na wykorzystanie bardzo czytelnych funkcji, które mogą być reużywalne na poziomie całego projektu, co obrazuje część funkcji z \texttt{utils.js}.
+
+Ostatnim, lecz nie mniej ważnym powodem, jest dostęp do przejrzystej dokumentacji, w której są opisane wszystkie aspekty języka. Twórcy Vue stworzyli również kilkanaście paczek NPM pozwalających na rozszerzenie możliwości Vue o kolejne funkcjonalności, takie jak \texttt{Vuex}, czy \texttt{Vue-router}.
+
+\subsection{Wykorzystanie w implementacji}
+Vue.js został wykorzystany do zaimplementowania dwóch komponentów: paska nawigacyjnego wraz z obsługą rejestracji nowych użytkowników i logowania oraz obsługi turniejów i meczów, tj. tworzenie turniejów, lista wszystkich stworzonych turniejów, pokój meczowy ze wsparciem odrzucania i wybierania map w czasie rzeczywistym, czy lista meczów i statystyk na temat map.
+
+W przypadku komponentów zaimplementowanych w Cycle.js, Vue został wykorzystany do wstrzykiwania kodu uruchamiającego komponenty.
+
+
+\section{Cycle.js}
+\subsection{Strumienie}
+
+Elementem składowym Cycle.js są reaktywne strumienie z bibliotek takich jak \texttt{xstream}, \texttt{RxJS}, czy \texttt{Most.js}.
+
+Strumień to obiekt $A$ będący obserwatorem innego obiektu $B$. Wszystkie akcje zapisywane są jako ciąg wydarzeń. Oznacza to, że w przypadku wybranej akcji na obiekcie $B$ (np. kliknięcie przycisku czy wpisanie tekstu do okienka), obiekt ten wyemituje akcje, która zostanie zapisana w strumieniu w wybranym momencie czasu. Na takim strumieniu można wywołać różne operacje w celu przekształcenia go na oczekiwany efekt, np. zmapować go na jakąś wartość.
+
+Na poniższym schemacie znajduje się przykład działania strumieni. Na wejściu znajdują się dwa strumienie: \texttt{input\$} nasłuchujący (obserwujący) wydarzenia typu \texttt{input} w elemencie o identyfikatorze \texttt{input-box}, a \texttt{buttonClick\$} oczekuje wydarzenia \texttt{click} w elemencie o identyfikatorze \texttt{button}, a następnie się kończy. Po połączeniu tych strumieni zostanie wywołana funkcja wykorzystująca ze strumienia \texttt{input\$} tekst "dom", a kliknięcie przycisku może wysłać te dane przez API do bazy danych.
 
 \begin{figure}[H]
 	\centering
-	$\vcenter{\hbox{\includegraphics[width=0.5\textwidth]{images/cycle-streams.png}}}$
-    \caption[]{Zasada działania strumieni \cite{bib:cycle-streams}}
-    \label{fig:cycle-streams}
+	$\vcenter{\hbox{\includegraphics[width=\textwidth]{images/cycle-stream-example.png}}}$
+    \caption[]{Działanie strumieni \cite{bib:cycle-streams} obsługujących pole tekstowe oraz przycisk na podstawie przykładzie działania z  pliku \texttt{createTeamCycle.js} [opracowanie własne]}
+    \label{fig:cycle-stream-example}
 \end{figure}
 
-Abstrakcja frameworku wydziela funkcję \texttt{main}, której argumentami są efekty odczytów ze świata zewnętrznego (\textit{sources}), a wyjściem są efekty zapisów w celu wpłynięcia na świat zewnętrzny (\textit{sinks}). Efekty I/O są zarządzane przez sterowniki (\textit{drivers}), a więc wtyczki obsługujące efekty DOM, zapytania HTTP, itp.
+Strumienie w \texttt{xstream} mogą wyemitować zero lub więcej wydarzeń. Mogą one być również niekończące się (strumień \texttt{input\$} z przykładu) lub kończące się. Zakończenie strumienia oznacza wykonanie jakiegoś działania, lub w przypadku niepowodzenia, wyemitowanie błędu.
+
+\subsection{Opis frameworku}
+Cycle.js to funkcyjny i reaktywny framework JavaScript. Funkcyjność sprawia, że kod jest bardziej przewidywalny, a reaktywność pozwala na rozdzielenie kodu. Aplikacje Cycle.js są w pełni stworzone z funkcji, dzięki czemu na podstawie wejścia (argumentów funkcji) jest generowane przewidywalne wyjście, bez niepożądanych efektów I/O. Strukturyzacja aplikacji Cycle.js za pomocą strumieni usuwa problemy dotyczące zmian z zewnątrz, jako że wszystkie zmiany danych są wewnątrz strumieni.
+
+Abstrakcja frameworku wydziela funkcję \texttt{main}, której argumentami są efekty odczytów ze świata zewnętrznego (\textit{sources}), a wyjściem są efekty zapisów w celu wpłynięcia na świat zewnętrzny (\textit{sinks}). Efekty I/O są zarządzane przez sterowniki (\textit{drivers}), a więc wtyczki obsługujące efekty DOM, zapytania HTTP itp.
 
 \begin{figure}[H]
 	\centering
@@ -171,10 +218,20 @@ Cycle.js wykorzystuje architekturę \textit{Model-View-Intent}. Architektura ta 
 
 Cycle.js jest bardzo lekką biblioteką z dużymi możliwościami, dzięki czemu udostępnia programistom zestaw funkcji do tworzenia własnych sterowników i dostosowywania ich pod własne potrzeby. Widoki są generowane poprzez stworzenie \textit{virtual tree} za pomocą tagów \texttt{virtual-hyperscript}.
 
+\subsection{Powody sprzyjające wyborowi Cycle.js}
+Głównym powodem, dla którego zdecydowano się na wybór Cycle.js, jest zupełnie odmienne podejście do programowania, niż w przypadku Vue.
+
+Wykorzystanie strumieni sprawia, że wszystkie dane wewnątrz strumienia są niezmienne z zewnątrz, co pozytywnie wpływa na bezpieczeństwo aplikacji. Każdy strumień jest również innym ciągiem wydarzeń. W ten sposób można łatwiej uniknąć błędów, które w przypadku programowania strukturalnego są do wyłapania jedynie poprzez testy jednostkowe.
+
+Cycle.js jest dla autora nowym frameworkiem, więc opanowanie go do stopnia wystarczającego do zaimplementowania komponentu do obsługi drużyn stanowiło wyzwanie oraz okazję do poszerzenia wiedzy.
+
+\subsection{Wykorzystanie w implementacji}
+Cycle.js został wykorzystany do zaimplementowania komponentów dotyczących obsługi drużyn. Są to: tworzenie nowej drużyny, lista wszystkich istniejących drużyn, jak i szczegółowe informacje o członkach zespołu oraz turniejach, w których wybrana grupa brała udział.
+
 
 \chapter{Struktura i architektura aplikacji}
 \section{Struktura aplikacji}
-Katalogiem głównym aplikacji jest \texttt{app}. Znajdują się w nim różnorakie pliki konfiguracyjne - projektowe, bazodanowe, czy dotyczące edytora kodu. Znajdują się w nim również dwa katalogi: katalog \texttt{public} zawierający plik \texttt{index.html} specyfikujący tag \texttt{<div id='app'></div>}, wykorzystywany przez Vue w celu wyrenderowania aplikacji, jak i katalog \texttt{src} zawierający wszystkie pliki źródłowe. Znajdują się w nim katalogi:
+Katalogiem głównym aplikacji jest \texttt{app}. Znajdują się w nim różnorakie pliki konfiguracyjne -- projektowe, bazodanowe, czy dotyczące edytora kodu. Znajdują się w nim również dwa katalogi: katalog \texttt{public} zawierający plik \texttt{index.html} specyfikujący tag \texttt{<div id='app'></div>}, wykorzystywany przez Vue w celu wyrenderowania aplikacji, jak i katalog \texttt{src} zawierający wszystkie pliki źródłowe. Znajdują się w nim katalogi:
 \begin{itemize}
     \item \texttt{api} --- katalog zawierający implementację funkcji dotyczących zapytań CRUD do bazy danych wykorzystywanych przez komponenty,
     \item \texttt{assets} --- katalog zawierający style CSS,
@@ -190,16 +247,60 @@ Katalogiem głównym aplikacji jest \texttt{app}. Znajdują się w nim różnora
 \section{Zastosowana architektura}
 Aplikacja CStrikers wykorzystuje dwa frameworki front-endowe: Vue.js oraz Cycle.js. Oznacza to, że wykorzystywane są architektury \textit{MVVM} oraz \textit{MVI}, opisane w poprzednim rozdziale. Bazą danych jest Firestore Database, udostępnione funkcje są używane w celu zaimplementowania wspólnego, reużywalnego API dla wszystkich komponentów.
 
-Plik \texttt{main.js} odpowiada za inicializajcę aplikacji, wraz z użyciem \texttt{Vuex} służącego do przechowywania globalnego stanu we Vue, oraz z \texttt{vue-router} służącego do obsługi przekierowań.
+Plik \texttt{main.js} odpowiada za inicjalizajcę aplikacji, wraz z użyciem \texttt{Vuex} służącego do przechowywania globalnego stanu we Vue, oraz z \texttt{vue-router} służącego do obsługi przekierowań.
 
-Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} - udostępnia on style oraz ogólny widok aplikacji (\textit{wrapper}). Pozostałe komponenty zaimplementowane we Vue korzystają z SFC i są wydzielone do osobnych plików w katalogu \texttt{views}. W celu zachowania spójności aplikacji, komponenty Cycle.js są wstrzykiwane do Vue poprzez handlery, które wywołują funkcję \texttt{run(main, drivers)}. W ten sposób uzyskano jednolity layout.
+Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} -- udostępnia on style oraz ogólny widok aplikacji (\textit{wrapper}). Pozostałe komponenty zaimplementowane we Vue korzystają z SFC i są wydzielone do osobnych plików w katalogu \texttt{views}. W celu zachowania spójności aplikacji, komponenty Cycle.js są wstrzykiwane do Vue poprzez handlery, które wywołują funkcję \texttt{run(main, drivers)}. W ten sposób uzyskano jednolity layout.
 
 \begin{figure}[H]
 	\centering
 	$\vcenter{\hbox{\includegraphics[width=0.9\textwidth]{images/vue-cycle-injection.png}}}$
-    \caption[]{Przykład implementacji wstrzykiwania kodu Cycle.js do Vue.js}
+    \caption[]{Przykład implementacji wstrzykiwania kodu uruchamiającego komponent Cycle.js do Vue.js w aplikacji CStrikers}
     \label{fig:cycle-mvi}
 \end{figure}
+
+\section{Model pojęciowy [TODO]}
+\begin{figure}[H]
+	\centering
+	$\vcenter{\hbox{\includegraphics[width=0.9\textwidth]{images/conceptual-model.png}}}$
+    \caption[]{Model pojęciowy w aplikacji CStrikers}
+    \label{fig:conceptual-model}
+\end{figure}
+
+\section{Model C4 [TODO]}
+...
+
+\section{Testy jednostkowe komponentów}
+Aplikacja zawiera 3 zestawy testowe, w których zawarte są łącznie 62 testy. Decyzja na stworzenie testów do tych konkretnych plików została podjęta z kilku powodów:
+
+\begin{enumerate}
+    \item Generator obiektów \texttt{objectGenerators.js} tworzy dane, które następnie są wysyłane do bazy danych Firebase -- aby wszystkie dokumenty w kolekcjach były zgodne ze sobą, należy mieć pewność, że obiekty są tworzone w poprawny sposób.
+    \item Funkcje pomocnicze z pliku \texttt{utils.js} są wykorzystywane w wielu miejscach jako podstawowa część obsługi danych, czy wyciągania z nich odpowiednich informacji. Każda zmiana w tych funkcjach mogłaby wywołać niepożądane działanie w innym miejscu w kodzie, a dzięki testom jednostkowym taka sytuacja nie wystąpi.
+    \item Wiele funkcji korzysta z bibliotek dostępnych w NPM, są one przetestowane i ich testowanie wiązałoby się z niepotrzebną duplikacją kodu podobnego do tego, który stworzyli autorzy wybranych paczek.
+\end{enumerate}
+
+\begin{table}[h]
+    \begin{tabular}{|l|ll|ll|ll|ll|}
+    \hline
+    \textbf{Plik}                & \multicolumn{2}{l|}{\textbf{Wyrażenia}} & \multicolumn{2}{l|}{\textbf{Gałęzie}} & \multicolumn{2}{l|}{\textbf{Funkcje}} & \multicolumn{2}{l|}{\textbf{Linie}}  \\ \hline
+    \textbf{objectGenerators.js} & \multicolumn{1}{l|}{100\%}   & 65/65    & \multicolumn{1}{l|}{100\%}  & 8/8     & \multicolumn{1}{l|}{100\%}   & 13/13  & \multicolumn{1}{l|}{100\%} & 60/60   \\ \hline
+    \textbf{types.js}            & \multicolumn{1}{l|}{100\%}   & 5/5      & \multicolumn{1}{l|}{100\%}  & 0/0     & \multicolumn{1}{l|}{100\%}   & 0/0    & \multicolumn{1}{l|}{100\%} & 5/5     \\ \hline
+    \textbf{utils.js}            & \multicolumn{1}{l|}{100\%}   & 140/140  & \multicolumn{1}{l|}{100\%}  & 102/102 & \multicolumn{1}{l|}{100\%}   & 25/25  & \multicolumn{1}{l|}{100\%} & 121/121 \\ \hline
+    \end{tabular}
+    \caption{\label{tab:tests-coverage}Tabela przedstawiająca pokrycie kodu testami}
+\end{table}
+
+\section{Metryka kodu}
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \textbf{Język}   & \textbf{Pliki} & \textbf{Puste linie} & \textbf{Linie z komentarzami} & \textbf{Linie kodu} \\ \hline
+    JavaScript       & 19             & 269                  & 430                           & 2033                \\ \hline
+    Vue.js Component & 17             & 90                   & 9                             & 1523                \\ \hline
+    CSS              & 1              & 6                    & 0                             & 33                  \\ \hline
+    \textbf{ŁĄCZNIE} & \textbf{37}    & \textbf{365}         & \textbf{439}                  & \textbf{3589}       \\ \hline
+    \end{tabular}
+    \caption{\label{tab:code-lines}Tabela przedstawiająca statystki dotyczące kodu napisanej aplikacji}
+\end{table}
 
 \chapter{Aplikacja}
 \section{Cele aplikacji}
@@ -207,7 +308,7 @@ Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} - udost
 \begin{itemize}
     \item Tworzenie kont użytkowników oraz możliwość logowania się.
     \item Tworzenie drużyn przez istniejących użytkowników.
-    \item Przegląd informacji o drużynach, ich członkach oraz turniejach w jakich brały udział.
+    \item Przegląd informacji o drużynach, ich członkach oraz turniejach, w jakich brały udział.
     \item Możliwość tworzenia turniejów CSGO w różnych systemach.
     \item Możliwość ukrycia turnieju z listy wszystkich turniejów.
     \item Odrzucanie i wybieranie map przez kapitanów drużyn biorących udział w meczu odbywające się \textit{real-time}.
@@ -231,19 +332,38 @@ Kolekcja zawierająca mapy, na których rozgrywane są mecze.
 Kolekcja przechowująca dokumenty dotyczące meczów. Zawiera pola będące ID obu drużyn, typ meczu, tablicę z wybranymi mapami, tablicę z odrzuconymi mapami, tablicę wyników każdej z wybranej map, liczbę wygranych map przez obie drużyny oraz nazwę drużyny, która wygrała.
 
 \subsection{Tournaments}
-Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące ID organizatora, informacje o widoczności turnieju, system w jakim rozgrywany jest turniej, typ rozgrywanych meczów (B01/BO3/BO5), tablicę ID drużyn biorących udział w turnieju, tablicę ID meczów rozgrywanych w ramach turnieju oraz nazwę drużyny, która wygrała turniej.
+Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące ID organizatora, informacje o widoczności turnieju, system, w jakim rozgrywany jest turniej, typ rozgrywanych meczów (B01/BO3/BO5), tablicę ID drużyn biorących udział w turnieju, tablicę ID meczów rozgrywanych w ramach turnieju oraz nazwę drużyny, która wygrała turniej.
 
-\section{Historyjki użytkownika}
-\subsection{Gracz}
+\chapter{Historyjki użytkownika}
+\section{Gracz}
 \textbf{Gracz} --- osoba chcąca rozgrywać mecze w turnieju.
 \begin{itemize}
     \item Jako gracz, chcę zarejestrować się w aplikacji, żeby inny gracz mógł mnie dodać do swojej drużyny.
     \item Jako gracz, chcę stworzyć drużynę, żeby móc wziąć udział w turnieju.
     \item Jako gracz, chcę mieć możliwość łatwego odrzucania i wybierania map w meczach, w których biorę udział, żeby móc grać na mapach, które preferuje mój zespół.
+    \begin{figure}[H]
+        \centering
+        $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-matchroom.png}}}$
+        \caption[]{Widok fazy odrzucania i wybierania map przez kapitanów}
+        \label{fig:app-matchroom}
+    \end{figure}
     \item Jako gracz, chcę mieć możliwość wpisywania wyników spotkań, które rozgrywam, żeby wiedzieć w którym miejscu w tabeli/w której rundzie jest moja drużyna.
+    \begin{figure}[H]
+        \centering
+        $\vcenter{\hbox{\includegraphics[width=0.5\textwidth]{images/app-score-insert.png}}}$
+        \caption[]{Widok okienka z częściowo uzupełnionymi wynikami}
+        \label{fig:app-score-insert}
+    \end{figure}
+    \item Jako gracz, chcę mieć dostęp do podejrzenia statystyk wszystkich rozgrywanych meczów na różnych mapach, żeby móc przeanalizować która strona jest lepszym wyborem do gry.
+    \begin{figure}[H]
+        \centering
+        $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-maps.png}}}$
+        \caption[]{Widok tabeli z informacjami dotyczącymi liczby spotkań oraz wygranych rund po obu stronach na wszystkich mapach}
+        \label{fig:app-maps}
+    \end{figure}
 \end{itemize}
 
-\subsection{Organizator turnieju}
+\section{Organizator turnieju}
 \textbf{Organizator turnieju} --- użytkownik aplikacji chcący stworzyć turniej.
 
 \begin{itemize}
@@ -251,8 +371,20 @@ Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące I
     \item Jako organizator turnieju, chcę mieć możliwość ukrycia turnieju, żeby rozgrywki były prywatne.
     \item Jako organizator turnieju, chcę mieć możliwość wyboru typu rozgrywanych meczów, żeby kontrolować czas trwania i balans drużyn w turnieju.
     \item Jako organizator turnieju, chcę mieć możliwość wyboru systemu, w którym będzie rozgrywany turniej, żebym mógł spełnić swoje wymagania.
+    \begin{figure}[H]
+        \centering
+        $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-tournament-create.png}}}$
+        \caption[]{Widok panelu tworzenia turnieju wraz z wybraną nazwą, systemem turnieju, typem meczu, widocznością oraz drużynami biorącymi udział}
+        \label{fig:app-tournament-create}
+    \end{figure}
     \item Jako organizator turnieju, chcę mieć podgląd statystyk wszystkich rozgrywanych meczów, żeby kontrolować ich stan.
-    \item Jako organizator turnieju, chcę wiedzieć kim jest zwycięzca turnieju, aby nie musieć przeglądać wszystkich spotkań i liczyć wyników manualnie.
+    \item Jako organizator turnieju, chcę wiedzieć, kim jest zwycięzca turnieju, aby nie musieć przeglądać wszystkich spotkań i liczyć wyników manualnie.
+    \begin{figure}[H]
+        \centering
+        $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-tournament-details.png}}}$
+        \caption[]{Widok szczegółowych informacji o wybranym turnieju}
+        \label{fig:app-tournament-details}
+    \end{figure}
 \end{itemize}
 
 
@@ -265,17 +397,50 @@ Ostatnim rozwiązaniem, było napisanie aplikacji we Vue.js oraz Cycle.js, wykor
 
 Testowanie aplikacji ograniczone zostało do funkcji, które nie należały do bibliotek udostępniających m.in. obsługę baz danych, czy tworzenia V-DOM we Vue czy Cycle.js gdyż ich implementacje są w pełni przetestowane.
 
-Dokumentacja aplikacji była sporządzana na bieżąco, w trakcie programowania - plusem takiego podejścia jest możliwość odnoszenia się do różnych funkcji bez konieczności analizowania ich działania, jednak przy częstych zmianach kodu wymagało to dodatkowego czasu.
+Dokumentacja aplikacji była sporządzana na bieżąco, w trakcie programowania -- plusem takiego podejścia jest możliwość odnoszenia się do różnych funkcji bez konieczności analizowania ich działania, jednak przy częstych zmianach kodu wymagało to dodatkowego czasu.
 
 \chapter{Podsumowanie}
-Pierwszym krokiem w implementacji powinno być zaplanowanie struktury aplikacji, przygotowanie kolekcji obejmujących wszystkie możliwe rozwiązania oraz konfiguracja środowiska. Pominięcie któregoś z tych punktów może sprawić, że pisanie kodu będzie bardzo trudne, a potencjalne modyfikacje w przyszłości - niemożliwe. Bardzo ważne jest również podejście \textit{Test-Driven Development} - dzięki temu udało się uniknąć niepotrzebnego debugowania, które przy częstych zmianach kodu bez wykorzystania TDD jest praktycznie nieodłączną częścią.
+\section{Wnioski i efekty pracy}
+Pierwszym krokiem w implementacji powinno być zaplanowanie struktury aplikacji, przygotowanie kolekcji obejmujących wszystkie możliwe rozwiązania oraz konfiguracja środowiska. Pominięcie któregoś z tych punktów może sprawić, że pisanie kodu będzie bardzo trudne, a potencjalne modyfikacje w przyszłości -- niemożliwe. Bardzo ważne jest również podejście \textit{Test-Driven Development} -- dzięki temu udało się uniknąć niepotrzebnego debugowania, które przy częstych zmianach kodu bez wykorzystania TDD jest praktycznie nieodłączną częścią.
 
-Programowanie z użyciem dwóch frameworków jest skomplikowane. Narzucając Vue.js jako główną bibliotekę w projekcie, trudno było sprawić, aby Cycle.js zaczął działać tak, jak powinien. Po kilkunastu różnych próbach udało się je jednak ze sobą połączyć poprzez wstrzyknięcie funkcji \texttt{run(main, drivers)} do handlera we Vue. Niestety nie można rozdzielić tych frameworków całkowicie - globalny stan z \texttt{vuex} przechowuje dane o zalogowanym użytkowniku, a \texttt{vue-router} obsługuje przekierowania, a więc konieczne było importowanie bibliotek spoza Cycle.js, aby komponenty spełniały swoje zadania.
+Programowanie z użyciem dwóch frameworków jest skomplikowane. Narzucając Vue.js jako główną bibliotekę w projekcie, trudno było sprawić, aby Cycle.js zaczął działać tak, jak powinien. Po kilkunastu różnych próbach udało się je jednak ze sobą połączyć poprzez wstrzyknięcie funkcji \texttt{run(main, drivers)} do handlera we Vue. Niestety nie można rozdzielić tych frameworków całkowicie -- globalny stan z \texttt{vuex} przechowuje dane o zalogowanym użytkowniku, a \texttt{vue-router} obsługuje przekierowania, a więc konieczne było importowanie bibliotek spoza Cycle.js, aby komponenty spełniały swoje zadania.
 
 Kolejnym problemem wynikającym z użycia dwóch frameworków jest konieczność ciągłego przestawiania swojego podejścia. Różni się nie tylko składnia, czy wykorzystywane biblioteki, ale też architektura. W przypadku Vue.js działanie opiera się na obiektach, ich przekazywanie oraz manipulacja nie są skomplikowane. Cycle.js działa w oparciu o MVI, a wszelkie zmiany są oparte na podejściu funkcyjnym i strumieniach.
 
-W aplikacjach znacznie większych niż CStrikers łączenie różnych frameworków frontendowych nie jest najlepszym pomysłem. Istniejące frameworki mają bardzo szerokie zastosowanie, często rozszerzane przez dodatkowe, niewymagane biblioteki, dzięki czemu ograniczenie się do jednego nie przyczyni się do pogorszenia jakości aplikacji - wręcz przeciwnie, korzystając tylko z jednego frameworku programiście będzie znacznie łatwiej pisać kod zgodny z praktykami dobrego programowania oraz szybciej zyska biegłość, co znacząco przyspieszy implementację.
+W aplikacjach znacznie większych niż CStrikers łączenie różnych frameworków frontendowych nie jest najlepszym pomysłem. Istniejące frameworki mają bardzo szerokie zastosowanie, często rozszerzane przez dodatkowe, niewymagane biblioteki, dzięki czemu ograniczenie się do jednego nie przyczyni się do pogorszenia jakości aplikacji -- wręcz przeciwnie, korzystając tylko z jednego frameworku programiście będzie znacznie łatwiej pisać kod zgodny z praktykami dobrego programowania oraz szybciej zyska biegłość, co znacząco przyspieszy implementację.
 
+\section{Future work -- plan rozwoju aplikacji}
+Aplikacja w aktualnym stanie obsługuje jedynie podstawowe funkcjonalności wymagane do prawidłowej organizacji turniejów i lig. W poniższych sekcjach znajdują się propozycje rozszerzeń, które miałyby usprawnić działanie CStrikers i zwiększyć możliwości.
+
+\subsection{Możliwość zapisywania się na turnieje przez drużyny}
+W tym momencie implementacja CStrikers obejmuje jedynie tworzenie turniejów z aktualnej puli zarejestrowanych drużyn. To usprawnienie miałoby to zmienić -- organizator mógłby stworzyć turniej bez wyboru uczestników, a następnie dowolne drużyny otrzymałyby możliwość przystąpienia do turnieju.
+
+\subsection{Ustalenie terminu dla turnieju oraz meczów}
+Aktualnie turniej po stworzeniu automatycznie dostaje status \texttt{ONGOING}, pary meczowe są generowane i uczestnicy mogą od razu przystąpić do procesu odrzucania i wybierania map. Ta zmiana miałaby umożliwić tworzenie turniejów, które rozpoczynałyby się w wybrany dzień o wybranej godzinie. Do tego czasu użytkownicy mogliby zapisywać się na turniej, a pary meczowe byłyby generowane w momencie, gdy rozgrywki się rozpoczynają.
+
+\subsection{Czat na żywo}
+Zwykle gry i aplikacje mają funkcjonalność czatu w celu ułatwienia komunikacji między obiema drużynami. Rozszerzenie to ułatwiłoby również kontakt do osoby odpowiedzialnej za organizację czy przydzielenie serwerów do meczów np. poprzez komendę \texttt{/support [wiadomość]}. Czat na żywo mógłby również dotyczyć pojedynczych użytkowników w postaci prywatnych wiadomości.
+
+\subsection{Powiadomienia}
+Opisane wcześniej propozycje opierają się o funkcjonalnościach działających w czasie rzeczywistym. Pasek z listą powiadomień ułatwiłby użytkownikom śledzenie zmian dziejących się w czatach oraz wydarzeniach, które go dotyczą.
+
+\subsection{Wsparcie dla dowolnej liczby drużyn}
+Bieżąca implementacja wspiera organizację turniejów w systemie pucharowym oraz w trybie mieszanym jedynie dla ilości drużyn będącej potęgą liczby $2$. Z tego powodu nie ma możliwości organizacji turnieju z dowolną liczbą drużyn, co w przypadku niektórych turniejów może być uciążliwe. Dodanie "wirtualnych przeciwników" w postaci wolnego losu rozwiązałoby ten problem, dzięki czemu ilość drużyn nie byłaby wymaganiem przy organizacji.
+
+\subsection{Udział w turniejach złożonych z drużyn o mniejszej liczbie graczy}
+Najbardziej popularnymi turniejami są turnieje, w których drużyny składają się z pięciu aktywnych graczy oraz zmienników. Ta funkcjonalność jednak mogłaby się zmienić dzięki dodaniu wsparcia dla drużyn o mniejszej liczbie graczy. Turnieje 1 na 1 mogłyby rozgrywać się na mapach \texttt{aim\_*} (małe mapy, zwykle rundy kończą się w kilkanaście sekund), turnieje 2 na 2 oraz 3 na 3 na mapach z trybu \textit{Wingman} (jeden z trybów gry w CSGO), a 4 na 4 na standardowych mapach.
+
+\subsection{Implementacja nowych systemów rozgrywania turniejów}
+Obecnie implementacja wspiera trzy systemy: pucharowy, ligowy oraz łączony. Propozycja miałaby rozszerzyć możliwe do wyboru systemy o system szwajcarski oraz \textit{double-elimination}, czyli system wspierający drabinkę przegranych. W przypadku istniejących już systemów ligowego i łączonego można by było obsłużyć przypadek remisu w fazie grupowej (jednak nie jest to często spotykane w turniejach CS:GO).
+
+\subsection{Wydzielenie ról użytkowników}
+W kodzie aplikacji każdy użytkownik jest sobie równy, nie ma podziału na zwykłych użytkowników, moderatorów, administratorów. Zmiana ta miałaby wprowadzić role możliwe do przypisania użytkownika, dzięki czemu zarządzanie tym, co się dzieje w aplikacji, zależałoby od tego, jakie uprawnienia ma zalogowany użytkownik.
+
+\subsection{Obsługa serwerów gry CSGO w trakcie turniejów}
+Aktualnie implementacja obejmuje stworzenie meczów turniejowych oraz umożliwienie odrzucania i wybierania map kapitanom. Organizatorzy muszą jednak sami skontaktować się z drużynami, aby wysłać im adres IP serwera, na którym będzie odbywać się rozgrywka. Nowa funkcjonalność pozwoliłaby organizatorowi podać listę dostępnych serwerów, nowy algorytm korzystający z paczki \texttt{rcon-srcds} \cite{bib:rcon-lib} mógłby dobierać dostępne serwery i przypisywać je do meczów, a następnie za pomocą \textit{RCON (remote console)} konfigurować serwer.
+
+\subsection{Optymalizacja zapytań do bazy danych}
+Obecnie baza danych w dużej mierze działa na zasadzie jednokrotnego pobierania i zapisywania danych, przez co komponenty dotyczące np. tworzenia drużyn i turniejów, jak i wyświetlania ich, są aktualne w momencie wejścia na wybraną podstronę. Firebase udostępnia jednak funkcję \texttt{onSnapshot} \cite{bib:firebase-on-snapshot}, która otwiera socket nasłuchujący na zmiany w wybranej kolekcji, a następnie w czasie rzeczywistym aktualizuje zawartość pobranych danych.
 
 \chapter{Opis techniczny}
 Aplikacja została napisana w języku Vue.js (wersja 3.0.0) oraz Cycle.js (\texttt{@cycle/dom} w wersji 23.1.0 oraz \texttt{@cycle/run} w wersji 5.7.0). Backend aplikacji obsługujący zapytania bazodanowe oraz logikę aplikacji został napisany w JavaScript. Testy jednostkowe zostały zaimplementowane przy użyciu Jest (wersja 28.1.1), a dokumentacja wygenerowana przez JSDoc (wersja 3.6.10). Za bazę danych posłużył Firestore Database dostarczany przez Firebase.
@@ -301,6 +466,10 @@ Zestaw najważniejszych poleceń znajduje się w pliku \texttt{README.md}, są t
 %%%%% BIBLIOGRAFIA
 
 \begin{thebibliography}{1}
+    \bibitem{bib:toornament-saas} Toornament - About - \url{https://www.toornament.com/en_US/about}
+    \bibitem{bib:toornament-pricing} Toornament - Pricing - \url{https://www.toornament.com/en_US/pricing}
+    \bibitem{bib:esea-anticheat} ESEA - Client - \url{https://play.esea.net/client}
+    \bibitem{bib:esea-subscribe} ESEA - Subscription plans - \url{https://play.esea.net/subscribe}
     \bibitem{bib:vue-sfc} Vue.js - Introduction, Single-File Components - \url{https://vuejs.org/guide}
     \bibitem{bib:vue-lifecycle-hooks} Vue.js - Lifecycle Diagram - \url{https://vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram}
     \bibitem{bib:vue-router-getting-started} Vue Router - Getting Started - \url{https://router.vuejs.org/guide/}
@@ -311,6 +480,8 @@ Zestaw najważniejszych poleceń znajduje się w pliku \texttt{README.md}, są t
     \bibitem{bib:cycle-getting-started} Cycle.js - Getting started - \url{https://cycle.js.org/getting-started.html}
     \bibitem{bib:cycle-api-reference} Cycle.js - API reference - \url{https://cycle.js.org/api/index.html#api-reference}
     \bibitem{bib:firestore-docs} Firestore Database - Documentation - \url{https://firebase.google.com/docs/firestore}
+    \bibitem{bib:rcon-lib} RCON library for NodeJS - \url{https://www.npmjs.com/package/rcon-srcds}
+    \bibitem{bib:firebase-on-snapshot} Get realtime updates with Cloud Firestore - \url{https://firebase.google.com/docs/firestore/query-data/listen}
 \end{thebibliography}
 
 \end{document}
