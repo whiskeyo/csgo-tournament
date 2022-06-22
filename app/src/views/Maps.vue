@@ -36,6 +36,9 @@ export default {
 
   methods: {
     calculatePercentOfRounds(roundsWonOnOneSide, roundsTogether) {
+      if (roundsTogether == 0)
+        return "";
+
       return " (" + (roundsWonOnOneSide / roundsTogether * 100).toFixed(1) + "%)"
     }
   },

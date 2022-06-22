@@ -131,9 +131,9 @@ Vue.js to framework napisany w języku JavaScript. Korzysta z architektury \text
     \item \textit{reactivity} (reaktywność), czyli automatyczne śledzenie stanu JavaScript na podstawie zmian i aktualizowanie DOM.
 \end{itemize}
 
-Kolejnym dużym plusem jest zastosowanie \textit{Single-File Components}, a więc komponentów zawierających się w jednym pliku \texttt{*.vue}. SFC pozwala na enkapsulację logiki komponetentu w JavaScript, wzorca strony w HTML oraz stylów CSS w jednym pliku. Podejście do programowania SFC jest zalecane przez autorów frameworku.
+Kolejnym dużym plusem jest zastosowanie \textit{Single-File Components}, a więc komponentów zawierających się w jednym pliku \texttt{*.vue}. SFC pozwala na enkapsulację logiki komponetentu w JavaScript, wzorca strony w HTML oraz stylów CSS w jednym pliku. Podejście do programowania SFC jest zalecane przez autorów frameworku. Przykład \textit{SFC} został przedstawiony na rysunku \ref{fig:vue-sfc}.
 
-Nie jest to jednak jedyna możliwość implementowania aplikacji we Vue.js. Drugim sposobem jest podzielenie komponentu na kilka plików (JS, HTML oraz CSS) i połączenie ich wszystkich poprzez wywołanie metody \texttt{createApp} z modułu \texttt{vue}, a następnie zamontowania jej do wybranego ID z pliku HTML. To podejście jest jednak używane znacznie rzadziej, jako że przenaszalność komponentów znacząco maleje, co sprawia, że w aplikacji mógłby powstać bardzo powtarzalny kod.
+Nie jest to jednak jedyna możliwość implementowania aplikacji we Vue.js. Drugim sposobem jest podzielenie komponentu na kilka plików (JS, HTML oraz CSS) i połączenie ich wszystkich poprzez wywołanie metody \texttt{createApp} z modułu \texttt{vue}, a następnie zamontowania jej do wybranego ID z pliku HTML. To podejście jest jednak używane znacznie rzadziej, jako że przenaszalność komponentów znacząco maleje, co sprawia, że w aplikacji mógłby powstać bardzo powtarzalny kod. Przykład takiego podejścia został przedstawiony na rysunku \ref{fig:vue-splitted}.
 
 \begin{figure}[H]
 	\centering
@@ -149,7 +149,7 @@ Nie jest to jednak jedyna możliwość implementowania aplikacji we Vue.js. Drug
     \label{fig:vue-splitted}
 \end{figure}
 
-Ważną częścią Vue.js jest cykl życia komponentów. Każda instancja komponentu przechodzi przez serię kroków inicjalizacyjnych przy stworzeniu, a sam framework udostępnia możliwość dodania kodu do istniejących \textit{lifecycle hooks}. Dzięki temu programista może w łatwy sposób wpłynąć na działanie komponentu, wywołując w odpowiednich momentach zawołania API do bazy danych, inicjalizując wartości domyślne danych komponentów i inne.
+Ważną częścią Vue.js jest cykl życia komponentów. Każda instancja komponentu przechodzi przez serię kroków inicjalizacyjnych przy stworzeniu, a sam framework udostępnia możliwość dodania kodu do istniejących \textit{lifecycle hooks}. Dzięki temu programista może w łatwy sposób wpłynąć na działanie komponentu, wywołując w odpowiednich momentach zawołania API do bazy danych, inicjalizując wartości domyślne danych komponentów i inne. Diagram ukazujący działanie \textit{lifecycle hooks} wraz z informacjami, za co odpowiadają poszczególne \textit{hooki}, został przedstawiony na rysunku \ref{fig:vue-lifecycle-hooks}.
 
 \begin{figure}[H]
 	\centering
@@ -182,7 +182,7 @@ Elementem składowym Cycle.js są reaktywne strumienie z bibliotek takich jak \t
 
 Strumień to obiekt $A$ będący obserwatorem innego obiektu $B$. Wszystkie akcje zapisywane są jako ciąg wydarzeń. Oznacza to, że w przypadku wybranej akcji na obiekcie $B$ (np. kliknięcie przycisku czy wpisanie tekstu do okienka), obiekt ten wyemituje akcje, która zostanie zapisana w strumieniu w wybranym momencie czasu. Na takim strumieniu można wywołać różne operacje w celu przekształcenia go na oczekiwany efekt, np. zmapować go na jakąś wartość.
 
-Na poniższym schemacie znajduje się przykład działania strumieni. Na wejściu znajdują się dwa strumienie: \texttt{input\$} nasłuchujący (obserwujący) wydarzenia typu \texttt{input} w elemencie o identyfikatorze \texttt{input-box}, a \texttt{buttonClick\$} oczekuje wydarzenia \texttt{click} w elemencie o identyfikatorze \texttt{button}, a następnie się kończy. Po połączeniu tych strumieni zostanie wywołana funkcja wykorzystująca ze strumienia \texttt{input\$} tekst "dom", a kliknięcie przycisku może wysłać te dane przez API do bazy danych.
+Na schemacie \ref{fig:cycle-stream-example} znajduje się przykład działania strumieni. Na wejściu znajdują się dwa strumienie: \texttt{input\$} nasłuchujący (obserwujący) wydarzenia typu \texttt{input} w elemencie o identyfikatorze \texttt{input-box}, a \texttt{buttonClick\$} oczekuje wydarzenia \texttt{click} w elemencie o identyfikatorze \texttt{button}, a następnie się kończy. Po połączeniu tych strumieni zostanie wywołana funkcja wykorzystująca ze strumienia \texttt{input\$} tekst "dom", a kliknięcie przycisku może wysłać te dane przez API do bazy danych.
 
 \begin{figure}[H]
 	\centering
@@ -191,12 +191,12 @@ Na poniższym schemacie znajduje się przykład działania strumieni. Na wejści
     \label{fig:cycle-stream-example}
 \end{figure}
 
-Strumienie w \texttt{xstream} mogą wyemitować zero lub więcej wydarzeń. Mogą one być również niekończące się (strumień \texttt{input\$} z przykładu) lub kończące się. Zakończenie strumienia oznacza wykonanie jakiegoś działania, lub w przypadku niepowodzenia, wyemitowanie błędu.
+Strumienie w \texttt{xstream} mogą wyemitować zero lub więcej wydarzeń. Mogą one być również niekończące się (strumień \texttt{input\$} z przykładu) lub kończące się. Zakończenie strumienia oznacza wykonanie jakiegoś działania lub w przypadku niepowodzenia, wyemitowanie błędu.
 
 \subsection{Opis frameworku}
 Cycle.js to funkcyjny i reaktywny framework JavaScript. Funkcyjność sprawia, że kod jest bardziej przewidywalny, a reaktywność pozwala na rozdzielenie kodu. Aplikacje Cycle.js są w pełni stworzone z funkcji, dzięki czemu na podstawie wejścia (argumentów funkcji) jest generowane przewidywalne wyjście, bez niepożądanych efektów I/O. Strukturyzacja aplikacji Cycle.js za pomocą strumieni usuwa problemy dotyczące zmian z zewnątrz, jako że wszystkie zmiany danych są wewnątrz strumieni.
 
-Abstrakcja frameworku wydziela funkcję \texttt{main}, której argumentami są efekty odczytów ze świata zewnętrznego (\textit{sources}), a wyjściem są efekty zapisów w celu wpłynięcia na świat zewnętrzny (\textit{sinks}). Efekty I/O są zarządzane przez sterowniki (\textit{drivers}), a więc wtyczki obsługujące efekty DOM, zapytania HTTP itp.
+Abstrakcja frameworku wydziela funkcję \texttt{main}, której argumentami są efekty odczytów ze świata zewnętrznego (\textit{sources}), a wyjściem są efekty zapisów w celu wpłynięcia na świat zewnętrzny (\textit{sinks}). Efekty I/O są zarządzane przez sterowniki (\textit{drivers}), a więc wtyczki obsługujące efekty DOM, zapytania HTTP itp. Diagram poglądowy został przedstawiony na rysunku \ref{fig:cycle-dataflow}.
 
 \begin{figure}[H]
 	\centering
@@ -205,7 +205,7 @@ Abstrakcja frameworku wydziela funkcję \texttt{main}, której argumentami są e
     \label{fig:cycle-dataflow}
 \end{figure}
 
-Cycle.js wykorzystuje architekturę \textit{Model-View-Intent}. Architektura ta spełnia główne założenia \textit{Model-View-Controller}, jest reaktywna i funkcyjna. Reaktywność jest spowodowana tym, że \textit{Intent} obserwuje użytkownika (akcje wywołane z komputera), \textit{Model} obserwuje \textit{Intent}, \textit{View} obserwuje \textit{Model} oraz użytkownik obserwuje \textit{Intent}. Funkcyjność jest wynikiem tego, iż każdy z komponentów jest wyrażony poprzez funkcje na strumieniach.
+Cycle.js wykorzystuje architekturę \textit{Model-View-Intent}. Architektura ta spełnia główne założenia \textit{Model-View-Controller}, jest reaktywna i funkcyjna. Reaktywność jest spowodowana tym, że \textit{Intent} obserwuje użytkownika (akcje wywołane z komputera), \textit{Model} obserwuje \textit{Intent}, \textit{View} obserwuje \textit{Model} oraz użytkownik obserwuje \textit{Intent}. Funkcyjność jest wynikiem tego, iż każdy z komponentów jest wyrażony poprzez funkcje na strumieniach. Funkcję \texttt{main} można więc podzielić na trzy główne funkcje odpowiadające za osobne odpowiedzialności architektury \textit{MVI}, co przedstawia schemat \ref{fig:cycle-mvi}.
 
 \begin{figure}[H]
 	\centering
@@ -249,13 +249,13 @@ Aplikacja CStrikers wykorzystuje dwa frameworki front-endowe: Vue.js oraz Cycle.
 
 Plik \texttt{main.js} odpowiada za inicjalizajcę aplikacji, wraz z użyciem \texttt{Vuex} służącego do przechowywania globalnego stanu we Vue, oraz z \texttt{vue-router} służącego do obsługi przekierowań.
 
-Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} -- udostępnia on style oraz ogólny widok aplikacji (\textit{wrapper}). Pozostałe komponenty zaimplementowane we Vue korzystają z SFC i są wydzielone do osobnych plików w katalogu \texttt{views}. W celu zachowania spójności aplikacji, komponenty Cycle.js są wstrzykiwane do Vue poprzez handlery, które wywołują funkcję \texttt{run(main, drivers)}. W ten sposób uzyskano jednolity layout.
+Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} -- udostępnia on style oraz ogólny widok aplikacji (\textit{wrapper}). Pozostałe komponenty zaimplementowane we Vue korzystają z SFC i są wydzielone do osobnych plików w katalogu \texttt{views}. W celu zachowania spójności aplikacji, komponenty Cycle.js są wstrzykiwane do Vue poprzez handlery, które wywołują funkcję \texttt{run(main, drivers)}. Przykład wstrzykiwania kodu został przedstawiony na rysunku \ref{fig:vue-cycle-injection} na podstawie pliku \texttt{TeamCreateHandler.vue}. W ten sposób uzyskano jednolity layout całej aplikacji.
 
 \begin{figure}[H]
 	\centering
 	$\vcenter{\hbox{\includegraphics[width=0.9\textwidth]{images/vue-cycle-injection.png}}}$
     \caption[]{Przykład implementacji wstrzykiwania kodu uruchamiającego komponent Cycle.js do Vue.js w aplikacji CStrikers}
-    \label{fig:cycle-mvi}
+    \label{fig:vue-cycle-injection}
 \end{figure}
 
 \section{Model pojęciowy [TODO]}
@@ -277,6 +277,7 @@ Aplikacja zawiera 3 zestawy testowe, w których zawarte są łącznie 62 testy. 
     \item Funkcje pomocnicze z pliku \texttt{utils.js} są wykorzystywane w wielu miejscach jako podstawowa część obsługi danych, czy wyciągania z nich odpowiednich informacji. Każda zmiana w tych funkcjach mogłaby wywołać niepożądane działanie w innym miejscu w kodzie, a dzięki testom jednostkowym taka sytuacja nie wystąpi.
     \item Wiele funkcji korzysta z bibliotek dostępnych w NPM, są one przetestowane i ich testowanie wiązałoby się z niepotrzebną duplikacją kodu podobnego do tego, który stworzyli autorzy wybranych paczek.
 \end{enumerate}
+Zebrane statystyki pokrycia kodu przedstawiono w tabeli \ref{tab:tests-coverage}.
 
 \begin{table}[h]
     \begin{tabular}{|l|ll|ll|ll|ll|}
@@ -290,14 +291,17 @@ Aplikacja zawiera 3 zestawy testowe, w których zawarte są łącznie 62 testy. 
 \end{table}
 
 \section{Metryka kodu}
+Metryka kodu została wygenerowana za pomocą polecenia \texttt{cloc} uruchomionego na katalogach \texttt{app/src}, \texttt{app/public} oraz plikach konfiguracyjnych w katalogu \texttt{app}. Tabela \ref{tab:code-lines} przestawia metryki kodu.
+
 \begin{table}[H]
     \begin{tabular}{|l|l|l|l|l|}
     \hline
     \textbf{Język}   & \textbf{Pliki} & \textbf{Puste linie} & \textbf{Linie z komentarzami} & \textbf{Linie kodu} \\ \hline
-    JavaScript       & 19             & 269                  & 430                           & 2033                \\ \hline
+    JavaScript       & 21             & 270                  & 430                           & 2049                \\ \hline
     Vue.js Component & 17             & 90                   & 9                             & 1523                \\ \hline
     CSS              & 1              & 6                    & 0                             & 33                  \\ \hline
-    \textbf{ŁĄCZNIE} & \textbf{37}    & \textbf{365}         & \textbf{439}                  & \textbf{3589}       \\ \hline
+    HTML             & 1              & 0                    & 0                             & 17                  \\ \hline
+    \textbf{ŁĄCZNIE} & \textbf{40}    & \textbf{366}         & \textbf{439}                  & \textbf{3622}       \\ \hline
     \end{tabular}
     \caption{\label{tab:code-lines}Tabela przedstawiająca statystki dotyczące kodu napisanej aplikacji}
 \end{table}
@@ -340,21 +344,21 @@ Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące I
 \begin{itemize}
     \item Jako gracz, chcę zarejestrować się w aplikacji, żeby inny gracz mógł mnie dodać do swojej drużyny.
     \item Jako gracz, chcę stworzyć drużynę, żeby móc wziąć udział w turnieju.
-    \item Jako gracz, chcę mieć możliwość łatwego odrzucania i wybierania map w meczach, w których biorę udział, żeby móc grać na mapach, które preferuje mój zespół.
+    \item Jako gracz, chcę mieć możliwość łatwego odrzucania i wybierania map w meczach, w których biorę udział, żeby móc grać na mapach, które preferuje mój zespół. Zrzut ekranu przedstawiający widok zaimplementowanej funkcjonalności na podstawie tej historyjki użytkownika znajduje się na rysunku \ref{fig:app-matchroom}.
     \begin{figure}[H]
         \centering
         $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-matchroom.png}}}$
         \caption[]{Widok fazy odrzucania i wybierania map przez kapitanów}
         \label{fig:app-matchroom}
     \end{figure}
-    \item Jako gracz, chcę mieć możliwość wpisywania wyników spotkań, które rozgrywam, żeby wiedzieć w którym miejscu w tabeli/w której rundzie jest moja drużyna.
+    \item Jako gracz, chcę mieć możliwość wpisywania wyników spotkań, które rozgrywam, żeby wiedzieć w którym miejscu w tabeli/w której rundzie jest moja drużyna. Na rysunku \ref{fig:app-score-insert} znajduje się widok umożliwiający graczom wpisanie wyników.
     \begin{figure}[H]
         \centering
         $\vcenter{\hbox{\includegraphics[width=0.5\textwidth]{images/app-score-insert.png}}}$
         \caption[]{Widok okienka z częściowo uzupełnionymi wynikami}
         \label{fig:app-score-insert}
     \end{figure}
-    \item Jako gracz, chcę mieć dostęp do podejrzenia statystyk wszystkich rozgrywanych meczów na różnych mapach, żeby móc przeanalizować która strona jest lepszym wyborem do gry.
+    \item Jako gracz, chcę mieć dostęp do podejrzenia statystyk wszystkich rozgrywanych meczów na różnych mapach, żeby móc przeanalizować która strona jest lepszym wyborem do gry. Rysunek \ref{fig:app-maps} przedstawia widok komponentu wyświetlającego statystyki map.
     \begin{figure}[H]
         \centering
         $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-maps.png}}}$
@@ -371,6 +375,8 @@ Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące I
     \item Jako organizator turnieju, chcę mieć możliwość ukrycia turnieju, żeby rozgrywki były prywatne.
     \item Jako organizator turnieju, chcę mieć możliwość wyboru typu rozgrywanych meczów, żeby kontrolować czas trwania i balans drużyn w turnieju.
     \item Jako organizator turnieju, chcę mieć możliwość wyboru systemu, w którym będzie rozgrywany turniej, żebym mógł spełnić swoje wymagania.
+
+    Implementacja kompontentu tworzenia turniejów odpowiada widokowi z rysunku \ref{fig:app-tournament-create}, przedstawiającego powyższe historyjki użytkownika.
     \begin{figure}[H]
         \centering
         $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-tournament-create.png}}}$
@@ -379,6 +385,8 @@ Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące I
     \end{figure}
     \item Jako organizator turnieju, chcę mieć podgląd statystyk wszystkich rozgrywanych meczów, żeby kontrolować ich stan.
     \item Jako organizator turnieju, chcę wiedzieć, kim jest zwycięzca turnieju, aby nie musieć przeglądać wszystkich spotkań i liczyć wyników manualnie.
+
+    Widok komponentu dotyczącego statystyk turnieju znajduje się na rysunku \ref{fig:app-tournament-details}.
     \begin{figure}[H]
         \centering
         $\vcenter{\hbox{\includegraphics[width=\textwidth]{images/app-tournament-details.png}}}$
@@ -395,7 +403,7 @@ Pierwszym pomysłem było stworzenie aplikacji opartej o Express.js oraz backend
 
 Ostatnim rozwiązaniem, było napisanie aplikacji we Vue.js oraz Cycle.js, wykorzystując przy tym bazę danych Firestore Database. To pozwoliło na stworzenie API wykorzystywanego przez oba frameworki, dzięki czemu implementacja nie sprawiała aż tak dużych problemów. Największą trudność stanowiło jednak zaplanowanie struktur kolekcji, ich referencji oraz kroków implementacyjnych. Przez brak organizacji i konkretnego planu działania, musiałem wielokrotnie zmieniać kod i rozszerzać kolekcje, aby były kompatybilne ze wszystkimi działaniami, jakie można było podjąć w aplikacji.
 
-Testowanie aplikacji ograniczone zostało do funkcji, które nie należały do bibliotek udostępniających m.in. obsługę baz danych, czy tworzenia V-DOM we Vue czy Cycle.js gdyż ich implementacje są w pełni przetestowane.
+Testowanie aplikacji ograniczone zostało do funkcji, które nie należały do bibliotek udostępniających m.in. obsługę baz danych, czy tworzenia V-DOM we Vue, czy Cycle.js, gdyż ich implementacje są w pełni przetestowane.
 
 Dokumentacja aplikacji była sporządzana na bieżąco, w trakcie programowania -- plusem takiego podejścia jest możliwość odnoszenia się do różnych funkcji bez konieczności analizowania ich działania, jednak przy częstych zmianach kodu wymagało to dodatkowego czasu.
 
@@ -431,7 +439,7 @@ Bieżąca implementacja wspiera organizację turniejów w systemie pucharowym or
 Najbardziej popularnymi turniejami są turnieje, w których drużyny składają się z pięciu aktywnych graczy oraz zmienników. Ta funkcjonalność jednak mogłaby się zmienić dzięki dodaniu wsparcia dla drużyn o mniejszej liczbie graczy. Turnieje 1 na 1 mogłyby rozgrywać się na mapach \texttt{aim\_*} (małe mapy, zwykle rundy kończą się w kilkanaście sekund), turnieje 2 na 2 oraz 3 na 3 na mapach z trybu \textit{Wingman} (jeden z trybów gry w CSGO), a 4 na 4 na standardowych mapach.
 
 \subsection{Implementacja nowych systemów rozgrywania turniejów}
-Obecnie implementacja wspiera trzy systemy: pucharowy, ligowy oraz łączony. Propozycja miałaby rozszerzyć możliwe do wyboru systemy o system szwajcarski oraz \textit{double-elimination}, czyli system wspierający drabinkę przegranych. W przypadku istniejących już systemów ligowego i łączonego można by było obsłużyć przypadek remisu w fazie grupowej (jednak nie jest to często spotykane w turniejach CS:GO).
+Obecnie implementacja wspiera trzy systemy: pucharowy, ligowy oraz łączony. Propozycja miałaby rozszerzyć możliwe do wyboru systemy o system szwajcarski oraz \textit{double-elimination}, czyli system wspierający drabinkę przegranych. W przypadku istniejących już systemów ligowego i łączonego można by było obsłużyć przypadek remisu w fazie grupowej (jednak nie jest to często spotykane w turniejach CSGO).
 
 \subsection{Wydzielenie ról użytkowników}
 W kodzie aplikacji każdy użytkownik jest sobie równy, nie ma podziału na zwykłych użytkowników, moderatorów, administratorów. Zmiana ta miałaby wprowadzić role możliwe do przypisania użytkownika, dzięki czemu zarządzanie tym, co się dzieje w aplikacji, zależałoby od tego, jakie uprawnienia ma zalogowany użytkownik.
@@ -443,45 +451,92 @@ Aktualnie implementacja obejmuje stworzenie meczów turniejowych oraz umożliwie
 Obecnie baza danych w dużej mierze działa na zasadzie jednokrotnego pobierania i zapisywania danych, przez co komponenty dotyczące np. tworzenia drużyn i turniejów, jak i wyświetlania ich, są aktualne w momencie wejścia na wybraną podstronę. Firebase udostępnia jednak funkcję \texttt{onSnapshot} \cite{bib:firebase-on-snapshot}, która otwiera socket nasłuchujący na zmiany w wybranej kolekcji, a następnie w czasie rzeczywistym aktualizuje zawartość pobranych danych.
 
 \chapter{Opis techniczny}
-Aplikacja została napisana w języku Vue.js (wersja 3.0.0) oraz Cycle.js (\texttt{@cycle/dom} w wersji 23.1.0 oraz \texttt{@cycle/run} w wersji 5.7.0). Backend aplikacji obsługujący zapytania bazodanowe oraz logikę aplikacji został napisany w JavaScript. Testy jednostkowe zostały zaimplementowane przy użyciu Jest (wersja 28.1.1), a dokumentacja wygenerowana przez JSDoc (wersja 3.6.10). Za bazę danych posłużył Firestore Database dostarczany przez Firebase.
+\section{Wykorzystane technologie}
+Aplikacja została napisana w języku Vue.js (wersja 3.0.0) oraz Cycle.js (\texttt{@cycle/dom} (wersja 23.1.0) oraz \texttt{@cycle/run} (wersja 5.7.0)). Backend aplikacji obsługujący zapytania bazodanowe oraz logikę aplikacji został napisany w JavaScript. Testy jednostkowe zostały zaimplementowane przy użyciu Jest (wersja 28.1.1), a dokumentacja wygenerowana przez JSDoc (wersja 3.6.10). Paczki te zostały zainstalowane w środowisku uruchomieniowym Node.js (wersja 16.13.2) za pomocą managera pakietów NPM (wersja 8.3.2) Za bazę danych posłużył Firestore Database dostarczany przez Firebase.
 
-Kod aplikacji znajduje się w repozytorium GitHub:\newline
-\url{https://github.com/whiskeyo/csgo-tournament}
+\section{Instrukcja instalacji aplikacji i jej zależności}
+W celu zainstalowania aplikacji CStrikers należy najpierw pobrać środowisko uruchomieniowe Node.js oraz managera pakietów NPM. W tym celu należy udać się na stronę projektu Node.js \cite{bib:nodejs-downloads}, pobrać instalator dla swojego systemu, a następnie zainstalować Node.js lub wykorzystać do tego używany manager pakietów przez system operacyjny \cite{bib:nodejs-package-manager}. NPM powinien zostać zainstalowany automatycznie.
 
-\chapter{Polecenia aplikacji CStrikers}
-Zestaw najważniejszych poleceń znajduje się w pliku \texttt{README.md}, są to m.in:
-\begin{itemize}
-    \item instalacja vue-cli: \texttt{sudo npm install -g @vue/cli}
-    \item instalacja paczek NPM: \texttt{cd app; npm install}
-    \item uruchomienie serwera developerskiego: \texttt{npm run dev}
-    \item kompilacja projektu z możliwością hostowania na serwerach: \texttt{npm run build}
-    \item uruchomienie lintera wskazującego błędy w kodzie: \texttt{npm run lint}
-    \item uruchomienie formattera: \texttt{npm run format}
-    \item uruchomienie testów jednostkowych: \texttt{npm run test}
-    \item wygenerowanie pokrycia kodu: \texttt{npm run coverage}
-    \item wygenerowanie dokumentacji: \texttt{npm run docs}
-\end{itemize}
+Kolejnym krokiem jest zainstalowanie pakietu Vue CLI za pomocą polecenia \texttt{sudo npm install -g @vue/cli}. Uprawnienia administratora są wymagane, aby pobierany pakiet został zainstalowany globalnie. Z tego powodu polecenie korzysta z \texttt{sudo} oraz flagi \texttt{-g}.
+
+Kod aplikacji znajduje się w publicznym repozytorium na GitHubie. Aby go sklonować, należy w repozytorium kliknąć zielony przycisk \textit{Code}, a następnie wybrać sposób klonowania -- w przypadku HTTP i SSH klonowanie odbywa się poprzez polecenie \texttt{git clone <uzyskany link https/ssh>}, a w przypadku GitHub CLI -- całe polecenie jest dostępne na stronie repozytorium. Repozytorium jest dostępne pod linkiem \url{https://github.com/whiskeyo/csgo-tournament}.
+
+Po sklonowaniu należy wejść do katalogu \texttt{csgo-tournament} (lub innego, gdy jego nazwa została zmieniona przy klonowaniu). Następnie należy przejść do katalogu \texttt{app} i wywołać polecenie \texttt{npm install}.
+
+\section{Konfiguracja bazy danych Firestore Cloud}
+W celu hostowania aplikacji z własną bazą danych należy zalogować się w konsoli Firebase \cite{bib:firebase-console}, a następnie utworzyć nowy projekt. Nazwa projektu oraz umożliwienie zbierania danych przez Google Analytics są wartościami dowolnymi i żadna część implementacji nie wykorzystuje tych informacji.
+
+Pierwszym krokiem jest dodanie Firebase'a do swojej aplikacji. W tym celu na stronie głównej projektu należy kliknąć przycisk \texttt{</>}, zarejestrować nazwę aplikacji i zaznaczyć pole \textit{Also set up Firebase Hosting for this app}. Po chwili oczekiwania pojawi się informacja mówiąca o konieczności zainstalowania pakietu \texttt{firebase} oraz plik konfiguracyjny. Zawartość pól ze zmiennej \texttt{firebaseConfig} należy umieścić w pliku \texttt{app/src/configs/firebase.js}. Przykładowa zawartość tej zmiennej powinna wyglądać następująco:
+\begin{verbatim}
+const firebaseConfig = {
+  apiKey: "exampleApiKey",
+  authDomain: "example.authDomain.com",
+  projectId: "example-project-id",
+  storageBucket: "example.storageBucket.com",
+  messagingSenderId: "exampleMessagingSenderId",
+  appId: "exampleAppId",
+  measurementId: "exampleMeasurementId",
+};
+\end{verbatim}
+
+Jeśli użytkownik chce wykorzystać aktualnie istniejącą bazę danych, powinien wykorzystać poniższe dane:
+\begin{verbatim}
+const firebaseConfig = {
+  apiKey: "AIzaSyBXQMByC_McVaPW6FwuBiCOjK9H2iEzDjA",
+  authDomain: "cstrikers-dev-ff691.firebaseapp.com",
+  projectId: "cstrikers-dev-ff691",
+  storageBucket: "cstrikers-dev-ff691.appspot.com",
+  messagingSenderId: "328582704510",
+  appId: "1:328582704510:web:4c72e56e6881768c17572f",
+  measurementId: "G-KKYJW4NEL0",
+};
+\end{verbatim}
+
+Po utworzeniu projektu należy przejść do podstrony \textit{Authentication}, następnie wybrać \textit{Get Started} i wybrać opcje \textit{Email/Password} z sekcji \textit{Native providers}. Należy zaznaczyć jedynie \textit{Email/Password} i zapisać wybór. Kolejnym krokiem jest dodanie możliwości logowania przez konto Google -- w tym celu należy przejść do \textit{Add new provider}, wybrać Google z sekcji \textit{Additional providers}, następnie uruchomić usługę, wybrać z listy \textit{Project support email} i zapisać zmiany.
+
+Następnie trzeba uruchomić obsługę \textit{Firestore Database}. W tym celu należy przejść do tak nazwanej zakładki i wybrać \textit{Create database}. W celu skonfigurowania bazy danych pod rozwój implementacji należy wybrać opcję \textit{Start in test mode} (warto zaznaczyć, że ta opcja musi mieć aktualizowany \textit{rule} dotyczący daty wysyłania zapytań), w przeciwnym wypadku wybraną opcją powinno być \textit{Start in production mode}. Na kolejnej stronie konfiguracji trzeba wybrać lokalizację dla Cloud Firestore (autor sugeruje wybór \texttt{eur3} lub inną zlokalizowaną w Europie). Po kliknięciu \textit{Enable} baza danych utworzy się.
+
+Kolekcja \texttt{maps} \textbf{musi zostać zainicjalizowana manualnie}. W tym celu należy jednokrotnie wywołać funkcję \texttt{mapsApi.populateDbWithAllMaps} w dowolnym komponencie. Funkcja ta znajduje się w pliku \texttt{app/src/api/mapsApi.js}. Pozostałe kolekcje: \texttt{users}, \texttt{teams}, \texttt{tournaments} oraz \texttt{matches}, zostaną utworzone automatycznie w trakcie korzystania z aplikacji.
+
+\section{Polecenia aplikacji}
+Wszystkie polecenia wypisane poniżej należy wykonać w katalogu \texttt{app}.
+
+\subsection{Uruchomienie w trybie developerskim}
+Aby uruchomić aplikację w trybie developerskim, należy wywołać polecenie \texttt{npm run dev}. Polecenie to działa poprzez Vue CLI i domyślnie przy każdym zapisie pliku wywoływany jest linter sprawdzający poprawność kodu (np. istnienie nieużytych zmiennych, korzystanie z przestarzałych metod itp.) -- w przypadku znalezienia jakiegokolwiek błędu kompilacja jest przerywana, aby programista naprawił błąd.
+
+Poprawność kodu od strony implementacji można jednak sprawdzić bez konieczności uruchomienia serwera developerskiego. W tym celu programista może wykorzystać polecenie \texttt{npm run lint}. Istnieje również polecenie \texttt{npm run format}, które za pomocą pakietu \textit{Prettier} formatuje kod na podstawie wartości obiektu \texttt{prettier} w pliku \texttt{package.json}.
+
+Ważną częścią projektu jest dokumentacja, którą programista może uzyskać uruchamiając \texttt{npm run docs}. Katalogiem z wygenerowaną dokumentacją jest \texttt{app/docs}, a plikiem przenoszącym programistę do strony głównej jest \texttt{index.html}.
+
+Ponadto programista ma możliwość uruchomienia testów -- jeśli chce uruchomić wszystkie zestawy testowe, musi skorzystać z polecenia \texttt{npm run test}, a gdy chce uzyskać statystyki dotyczące pokrycia kodu testami, musi wywołać \texttt{npm run coverage}. Statystyki pokrycia kodu pojawiają się w konsoli, ale są też dostępne w katalogu \texttt{app/coverage/lcov-report} w pliku \texttt{index.html}.
+
+\subsection{Zbudowanie aplikacji na produkcję}
+W przypadku chęci zbudowania aplikacji w celach wydania jej na produkcję należy wywołać polecenie \texttt{npm run build}. Powstałe pliki zostaną umieszczone w katalogu \texttt{app/build}, a ich deployment będzie można wykonać na podstawie instrukcji \cite{bib:vue-firebase-deployment} znajdującej się w dokumentacji Vue.js.
 
 
 %%%%% BIBLIOGRAFIA
 
 \begin{thebibliography}{1}
-    \bibitem{bib:toornament-saas} Toornament - About - \url{https://www.toornament.com/en_US/about}
-    \bibitem{bib:toornament-pricing} Toornament - Pricing - \url{https://www.toornament.com/en_US/pricing}
-    \bibitem{bib:esea-anticheat} ESEA - Client - \url{https://play.esea.net/client}
-    \bibitem{bib:esea-subscribe} ESEA - Subscription plans - \url{https://play.esea.net/subscribe}
-    \bibitem{bib:vue-sfc} Vue.js - Introduction, Single-File Components - \url{https://vuejs.org/guide}
-    \bibitem{bib:vue-lifecycle-hooks} Vue.js - Lifecycle Diagram - \url{https://vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram}
-    \bibitem{bib:vue-router-getting-started} Vue Router - Getting Started - \url{https://router.vuejs.org/guide/}
-    \bibitem{bib:vuex-getting-started} Vuex - Getting Started - \url{https://vuex.vuejs.org/guide/}
-    \bibitem{bib:cycle-streams} Cycle.js - Streams - \url{https://cycle.js.org/streams.html}
-    \bibitem{bib:cycle-dataflow} Cycle.js - Dataflow - \url{https://cycle.js.org/#-dataflow}
-    \bibitem{bib:cycle-mvi} Cycle.js - Model-View-Intent - \url{https://cycle.js.org/model-view-intent.html}
-    \bibitem{bib:cycle-getting-started} Cycle.js - Getting started - \url{https://cycle.js.org/getting-started.html}
-    \bibitem{bib:cycle-api-reference} Cycle.js - API reference - \url{https://cycle.js.org/api/index.html#api-reference}
-    \bibitem{bib:firestore-docs} Firestore Database - Documentation - \url{https://firebase.google.com/docs/firestore}
-    \bibitem{bib:rcon-lib} RCON library for NodeJS - \url{https://www.npmjs.com/package/rcon-srcds}
-    \bibitem{bib:firebase-on-snapshot} Get realtime updates with Cloud Firestore - \url{https://firebase.google.com/docs/firestore/query-data/listen}
+    \bibitem{bib:toornament-saas} Toornament -- About - \url{https://www.toornament.com/en_US/about} (dostęp 21.06.2022)
+    \bibitem{bib:toornament-pricing} Toornament -- Pricing - \url{https://www.toornament.com/en_US/pricing} (dostęp 21.06.2022)
+    \bibitem{bib:esea-anticheat} ESEA -- Client -- \url{https://play.esea.net/client} (dostęp 21.06.2022)
+    \bibitem{bib:esea-subscribe} ESEA -- Subscription plans -- \url{https://play.esea.net/subscribe} (dostęp 21.06.2022)
+    \bibitem{bib:vue-sfc} Vue.js -- Introduction, Single-File Components -- \url{https://vuejs.org/guide} (dostęp 18.06.2022)
+    \bibitem{bib:vue-lifecycle-hooks} Vue.js -- Lifecycle Diagram -- \url{https://vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram} (dostęp 18.06.2022)
+    \bibitem{bib:vue-router-getting-started} Vue Router -- Getting Started -- \url{https://router.vuejs.org/guide/} (dostęp 18.06.2022)
+    \bibitem{bib:vuex-getting-started} Vuex -- Getting Started -- \url{https://vuex.vuejs.org/guide/} (dostęp 18.06.2022)
+    \bibitem{bib:cycle-streams} Cycle.js -- Streams -- \url{https://cycle.js.org/streams.html} (dostęp 21.06.2022)
+    \bibitem{bib:cycle-dataflow} Cycle.js -- Dataflow -- \url{https://cycle.js.org/#-dataflow} (dostęp 19.06.2022)
+    \bibitem{bib:cycle-mvi} Cycle.js -- Model-View-Intent -- \url{https://cycle.js.org/model-view-intent.html} (dostęp 19.06.2022)
+    \bibitem{bib:cycle-getting-started} Cycle.js -- Getting started -- \url{https://cycle.js.org/getting-started.html} (dostęp 19.06.2022)
+    \bibitem{bib:cycle-api-reference} Cycle.js -- API reference -- \url{https://cycle.js.org/api/index.html#api-reference} (dostęp 19.06.2022)
+    \bibitem{bib:firestore-docs} Firestore Database -- Documentation -- \url{https://firebase.google.com/docs/firestore} (dostęp 20.06.2022)
+    \bibitem{bib:rcon-lib} RCON library for NodeJS -- \url{https://www.npmjs.com/package/rcon-srcds} (dostęp 21.06.2022)
+    \bibitem{bib:firebase-on-snapshot} Get realtime updates with Cloud Firestore -- \url{https://firebase.google.com/docs/firestore/query-data/listen} (dostęp 21.06.2022)
+    \bibitem{bib:nodejs-downloads} Node.js -- Downloads -- \url{https://nodejs.org/en/download/} (dostęp 22.06.2022)
+    \bibitem{bib:nodejs-package-manager} Node.js -- Installing Node.js via package manager -- \url{https://nodejs.org/en/download/package-manager/} (dostęp 22.06.2022)
+    \bibitem{bib:firebase-console} Firebase -- \url{https://console.firebase.google.com/} (dostęp 22.06.2022)
+    \bibitem{bib:vue-firebase-deployment} Vue CLI -- Deployment -- Firebase -- \url{https://cli.vuejs.org/guide/deployment.html#firebase} (dostęp 22.06.2022)
 \end{thebibliography}
 
 \end{document}
