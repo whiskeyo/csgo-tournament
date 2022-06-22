@@ -108,18 +108,15 @@ Aplikacja CStrikers nie posiada narzędzi do wykrywania niechcianego oprogramowa
 \section{Plan pracy}
 W rozdziale drugim opisano zasadę działania, wykorzystane architektury frameworków Vue.js oraz Cycle.js oraz uzasadniono wybór każdego z nich.
 
-W rozdziale trzecim opisano strukturę aplikacji i jej architekturę. Opis zawiera informacje o katalogach, jakie można znaleźć w repozytorium, mówi o wykorzystanej architekturze, prezentuje diagram modelu pojęciowego oraz model C4, ponadto znajdują się w nim informacje na temat pokrycia kodu testami jednostkowymi oraz metryki kodu.
+W rozdziale trzecim opisano cele aplikacji, strukturę aplikacji i jej architekturę. Opis zawiera informacje o katalogach, jakie można znaleźć w repozytorium, mówi o wykorzystanej architekturze, prezentuje diagram modelu pojęciowego oraz diagramy modelu C4 warstwy drugiej i trzeciej, ponadto znajdują się w nim informacje na temat pokrycia kodu testami jednostkowymi oraz metryki kodu.
 
-W rozdziale czwartym opisano cele aplikacji, kolekcje Firestore Database.
+W rozdziale czwartym zaprezentowano historyjki użytkownika wraz ze zrzutami ekranu aplikacji.
 
-W rozdziale piątym zaprezentowano historyjki użytkownika wraz ze zrzutami ekranu aplikacji.
+W rozdziale piątym opisano przebieg implementacji aplikacji CStrikers wraz z pomysłami na wykorzystanie różnych technologii i problemami, jakie wystąpiły przy ich wyborze. Ponadto znajdują się w nim informacje na temat procesu testowania aplikacji oraz sporządzania dokumentacji.
 
-W rozdziale szóstym opisano przebieg implementacji aplikacji CStrikers wraz z pomysłami na wykorzystanie różnych technologii i problemami, jakie wystąpiły przy ich wyborze. Ponadto znajdują się w nim informacje na temat procesu testowania aplikacji oraz sporządzania dokumentacji.
+W rozdziale szóstym omówiono wnioski wynikające z wyboru dwóch frameworków do pracy nad jednym projektem, również wyciągnięto wnioski na podstawie doświadczeń przy implementacji. Zaprezentowano też \textit{future work}, czyli pomysły na rozwój aplikacji w przyszłości o dodatkowe funkcjonalności.
 
-W rozdziale siódmym omówiono wnioski wynikające z wyboru dwóch frameworków do pracy nad jednym projektem, również wyciągnięto wnioski na podstawie doświadczeń przy implementacji. Zaprezentowano też \textit{future work}, czyli pomysły na rozwój aplikacji w przyszłości o dodatkowe funkcjonalności.
-
-W ostatnim, ósmym rozdziale przedstawiono opis techniczny aplikacji, kroki wymagane do skonfigurowania środowiska oraz możliwe do wywołania polecenia.
-
+W ostatnim, siódmym rozdziale przedstawiono opis techniczny aplikacji, kroki wymagane do skonfigurowania środowiska, bazy danych, postawienia serwera developerskiego oraz możliwe do wywołania polecenia, w tym do wygenerowania dokumentacji, pokrycia kodu testami oraz zbudowania kodu pod deployment.
 
 
 \chapter{Opis wykorzystanych frameworków}
@@ -137,7 +134,7 @@ Nie jest to jednak jedyna możliwość implementowania aplikacji we Vue.js. Drug
 
 \begin{figure}[H]
 	\centering
-	$\vcenter{\hbox{\includegraphics[width=0.8\textwidth]{images/vue-sfc-example.png}}}$
+	$\vcenter{\hbox{\includegraphics[width=0.65\textwidth]{images/vue-sfc-example.png}}}$
     \caption[]{Przykład prostego komponentu SFC \cite{bib:vue-sfc}}
     \label{fig:vue-sfc}
 \end{figure}
@@ -230,6 +227,18 @@ Cycle.js został wykorzystany do zaimplementowania komponentów dotyczących obs
 
 
 \chapter{Struktura i architektura aplikacji}
+\section{Cele aplikacji}
+\begin{itemize}
+    \item Tworzenie kont użytkowników oraz możliwość logowania się.
+    \item Tworzenie drużyn przez istniejących użytkowników.
+    \item Przegląd informacji o drużynach, ich członkach oraz turniejach, w jakich brały udział.
+    \item Możliwość tworzenia turniejów CSGO w różnych systemach.
+    \item Możliwość ukrycia turnieju z listy wszystkich turniejów.
+    \item Odrzucanie i wybieranie map przez kapitanów drużyn biorących udział w meczu odbywające się \textit{real-time}.
+    \item Możliwość zapisania wyniku spotkania.
+    \item Śledzenie postępów turnieju na podstawie listy wyników oraz tabeli.
+\end{itemize}
+
 \section{Struktura aplikacji}
 Katalogiem głównym aplikacji jest \texttt{app}. Znajdują się w nim różnorakie pliki konfiguracyjne -- projektowe, bazodanowe, czy dotyczące edytora kodu. Znajdują się w nim również dwa katalogi: katalog \texttt{public} zawierający plik \texttt{index.html} specyfikujący tag \texttt{<div id='app'></div>}, wykorzystywany przez Vue w celu wyrenderowania aplikacji, jak i katalog \texttt{src} zawierający wszystkie pliki źródłowe. Znajdują się w nim katalogi:
 \begin{itemize}
@@ -253,21 +262,41 @@ Bazowym komponentem wykorzystanym przez aplikację jest \texttt{App.vue} -- udos
 
 \begin{figure}[H]
 	\centering
-	$\vcenter{\hbox{\includegraphics[width=0.9\textwidth]{images/vue-cycle-injection.png}}}$
+	$\vcenter{\hbox{\includegraphics[width=0.6\textwidth]{images/vue-cycle-injection.png}}}$
     \caption[]{Przykład implementacji wstrzykiwania kodu uruchamiającego komponent Cycle.js do Vue.js w aplikacji CStrikers}
     \label{fig:vue-cycle-injection}
 \end{figure}
 
-\section{Model pojęciowy [TODO]}
+\section{Model pojęciowy}
+Schemat \ref{fig:conceptual-model} przedstawia diagram modelu pojęciowego aplikacji CStrikers.
+
 \begin{figure}[H]
 	\centering
-	$\vcenter{\hbox{\includegraphics[width=0.9\textwidth]{images/conceptual-model.png}}}$
-    \caption[]{Model pojęciowy w aplikacji CStrikers}
+	$\vcenter{\hbox{\includegraphics[width=0.6\textwidth]{images/conceptual-model.png}}}$
+    \caption[]{Model pojęciowy w aplikacji CStrikers [opracowanie własne]}
     \label{fig:conceptual-model}
 \end{figure}
 
-\section{Model C4 [TODO]}
-...
+\section{Architektoniczny model C4}
+Model C4 to graficzny sposób na przedstawienie modelu architektury aplikacji. Działa na zasadzie strukturalnej dekompozycji całego systemu na kontenery, na komponenty \cite{bib:c4-model}.
+
+\subsection{Model C4 warstwy kontenerowej (drugiej)}
+Schemat \ref{fig:c4-layer-two} przedstawia model C4 drugiej warstwy, tzn. podział systemu na kontenery.
+\begin{figure}[H]
+	\centering
+	$\vcenter{\hbox{\includegraphics[width=\textwidth]{images/c4-layer-two.png}}}$
+    \caption[]{Model C4 warstwy drugiej [opracowanie własne]}
+    \label{fig:c4-layer-two}
+\end{figure}
+
+\subsection{Model C4 warstwy komponentowej (trzeciej)}
+Schemat \ref{fig:c4-layer-three} przedstawia model C4 trzeciej warstwy, tj. podział kontenerów \textit{SPA} na komponenty.
+\begin{figure}[H]
+	\centering
+	$\vcenter{\hbox{\includegraphics[width=\textwidth]{images/c4-layer-three.png}}}$
+    \caption[]{Model C4 warstwy trzeciej [opracowanie własne]}
+    \label{fig:c4-layer-three}
+\end{figure}
 
 \section{Testy jednostkowe komponentów}
 Aplikacja zawiera 3 zestawy testowe, w których zawarte są łącznie 62 testy. Decyzja na stworzenie testów do tych konkretnych plików została podjęta z kilku powodów:
@@ -305,38 +334,6 @@ Metryka kodu została wygenerowana za pomocą polecenia \texttt{cloc} uruchomion
     \end{tabular}
     \caption{\label{tab:code-lines}Tabela przedstawiająca statystki dotyczące kodu napisanej aplikacji}
 \end{table}
-
-\chapter{Aplikacja}
-\section{Cele aplikacji}
-
-\begin{itemize}
-    \item Tworzenie kont użytkowników oraz możliwość logowania się.
-    \item Tworzenie drużyn przez istniejących użytkowników.
-    \item Przegląd informacji o drużynach, ich członkach oraz turniejach, w jakich brały udział.
-    \item Możliwość tworzenia turniejów CSGO w różnych systemach.
-    \item Możliwość ukrycia turnieju z listy wszystkich turniejów.
-    \item Odrzucanie i wybieranie map przez kapitanów drużyn biorących udział w meczu odbywające się \textit{real-time}.
-    \item Możliwość zapisania wyniku spotkania.
-    \item Śledzenie postępów turnieju na podstawie listy wyników oraz tabeli.
-\end{itemize}
-
-\section{Opisy kolekcji Firestore Database}
-Firestore Database jest bazą danych mającą podobną strukturę do MongoDB.
-
-\subsection{Users}
-Kolekcja korzystająca z kolekcji Users wbudowanej w Firebase Authentication. Przechowuje informacje o użytkownikach: ich pseudonim, imię i nazwisko, email oraz pole uid będące referencją.
-
-\subsection{Teams}
-Kolekcja zawierająca informacje o stworzonych drużynach. Polami dokumentów są: nazwa drużyny, ID użytkownika z kolekcji users będącego kapitanem drużyny oraz tablicę ID członków drużyny.
-
-\subsection{Maps}
-Kolekcja zawierająca mapy, na których rozgrywane są mecze.
-
-\subsection{Matches}
-Kolekcja przechowująca dokumenty dotyczące meczów. Zawiera pola będące ID obu drużyn, typ meczu, tablicę z wybranymi mapami, tablicę z odrzuconymi mapami, tablicę wyników każdej z wybranej map, liczbę wygranych map przez obie drużyny oraz nazwę drużyny, która wygrała.
-
-\subsection{Tournaments}
-Kolekcja przechowująca dokumenty dotyczące turniejów. Zawiera pola będące ID organizatora, informacje o widoczności turnieju, system, w jakim rozgrywany jest turniej, typ rozgrywanych meczów (B01/BO3/BO5), tablicę ID drużyn biorących udział w turnieju, tablicę ID meczów rozgrywanych w ramach turnieju oraz nazwę drużyny, która wygrała turniej.
 
 \chapter{Historyjki użytkownika}
 \section{Gracz}
@@ -528,6 +525,7 @@ W przypadku chęci zbudowania aplikacji w celach wydania jej na produkcję nale�
     \bibitem{bib:cycle-streams} Cycle.js -- Streams -- \url{https://cycle.js.org/streams.html} (dostęp 21.06.2022)
     \bibitem{bib:cycle-dataflow} Cycle.js -- Dataflow -- \url{https://cycle.js.org/#-dataflow} (dostęp 19.06.2022)
     \bibitem{bib:cycle-mvi} Cycle.js -- Model-View-Intent -- \url{https://cycle.js.org/model-view-intent.html} (dostęp 19.06.2022)
+    \bibitem{bib:c4-model} The C4 model for visualising software architecture -- \url{https://c4model.com/}
     \bibitem{bib:cycle-getting-started} Cycle.js -- Getting started -- \url{https://cycle.js.org/getting-started.html} (dostęp 19.06.2022)
     \bibitem{bib:cycle-api-reference} Cycle.js -- API reference -- \url{https://cycle.js.org/api/index.html#api-reference} (dostęp 19.06.2022)
     \bibitem{bib:firestore-docs} Firestore Database -- Documentation -- \url{https://firebase.google.com/docs/firestore} (dostęp 20.06.2022)
