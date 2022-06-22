@@ -10,6 +10,7 @@ import types from "../services/types";
 const tournamentApi = {};
 
 /**
+ * Creates Single Elimination Tournament
  * @method
  * @param {Object} tournamentData Object with Single Elimination tournament data to be saved in DB
  * @param {Object} router         Vue-router instance used for redirection to newly
@@ -72,6 +73,7 @@ tournamentApi.createSingleEliminationTournament = async function (tournamentData
 };
 
 /**
+ * Creates All versus All (League) Tournament
  * @method
  * @param {Object} tournamentData Object with All vs. All tournament data to be saved in DB
  * @param {Object} router         Vue-router instance used for redirection to newly
@@ -116,6 +118,7 @@ tournamentApi.createAllVsAllTournament = async function (tournamentData, router)
 };
 
 /**
+ * Creates Combined Tournament
  * @method
  * @param {Object} tournamentData Object with Combined tournament data to be saved in DB
  * @param {Object} router         Vue-router instance used for redirection to newly
@@ -181,6 +184,7 @@ tournamentApi.createCombinedTournament = async function (tournamentData, router)
 };
 
 /**
+ * Fetches all tournaments played by a team with given ID, then returns them
  * @method
  * @param {string} teamId ID of the team to have collected all attended tournaments
  * @returns {Array}       Array of all tournaments attended by team with given ID
@@ -200,6 +204,7 @@ tournamentApi.getTournamentsPlayedByTeam = async function (teamId) {
 };
 
 /**
+ * Fetches all tournaments played by a team with given ID, then saves them in an array
  * @method
  * @param {string} teamId           ID of the team to have collected all attended tournaments
  * @param {Array} tournamentsPlayed Array to be filled with all tournaments attended by team with given ID
@@ -217,6 +222,7 @@ tournamentApi.collectTournamentsPlayedByTeam = async function (teamId, tournamen
 };
 
 /**
+ * Fetches tournament with given ID, then saves its data in an object
  * @method
  * @param {string} tournamentId      ID of the tournament to have collected its data
  * @param {Object} tournamentDetails Object with the tournament data stored in DB
@@ -240,6 +246,7 @@ tournamentApi.collectTournamentByID = async function (tournamentId, tournamentDe
 };
 
 /**
+ * Fetches all tournaments, then saves them in an array
  * @method
  * @param {Array} allTournaments Array in which all tournaments from DB are saved
  */
@@ -263,6 +270,7 @@ tournamentApi.collectAllTournaments = async function (allTournaments) {
 };
 
 /**
+ * Updates the tournament
  * @method
  * @param {string} tournamentId   ID of the tournament to be updated
  * @param {Object} fieldsToChange Object contating fields that are updated

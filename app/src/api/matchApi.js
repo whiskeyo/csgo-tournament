@@ -7,6 +7,7 @@ import objectGenerators from "../services/objectGenerators";
 const matchApi = {};
 
 /**
+ * Creates a match in database
  * @method
  * @param {string} firstTeam          ID of the first team
  * @param {string} secondTeam         ID of the second team
@@ -26,6 +27,7 @@ matchApi.createMatch = async function (firstTeam, secondTeam, matchType, nextMat
 };
 
 /**
+ * Updates a match by given fields
  * @method
  * @param {string} matchId        ID of the match to be updated
  * @param {Object} fieldsToChange Object contating fields that are updated
@@ -40,6 +42,7 @@ matchApi.updateMatch = async function (matchId, fieldsToChange) {
 };
 
 /**
+ * Fetches match by its ID from database and returns it
  * @method
  * @param {string} matchId ID of the match to have collected its data
  * @returns {Object}       Object with the match data stored in DB
@@ -69,6 +72,7 @@ matchApi.getMatchByID = async function (matchId) {
 };
 
 /**
+ * Fetches all matches from database and saves them in an array
  * @method
  * @param {Array} allMatches Array in which all matches from DB are saved
  */

@@ -7,6 +7,7 @@ import types from "./types";
 const utils = {};
 
 /**
+ * Generates random integer from given range
  * @method
  * @param {Number} min Value starting range of random number generator
  * @param {Number} max Value ending range of random number generator
@@ -17,6 +18,7 @@ utils.getRandomInt = function (min, max) {
 };
 
 /**
+ * Checks if number is a power of two
  * @method
  * @param {Number} value Value to be checked
  * @returns {Boolean}    Boolean saying if given value is a power of two
@@ -26,6 +28,7 @@ utils.isPowerOfTwo = function (value) {
 };
 
 /**
+ * Parses proxy object and returns an internal object
  * @method
  * @param {Proxy} proxy Proxy to be converted to an Object
  * @returns {Object}    Flattened Proxy to an Object
@@ -35,6 +38,7 @@ utils.getObjectFromProxy = function (proxy) {
 };
 
 /**
+ * Returns team name if given teamId exists and TBD otherwise
  * @method
  * @param {string} teamId ID of a team stored in Firestore Database
  * @param {Array} teams   Array of all teams from Firestore Database
@@ -48,6 +52,7 @@ utils.getTeamNameById = function (teamId, teams) {
 };
 
 /**
+ * Removes given object from an array if the object exists
  * @method
  * @param {Object} item Object which needs to be removed (if exists)
  * @param {Array} array Array of objects that is going to have an item removed
@@ -60,6 +65,7 @@ utils.removeItemFromArray = function (item, array) {
 };
 
 /**
+ * Parses an array of proxy objects, removes duplicates and returns filtered array
  * @method
  * @param {Array} proxyArray Array of Proxy objects with possible duplicates
  * @returns {Array}          Array of unique items stored in proxyArray
@@ -71,6 +77,7 @@ utils.getUniqueItemsArrayFromProxyArray = function (proxyArray) {
 };
 
 /**
+ * Parses an array of proxy objects, removes duplicates by given field and returns filtered array
  * @method
  * @param {Array} proxyArray Array of Proxy objects with possible duplicates
  * @param {string} field     Name of the field to be checked uniqueness of objects
@@ -83,6 +90,7 @@ utils.getUniqueItemsByFieldArrayFromProxyArray = function (proxyArray, field) {
 };
 
 /**
+ * Checks if the object exists in an array
  * @method
  * @param {Object} item Object which presence is checked in array
  * @param {Array} array Array of objects
@@ -99,6 +107,7 @@ utils.isItemInArray = function (item, array) {
 };
 
 /**
+ * Randomizes order of elements in an array
  * @method
  * @param {Array} array Array of objects to be shuffled
  */
@@ -112,6 +121,7 @@ utils.shuffleArray = function (array) {
 };
 
 /**
+ * Handles moving maps to selected/banned based on number of actions taken during banning phase
  * @method
  * @param {Object} map          Object containing map data
  * @param {Object} matchDetails Object containing details of the match which is being changed
@@ -186,6 +196,7 @@ utils.setMapState = function (map, matchDetails) {
 };
 
 /**
+ * Returns name of the current ban/pick phase based on the matchType
  * @method
  * @param {Number} actionsTakenOnMaps Number of bans/picks made
  * @param {types.MatchType} matchType Type of the match (BO1/BO3/BO5)
@@ -242,6 +253,7 @@ utils.setBanningAndPickingPhase = function (actionsTakenOnMaps, matchType) {
 };
 
 /**
+ * Checks whether first captain can take an action in ban/pick phase
  * @method
  * @param {Object} matchDetails Object containing match details
  * @param {Object} store        Vuex global store
@@ -253,6 +265,7 @@ utils.canFirstCaptainTakeActionOnMap = function (matchDetails, store) {
 };
 
 /**
+ * Checks whether second captain can take an action in ban/pick phase
  * @method
  * @param {Object} matchDetails Object containing match details
  * @param {Object} store        Vuex global store
@@ -264,6 +277,7 @@ utils.canSecondCaptainTakeActionOnMap = function (matchDetails, store) {
 };
 
 /**
+ * Calculates the index of the next match in Single Elimination tournament
  * @method
  * @param {Number}   index         Current index of the match
  * @param {Number}   numberOfTeams Number of teams attendind the tournament
@@ -278,6 +292,7 @@ utils.calculateNextMatchIndex = function (index, numberOfTeams) {
 };
 
 /**
+ * Counts number of maps won by first team
  * @method
  * @param {Object} matchDetails Object containing match details
  * @returns {Number}            Number of maps won by the first team
@@ -293,6 +308,7 @@ utils.getNumberOfMapsWonByFirstTeam = function (matchDetails) {
 };
 
 /**
+ * Counts number of maps won by second team
  * @method
  * @param {Object} matchDetails Object containing match details
  * @returns {Number}            Number of maps won by the second team
@@ -307,6 +323,7 @@ utils.getNumberOfMapsWonBySecondTeam = function (matchDetails) {
 };
 
 /**
+ * Returns the name of the team who won the match.
  * @method
  * @param {Object} matchDetails Object containing match details
  * @returns {string}            Name of the team which won the match
@@ -332,6 +349,7 @@ utils.determineWinner = function (matchDetails) {
 };
 
 /**
+ * Comparator used in sorting function to set the correct order of teams in table
  * @method
  * @param {Object} firstTeam  Object containing scores of the first team
  * @param {Object} secondTeam Object containing scores of the second team

@@ -1,6 +1,11 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+/**
+ * Store holding global state in the application.
+ * @module
+ * @return {Store} Global store for the Vue application
+ */
 export default createStore({
   state: {
     $appName: "CStrikers",

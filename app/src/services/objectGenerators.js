@@ -7,6 +7,7 @@ import robin from "roundrobin";
 const objectGenerators = {};
 
 /**
+ * Creates map object
  * @method
  * @param {string} mapName Name of the map
  * @returns {Object}       Object containing empty fields for statistics of matches played on the map
@@ -21,6 +22,7 @@ objectGenerators.createMapObject = function (mapName) {
 };
 
 /**
+ * Creates score object
  * @method
  * @returns {Object} Object containing null fields for a single map of the match
  */
@@ -35,6 +37,7 @@ objectGenerators.createScoreObject = function () {
 };
 
 /**
+ * Creates match object
  * @method
  * @param {string} firstTeam          ID of the first team
  * @param {string} secondTeam         ID of the second team
@@ -56,6 +59,7 @@ objectGenerators.createMatchObject = function (firstTeam, secondTeam, matchType)
 };
 
 /**
+ * Creates array of match objects to be played in single elimination tournament
  * @method
  * @param {Array} teams               Array of teams' IDs
  * @param {types.MatchType} matchType Type of the match (BO1, BO3, BO5)
@@ -77,6 +81,7 @@ objectGenerators.createSingleEliminationMatches = function (teams, matchType) {
 };
 
 /**
+ * Creates array of match objects to be played in round-robin tournament
  * @method
  * @param {Array} teams               Array of teams' IDs
  * @param {types.MatchType} matchType Type of the match (BO1, BO3, BO5)
@@ -94,6 +99,7 @@ objectGenerators.createRoundRobinMatches = function (teams, matchType) {
 };
 
 /**
+ * Creates array of match objects to be played in combined tournament
  * @method
  * @param {Array} teams               Array of teams' IDs
  * @param {types.MatchType} matchType Type of the match (BO1, BO3, BO5)
@@ -118,6 +124,7 @@ objectGenerators.createCombinedMatches = function (teams, matchType) {
 }
 
 /**
+ * Creates team score object
  * @param {Object} team Team object containing fields id and name
  * @returns {Object}    Object containing empty scores for given team
  */
@@ -133,6 +140,7 @@ objectGenerators.createTeamScore = function (team) {
 }
 
 /**
+ * Creates score table for matches played in round-robin system
  * @param {Proxy} teamsProxy   Proxy with an array of teams
  * @param {Proxy} matchesProxy Proxy with an array of matches
  * @returns {Array}            Array of scores of every team scored in a tournament
@@ -173,6 +181,7 @@ objectGenerators.createScoreTableForRoundRobin = function (teamsProxy, matchesPr
 }
 
 /**
+ * Creates torunament object without matches
  * @param {string} name                         Name of the tournament
  * @param {string} creatorId                    UID of the tournament's creator
  * @param {Array} teams                         Array of teams attending the tournament
@@ -203,6 +212,7 @@ objectGenerators.createTournamentObjectWithoutMatches = function (
 };
 
 /**
+ * Creates torunament object with matches
  * @param {string} name                         Name of the tournament
  * @param {string} creatorId                    UID of the tournament's creator
  * @param {Array} teams                         Array of teams attending the tournament
@@ -236,6 +246,7 @@ objectGenerators.createTournamentObjectWithMatches = function (
 };
 
 /**
+ * Sets IDs of generated matches to the tournament object
  * @param {Object} tournamentObject Tournament object
  * @param {Array} teams             Array of matches IDs from matches collection
  * @returns {Object}                Tournament object with matches IDs

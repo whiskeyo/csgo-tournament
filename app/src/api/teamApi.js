@@ -7,6 +7,7 @@ import router from "../router";
 const teamApi = {};
 
 /**
+ * Fetches all users from database and saves them in an array
  * @method
  * @param {Array} allUsers Array in which all users from DB are saved
  */
@@ -24,6 +25,7 @@ teamApi.collectUsers = async function (allUsers) {
 };
 
 /**
+ * Fetches all users from database and returns them
  * @method
  * @returns {Array} Array in which all users from DB are saved
  */
@@ -43,6 +45,7 @@ teamApi.getUsers = async function () {
 };
 
 /**
+ * Fetches a user by their ID from the database and sets given object with fetched data
  * @method
  * @param {string} userId     ID of the user to be looked for in DB
  * @param {Object} userObject Object contating user data
@@ -58,6 +61,7 @@ teamApi.collectUserByIdAndSetObject = async function (userId, userObject) {
 };
 
 /**
+ * Fetches a user by their ID from the database
  * @method
  * @param {string} userId ID of the user to be looked for in DB
  * @returns {Object}      Object contating user data
@@ -75,6 +79,7 @@ teamApi.getUserById = async function(userId) {
 }
 
 /**
+ * Fetches a user by their ID from the database and adds him to the list
  * @method
  * @param {string} userId ID of the user to be looked for in DB
  * @param {Array} members Array of members that the user with given userID will be added
@@ -92,6 +97,7 @@ teamApi.collectUserByIdAndAddToList = async function (userId, members) {
 };
 
 /**
+ * Fetches all teams from database and saves them in an array
  * @method
  * @param {Array} allUsers Array in which all teams from DB are saved
  */
@@ -111,6 +117,7 @@ teamApi.collectTeams = async function (allTeams) {
 
 
 /**
+ * Fetches all teams from database and returns them
  * @method
  * @returns {Array} Array in which all teams from DB are saved
  */
@@ -130,6 +137,7 @@ teamApi.getTeams = async function () {
 };
 
 /**
+ * Fetches team by ID from database and saves it in an object
  * @method
  * @param {string} teamId      ID of the team to have collected its data
  * @param {Object} teamDetails Object with the team data stored in DB
@@ -148,6 +156,7 @@ teamApi.collectTeamByID = async function (teamId, teamDetails) {
 };
 
 /**
+ * Fetches team by ID from database and returns it
  * @method
  * @param {string} teamId ID of the team to have collected its data
  * @returns {Object}      Object with the team data stored in DB
@@ -169,6 +178,7 @@ teamApi.getTeamByID = async function (teamId) {
 };
 
 /**
+ * Fetches team by ID and then saves additional data about members, then returns
  * @method
  * @param {string} teamId ID of the team to have collected its data
  * @returns {Object}      Object with the team data stored in DB extended by fields
@@ -201,6 +211,7 @@ teamApi.getTeamDetailsByID = async function (teamId) {
 }
 
 /**
+ * Fetches all teams of the user and saves them in an array
  * @method
  * @param {Array} userTeams Array in which all teams of the users will be stored
  * @param {Object} store    Vuex store object
@@ -217,6 +228,7 @@ teamApi.collectUserTeams = async function (userTeams, store) {
 };
 
 /**
+ * Creates a team using passed data
  * @method
  * @param {Object} createTeamForm Object with data required to create a team
  * @param {Object} store          Vuex store object

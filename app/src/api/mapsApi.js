@@ -23,6 +23,7 @@ mapsApi.populateDbWithAllMaps = async function () {
 }
 
 /**
+ * Fetches all maps and their statistics from maps collection
  * @method
  * @param {Array} allMaps Array in which all maps from DB are saved
  */
@@ -42,6 +43,7 @@ mapsApi.collectMaps = async function (allMaps) {
 };
 
 /**
+ * Updates map by given fields
  * @method
  * @param {string} mapId          ID of the map to be updated
  * @param {Object} fieldsToChange Object contating fields that are updated

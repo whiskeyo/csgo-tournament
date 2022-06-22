@@ -15,11 +15,12 @@ import { addDoc, getDocs, query, where, collection } from "firebase/firestore";
 const accountApi = {};
 
 /**
+ * Fetches information about user on Sign In
  * @method
  * @param {Object} auth Auth object returned from getAuth(app)
  * @returns User details from users collection
  */
-async function getUserFromDbOnSignIn(auth) {
+accountApi.getUserFromDbOnSignIn = async function (auth) {
   const user = query(collection(db, "users"), where("uid", "==", auth.currentUser.uid));
   const userSnapshot = await getDocs(user);
   const userData = userSnapshot.docs[0].data();
@@ -32,12 +33,13 @@ async function getUserFromDbOnSignIn(auth) {
 }
 
 /**
+ * Checks whether user with given uid exists in database.
  * @method
  * @param {string} uid User id from Firestore Authentication
  * @returns            Boolean saying whether there is a user with a given uid field
  *                     set in the DB
  */
-async function isUserInDb(uid) {
+accountApi.isUserInDb = async function (uid) {
   const users = query(collection(db, "users"), where("uid", "==", uid));
   const usersSnapshot = await getDocs(users);
 
@@ -45,14 +47,15 @@ async function isUserInDb(uid) {
 }
 
 /**
+ * Creates new user in database.
  * @method
  * @param {string} uid      User id to be checked if there is such user in DB
  * @param {string} nickname Nickname of the user
  * @param {string} fullname Full name of the user
  * @param {string} email    Email address of the user
  */
-async function createUserInDb(uid, nickname, fullname, email) {
-  if (await isUserInDb(uid)) return;
+accountApi.createUserInDb = async function (uid, nickname, fullname, email) {
+  if (await accountApi.isUserInDb(uid)) return;
 
   try {
     await addDoc(collection(db, "users"), {
@@ -79,7 +82,7 @@ accountApi.signUpWithEmailAndPassword = function (email, password, nickname, ful
   const auth = getAuth(app);
   createUserWithEmailAndPassword(auth, email, password)
     .then(async () => {
-      await createUserInDb(auth.currentUser.uid, nickname, fullname, email);
+      await accountApi.createUserInDb(auth.currentUser.uid, nickname, fullname, email);
       return true;
     })
     .catch((error) => {
@@ -101,7 +104,7 @@ accountApi.signInWithEmail = function (email, password, store) {
 
   signInWithEmailAndPassword(auth, email, password)
     .then(async () => {
-      store.commit("setLoggedIn", { user: await getUserFromDbOnSignIn(auth) });
+      store.commit("setLoggedIn", { user: await accountApi.getUserFromDbOnSignIn(auth) });
       return true;
     })
     .catch((error) => {
@@ -122,10 +125,10 @@ accountApi.signInWithGoogle = function (store) {
   signInWithPopup(auth, provider)
     .then(async () => {
       const user = auth.currentUser;
-      await createUserInDb(user.uid, user.email.split("@")[0], user.displayName, user.email);
+      await accountApi.createUserInDb(user.uid, user.email.split("@")[0], user.displayName, user.email);
     })
     .then(async () => {
-      store.commit("setLoggedIn", { user: await getUserFromDbOnSignIn(auth) });
+      store.commit("setLoggedIn", { user: await accountApi.getUserFromDbOnSignIn(auth) });
     });
 };
 
