@@ -16,3 +16,6 @@ media
 
 # Editor directories and files
 .vscode
+
+# Config files
+app/src/configs/.firebaseConfig.js
